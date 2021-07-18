@@ -49,7 +49,7 @@
                                             <td>{{$user->phone}}</td>
                                             <td>{{$user->status}}</td>
                                             <td>{{$user->verified}}</td>
-                                            <td>
+                                            <td class="d-flex">
                                                 <button type="button" class="btn btn-primary btn-xs">
                                                     <i data-feather="eye"></i>
                                                 </button>
@@ -58,7 +58,7 @@
                                                 </button>
                                                 <form>
                                                     <button type="button" class="btn btn-danger btn-xs">
-                                                        <i data-feather="busket"></i>
+                                                        <i data-feather="x-square"></i>
                                                     </button>
                                                 </form>
 
