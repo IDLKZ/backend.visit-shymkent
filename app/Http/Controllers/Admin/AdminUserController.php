@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
+use App\Models\Slider;
 use App\Models\User;
+use App\Role;
 use Illuminate\Http\Request;
 
 class AdminUserController extends Controller
@@ -15,7 +18,7 @@ class AdminUserController extends Controller
      */
     public function index()
     {
-        $users = User::where("id",auth()->id())->with(["role"])->paginate(50);
+        $users = User::with(["role"])->paginate(50);
         return view("admin.user.index",compact("users"));
     }
 
@@ -26,7 +29,8 @@ class AdminUserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::all();
+        return view("admin.user.create",compact("roles"));
     }
 
     /**
@@ -35,9 +39,11 @@ class AdminUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $user = User::add($request->all());
+        $user->uploadFile($request['image'], 'image');
+        return redirect(route('admin-user.index'));
     }
 
     /**
@@ -59,7 +65,9 @@ class AdminUserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $roles = Role::all();
+        $user = User::find($id);
+        return view("admin.user.edit",compact("roles","user"));
     }
 
     /**
@@ -69,9 +77,12 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->edit($request->all(),'image');
+        $user->uploadFile($request['image'], 'image');
+        return redirect(route('admin-user.index'));
     }
 
     /**
@@ -82,6 +93,7 @@ class AdminUserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::destroy($id);
+        return redirect()->back();
     }
 }

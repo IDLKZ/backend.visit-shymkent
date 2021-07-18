@@ -19,6 +19,12 @@
                     <span class="link-title">{{__("admin.users")}}</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{route("sliders.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">{{__("admin.sliders")}}</span>
+                </a>
+            </li>
 
 
         </ul>

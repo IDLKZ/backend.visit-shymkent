@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
@@ -20,6 +21,9 @@ Route::group(
         'prefix' => LaravelLocalization::setLocale(),
         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
     ], function(){
+        Route::get('/', function (){
+            return redirect('/login');
+        });
 
         //Action when register, login, forgot and recovery user
         Route::group(["middleware"=>"guest"],function (){
@@ -34,9 +38,15 @@ Route::group(
             Route::post("/recover",[AuthController::class,"recover"])->name("recover");
         });
 
-        Route::group(["middleware"=>"admin_moderator"],function (){
+        Route::group(["middleware"=>"admin_moderator", 'prefix' => 'admin'],function (){
             Route::get("/main-cabinet",[AdminController::class,"index"])->name("admin-home");
             Route::resource("/admin-user",AdminUserController::class);
+            Route::resource('/sliders', SliderController::class);
+
+            Route::group(['middleware' => 'admin'], function (){
+
+            });
+
         });
 
 
