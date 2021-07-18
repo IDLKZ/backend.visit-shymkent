@@ -8,6 +8,7 @@
     <!-- core:css -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     @toastr_css
+    @stack("styles")
     <!-- End layout styles -->
     <link rel="shortcut icon" href="favicon.png" />
 </head>
@@ -36,6 +37,8 @@
 @jquery
 @toastr_js
 @toastr_render
+@stack("scripts")
+
 <!-- end custom js for this page -->
 </body>
 </html>

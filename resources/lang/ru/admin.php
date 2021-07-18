@@ -38,6 +38,9 @@ return[
     "users_list"=>"Список пользователей",
     "status"=>"Статус",
     "verified"=>"Подтвержден",
+    "yes_status"=>"Активен",
+    "not_verified"=>"Не потвержден",
+    "not_status"=>"Не активен",
 
 
 
