@@ -38,10 +38,9 @@ class UserRequest extends FormRequest
         }
 
         if ($this->getMethod() == 'PUT') {
-            dd(\Request::instance()->id);
             $rules += [
-                'email' => 'required|email|unique:users,email,'.$this->id,
-                'phone' => 'required|unique:users,phone,'.$this->id,
+                'email' => 'required|email|unique:users,email,'.(int)$this->segment(4),
+                'phone' => 'required|unique:users,phone,'.(int)$this->segment(4),
                 'password'=>'nullable|nullable|min:4|max:255',
             ];
         }
