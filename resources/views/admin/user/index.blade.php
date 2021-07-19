@@ -1,6 +1,5 @@
 @extends("layout.app")
 @push("styles")
-    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 @endpush
 @section("content")
     <!-- partial -->
@@ -26,7 +25,7 @@
                             <h6 class="card-title">
                                 {{__("admin.users_list")}}
                             </h6>
-                            <a href="" class="btn btn-success">
+                            <a href="{{route("admin-user.create")}}" class="btn btn-success">
                                 {{__("admin.create")}}
                                 <i data-feather="plus"></i>
                             </a>
@@ -53,12 +52,13 @@
                                     @foreach($users as $user)
                                         <tr>
                                             <td>{{$user->id}}</td>
+                                            <td><img src="{{$user->getFile('image')}}" width="50"></td>
                                             <td>{{$user->name}}</td>
-                                            <td>{{$user->role[\App\Models\Language::getTitle()]}}</td>
+                                            <td>{{$user->role->title}}</td>
                                             <td>{{$user->email}}</td>
                                             <td>{{$user->phone}}</td>
-                                            <td><input type="checkbox" checked data-toggle="toggle" data-on="Ready" data-off="Not Ready" data-onstyle="success" data-offstyle="danger"></td>
-                                            <td><input type="checkbox" checked data-toggle="toggle" data-on="Ready" data-off="Not Ready" data-onstyle="success" data-offstyle="danger"></td>
+                                            <td><input disabled type="checkbox" @if($user->status)checked @endif data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger"></td>
+                                            <td><input disabled type="checkbox" @if($user->verified)checked @endif data-toggle="toggle" data-on="{{__("admin.verified")}}" data-off="{{__("admin.not_verified")}}" data-onstyle="success" data-offstyle="danger"></td>
                                             <td class="d-flex">
                                                 <div class="btn-group dropdown">
                                                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -66,9 +66,11 @@
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <a class="dropdown-item" href="#">{{__("admin.info")}}</a>
-                                                        <a class="dropdown-item" href="#">{{__("admin.change")}}</a>
-                                                        <form>
-                                                            <button class="dropdown-item">{{__("admin.delete")}}</button>
+                                                        <a class="dropdown-item" href="{{route("admin-user.edit",$user->id)}}">{{__("admin.change")}}</a>
+                                                        <form method="post" action="{{route("admin-user.destroy",$user->id)}}">
+                                                            @csrf
+                                                            @method("delete")
+                                                            <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -96,5 +98,4 @@
 
 @endsection
 @push("scripts")
-    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 @endpush

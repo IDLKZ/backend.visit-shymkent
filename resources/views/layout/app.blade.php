@@ -8,7 +8,9 @@
     <!-- core:css -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     @toastr_css
-    @stack("styles")
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+@stack("styles")
     <!-- End layout styles -->
     <link rel="shortcut icon" href="favicon.png" />
 </head>
@@ -38,6 +40,7 @@
 @toastr_js
 @toastr_render
 @stack("scripts")
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
 <!-- end custom js for this page -->
 </body>

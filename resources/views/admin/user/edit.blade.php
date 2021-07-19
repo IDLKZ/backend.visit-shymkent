@@ -14,9 +14,10 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title">{{__("admin.create")}}</h6>
-                        <form class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('admin-user.store')}}">
+                        <h6 class="card-title">{{__("admin.change")}}</h6>
+                        <form class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('admin-user.update',$user->id)}}">
                             @csrf
+                            @method("put")
                             <div class="form-group" >
                                 <label>
                                     {{__("admin.role_id")}}
@@ -24,9 +25,15 @@
                                 <select class="js-example-basic-single w-100 select2-hidden-accessible" data-width="100%" data-select2-id="1" tabindex="-1" aria-hidden="true" name="role_id">
                                     @if($roles->isNotEmpty())
                                         @foreach($roles as $role)
-                                                <option value="{{$role->id}}">
-                                                    {{$role->title}}
+                                            @if($user->role_id == $role->id)
+                                                <option checked value="{{$user->role_id}}">
+                                                    {{$user->role->title}}
                                                 </option>
+                                            @else
+                                            <option value="{{$role->id}}">
+                                                {{$role->title}}
+                                            </option>
+                                            @endif
                                         @endforeach
                                     @endif
                                 </select>
@@ -38,7 +45,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="name">{{__('admin.name')}}</label>
-                                <input type="text" class="form-control  @error('name') is-invalid @enderror" id="name" name='name' autocomplete="off" placeholder="{{__('admin.name')}}" value="{{old('name')}}">
+                                <input type="text" class="form-control  @error('name') is-invalid @enderror" id="name" name='name' autocomplete="off" placeholder="{{__('admin.name')}}" value="{{$user->name}}">
                                 @error('name')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -47,7 +54,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="phone">{{__('admin.phone')}}</label>
-                                <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name='phone' autocomplete="off" placeholder="{{__('admin.phone')}}" value="{{old('phone')}}">
+                                <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name='phone' autocomplete="off" placeholder="{{__('admin.phone')}}" value="{{$user->phone}}">
                                 @error('phone')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -56,7 +63,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="email">{{__('admin.email')}}</label>
-                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name='email' autocomplete="off" placeholder="{{__('admin.email')}}" value="{{old('email')}}">
+                                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name='email' autocomplete="off" placeholder="{{__('admin.email')}}" value="{{$user->email}}">
                                 @error('email')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -74,7 +81,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="description">{{__('admin.description')}}</label>
-                                <input type="text" class="form-control @error('description') is-invalid @enderror" id="description" name='description' autocomplete="off" placeholder="{{__('admin.description')}}" value="{{old('description')}}">
+                                <input type="text" class="form-control @error('description') is-invalid @enderror" id="description" name='description' autocomplete="off" placeholder="{{__('admin.description')}}" value="{{$user->description}}">
                                 @error('description')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -93,16 +100,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="status">{{__('admin.status')}}</label>
-                                <input id="status" type="checkbox"  data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger" name="status">
+                                <input id="status" @if($user->status)checked @endif type="checkbox"  data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger" name="status">
 
                             </div>
                             <div class="form-group">
                                 <label for="verified">{{__('admin.verified')}}</label>
-                                <input id="verified" type="checkbox"  data-toggle="toggle" data-on="{{__("admin.verified")}}" data-off="{{__("admin.not_verified")}}" data-onstyle="success" data-offstyle="danger" name="verified">
+                                <input id="verified" @if($user->verified)checked @endif type="checkbox"  data-toggle="toggle" data-on="{{__("admin.verified")}}" data-off="{{__("admin.not_verified")}}" data-onstyle="success" data-offstyle="danger" name="verified">
 
                             </div>
 
-                            <button type="submit" class="btn btn-primary mr-2">{{__('admin.save')}}</button>
+                            <button type="submit" class="btn btn-primary mr-2">{{__('admin.change')}}</button>
                             <button class="btn btn-light">{{__('admin.cancel')}}</button>
                         </form>
                     </div>

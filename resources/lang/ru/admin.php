@@ -43,7 +43,24 @@ return[
     "not_status"=>"Не активен",
 
 
+//    Menu
+    'sliders' => 'Слайдер',
 
+//    End Menu
 
-
+//    Table
+     'title_kz' => 'Наименование на каз',
+     'title_ru' => 'Наименование на рус',
+     'title_en' => 'Наименование на анг',
+    'description_kz' => 'Описание на каз',
+    'description_ru' => 'Описание на рус',
+    'description_en' => 'Описание на анг',
+    'button_kz' => 'Кнопка на каз',
+    'button_ru' => 'Кнопка на рус',
+    'button_en' => 'Кнопка на анг',
+    'link' => 'Ссылка',
+    'number' => 'Порядковый номер',
+    'image' => 'Изображение',
+    "description"=>"Описание"
+//    End Table
 ];
