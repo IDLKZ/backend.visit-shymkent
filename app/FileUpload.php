@@ -43,6 +43,7 @@ trait FileUpload
         });
     }
 
+
     public static function add($fields)
     {
         $post = new static;
@@ -92,8 +93,9 @@ trait FileUpload
         {
             return '/img/no-image.png';
         }
-
         return '/uploads/' . $this->$path;
 
     }
+
+
 }

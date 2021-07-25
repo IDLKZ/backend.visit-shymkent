@@ -22,11 +22,11 @@ class CreateRoutePointsTable extends Migration
             $table->text("description_ru");
             $table->text("description_kz");
             $table->text("description_en");
-            $table->json("images");
+            $table->string("image");
             $table->string("alias");
             $table->string("price")->nullable();
             $table->string("address")->nullable();
-            $table->text("address_link")->nullable();
+            $table->longText("address_link")->nullable();
             $table->json("phone")->nullable();
             $table->json("social_networks")->nullable();
             $table->json("sites")->nullable();

@@ -80,6 +80,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
+                                    {{$users->links()}}
                                     @endif
 
 

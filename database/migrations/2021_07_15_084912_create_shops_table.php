@@ -15,7 +15,8 @@ class CreateShopsTable extends Migration
     {
         Schema::create('shops', function (Blueprint $table) {
             $table->bigIncrements("id")->autoIncrement();
-            $table->foreignId("role_id")->references("id")->on("users")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId("user_id")->references("id")->on("users")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId("role_id")->references("id")->on("roles")->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("title_ru");
             $table->string("title_kz");
             $table->string("title_en");
@@ -23,14 +24,13 @@ class CreateShopsTable extends Migration
             $table->text("description_kz");
             $table->text("description_en");
             $table->string("alias");
-            $table->json("images")->nullable();
+            $table->string("image")->nullable();
             $table->string("eventum")->nullable();
             $table->json("phone")->nullable();
             $table->json("social_networks")->nullable();
             $table->json("sites")->nullable();
             $table->string("address")->nullable();
-            $table->text("address_link")->nullable();
-            $table->json("ratings")->nullable();
+            $table->longText("address_link")->nullable();
             $table->integer("status");
             $table->timestamps();
         });

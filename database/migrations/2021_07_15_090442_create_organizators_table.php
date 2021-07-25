@@ -16,6 +16,7 @@ class CreateOrganizatorsTable extends Migration
         Schema::create('organizators', function (Blueprint $table) {
             $table->bigIncrements("id")->autoIncrement();
             $table->foreignId("user_id")->references("id")->on("users")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId("role_id")->references("id")->on("roles")->cascadeOnUpdate()->cascadeOnDelete();
             $table->string("title_ru");
             $table->string("title_kz");
             $table->string("title_en");
@@ -25,8 +26,9 @@ class CreateOrganizatorsTable extends Migration
             $table->text("education_ru");
             $table->text("education_kz");
             $table->text("education_en");
-            $table->json("languages");
-            $table->json("images");
+            $table->text("languages");
+            $table->string("image");
+            $table->string("eventum")->nullable();
             $table->integer("status");
 
             $table->timestamps();

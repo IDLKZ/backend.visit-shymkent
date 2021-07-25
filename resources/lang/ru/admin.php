@@ -61,6 +61,58 @@ return[
     'link' => 'Ссылка',
     'number' => 'Порядковый номер',
     'image' => 'Изображение',
-    "description"=>"Описание"
+    "description"=>"Описание",
+    "title"=>"Заголовок",
 //    End Table
+
+
+//Events
+"alias"=>"Ссылка",
+"event_categories"=>"Категория Событий",
+"events"=>"События",
+"place_id"=>"Объект из путеводителя",
+"event_types"=>"Услуга или мероприятие",
+    "address"=>"Адрес",
+    "address_link"=>"Обозначения на карте",
+    "eventum"=>"Код в eventum",
+    "social_networks"=>"Соц сети",
+    "sites"=>"Вэб сайты",
+    "images"=>"Несколько изображений",
+    "rating_company"=>"Рейтинг",
+    "rating_ball"=>"Рейтинг балл",
+    "price"=>"Стоимость",
+    "event_type"=>"Тип события",
+
+//    Routes
+"routes_points"=>"Маршруты и точки",
+"routes"=>"Маршрут",
+"points"=>"Точки маршрута",
+"distance"=>"Дистанция",
+"time"=>"Время",
+"shops"=>"Магазины и Ремесленники",
+"user_id"=>"Привязанный пользователь",
+
+ //Souvenirs
+"souvenir_category"=>"Категория сувениров",
+"souvenirs"=>"Сувениры",
+"souvenir"=>"Сувенир",
+    "category_id"=>"Категория",
+    "shop_id"=>"Магазин/Ремесленник",
+    "organizators"=>"Гиды и турагенства",
+    "languages"=>"Языки",
+    "education_kz"=>"Образование на казахском",
+    "education_ru"=>"Образование на русском",
+    "education_en"=>"Образование на английском",
+    "category_news"=>"Категория новостей",
+    "news"=>"Новости",
+    "tags_blogs"=>"Блог и тэги",
+    "tags"=>"Тэги",
+    "blogs"=>"Блог",
+
+
+
+
+
+
+
 ];

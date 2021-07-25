@@ -21,10 +21,13 @@ class CreateRoutesTable extends Migration
             $table->text("description_ru");
             $table->text("description_kz");
             $table->text("description_en");
-            $table->json("images");
+            $table->string("image")->nullable();
             $table->string("alias");
+            $table->string("eventum")->nullable();
             $table->string("time")->nullable();
             $table->string("distance")->nullable();
+            $table->string("address")->nullable();
+            $table->longText("address_link")->nullable();
             $table->integer("status");
             $table->timestamps();
         });

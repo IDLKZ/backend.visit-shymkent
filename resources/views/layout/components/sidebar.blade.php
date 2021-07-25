@@ -25,6 +25,89 @@
                     <span class="link-title">{{__("admin.sliders")}}</span>
                 </a>
             </li>
+{{--            Events--}}
+            <li class="nav-item nav-category">{{__("admin.events")}}</li>
+            <li class="nav-item">
+                <a href="{{route("category-events.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="align-justify"></i>
+                    <span class="link-title">{{__("admin.event_categories")}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route("events.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="align-justify"></i>
+                    <span class="link-title">{{__("admin.events")}}</span>
+                </a>
+            </li>
+{{--Routes--}}
+            <li class="nav-item nav-category">{{__("admin.routes_points")}}</li>
+            <li class="nav-item">
+                <a href="{{route("routes.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="map"></i>
+                    <span class="link-title">{{__("admin.routes")}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route("points.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="map-pin"></i>
+                    <span class="link-title">{{__("admin.points")}}</span>
+                </a>
+            </li>
+            <li class="nav-item nav-category">{{__("admin.shops")}}</li>
+            <li class="nav-item">
+                <a href="{{route("shops.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="shopping-cart"></i>
+                    <span class="link-title">{{__("admin.shops")}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route("category-souvenir.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="box"></i>
+                    <span class="link-title">{{__("admin.souvenir_category")}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route("souvenirs.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="tag"></i>
+                    <span class="link-title">{{__("admin.souvenirs")}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route("organizators.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">{{__("admin.organizators")}}</span>
+                </a>
+            </li>
+
+            <li class="nav-item nav-category">{{__("admin.news")}}</li>
+            <li class="nav-item">
+                <a href="{{route("category-news.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="file-text"></i>
+                    <span class="link-title">{{__("admin.category_news")}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route("news.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="file-text"></i>
+                    <span class="link-title">{{__("admin.news")}}</span>
+                </a>
+            </li>
+
+
+            <li class="nav-item nav-category">{{__("admin.tags_blogs")}}</li>
+            <li class="nav-item">
+                <a href="{{route("tags.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="file-text"></i>
+                    <span class="link-title">{{__("admin.tags")}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route("blogs.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="file-text"></i>
+                    <span class="link-title">{{__("admin.blogs")}}</span>
+                </a>
+            </li>
+
 
 
         </ul>

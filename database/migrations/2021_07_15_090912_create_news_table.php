@@ -15,6 +15,7 @@ class CreateNewsTable extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->bigIncrements("id")->autoIncrement();
+            $table->foreignId("category_id")->references("id")->on("categoryNews")->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId("author_id")->references("id")->on("users")->cascadeOnUpdate()->cascadeOnDelete();
             $table->string("title_ru");
             $table->string("title_en");
@@ -23,9 +24,8 @@ class CreateNewsTable extends Migration
             $table->text("description_en");
             $table->text("description_kz");
             $table->string("alias");
-            $table->string("image");
+            $table->string("image")->nullable();
             $table->integer("status");
-
             $table->timestamps();
         });
     }

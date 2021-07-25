@@ -15,6 +15,7 @@ class CreateBlogsTable extends Migration
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->bigIncrements("id")->autoIncrement();
+            $table->foreignId("tag_id")->references("id")->on("tags")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("author_id")->references("id")->on("users")->cascadeOnUpdate()->cascadeOnDelete();
             $table->string("title_ru");
             $table->string("title_en");
@@ -23,7 +24,7 @@ class CreateBlogsTable extends Migration
             $table->text("description_en");
             $table->text("description_kz");
             $table->string("alias");
-            $table->string("image");
+            $table->string("image")->nullable();
             $table->integer("status");
             $table->timestamps();
         });
