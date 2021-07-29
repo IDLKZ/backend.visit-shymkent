@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\FileUpload;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -21,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Workday extends Model
 {
+    use FileUpload;
+    use \App\Language;
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -54,6 +57,6 @@ class Workday extends Model
      */
     public function weekday()
     {
-        return $this->belongsTo('App\Weekday');
+        return $this->belongsTo(Weekday::class);
     }
 }

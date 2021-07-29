@@ -53,7 +53,13 @@ class CategoryEventsController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = CategoryEvents::find($id);
+        if($category){
+            return view("admin.eventcategories.show",compact("category"));
+        }
+        toastWarning(__("messages.404"));
+        return redirect(route('category-events.index'));
+
     }
 
     /**

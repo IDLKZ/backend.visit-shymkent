@@ -32,10 +32,5 @@ class TagRequest extends FormRequest
         return  $rules;
     }
 
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'status' => (int)$this->boolean("status"),
-        ]);
-    }
+
 }

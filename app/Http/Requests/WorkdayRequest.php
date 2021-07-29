@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategorySouvenirRequest extends FormRequest
+class WorkdayRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,8 @@ class CategorySouvenirRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
-            'title_kz' => 'required|max:255',
-            'title_ru' => 'required|max:255',
-            'title_en' => 'required|max:255',
-            'image' => 'sometimes|nullable|image|max:10240',
+        return [
+            "weekday_id"=>"required|exists:weekdays,id"
         ];
-        return  $rules;
     }
-
-
 }

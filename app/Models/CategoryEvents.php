@@ -59,6 +59,10 @@ class CategoryEvents extends Model
      */
     public function categoriesEvents()
     {
-        return $this->hasMany(CategoryEvents::class, 'category_id');
+        return $this->hasMany(CategoryEvent::class, 'category_id');
+    }
+
+    public function events(){
+        return $this->belongsToMany(Event::class,"categories_events","category_id","event_id");
     }
 }

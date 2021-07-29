@@ -21,7 +21,7 @@
             </li>
             <li class="nav-item">
                 <a href="{{route("sliders.index")}}" class="nav-link">
-                    <i class="link-icon" data-feather="users"></i>
+                    <i class="link-icon" data-feather="image"></i>
                     <span class="link-title">{{__("admin.sliders")}}</span>
                 </a>
             </li>
@@ -35,7 +35,7 @@
             </li>
             <li class="nav-item">
                 <a href="{{route("events.index")}}" class="nav-link">
-                    <i class="link-icon" data-feather="align-justify"></i>
+                    <i class="link-icon" data-feather="calendar"></i>
                     <span class="link-title">{{__("admin.events")}}</span>
                 </a>
             </li>

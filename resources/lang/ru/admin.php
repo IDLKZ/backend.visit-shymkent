@@ -41,6 +41,7 @@ return[
     "yes_status"=>"Активен",
     "not_verified"=>"Не потвержден",
     "not_status"=>"Не активен",
+    "mod_status"=>"На модерации",
 
 
 //    Menu
@@ -108,6 +109,14 @@ return[
     "tags_blogs"=>"Блог и тэги",
     "tags"=>"Тэги",
     "blogs"=>"Блог",
+
+    "galleries"=>"Галерея",
+    "workdays"=>"Рабочие дни",
+    "weekday_id"=>"День недели",
+    "date_start"=>"Дата начала",
+    "date_end"=>"Дата конца",
+    "time_start"=>"Время начала",
+    "time_end"=>"Время конца"
 
 
 

@@ -9,6 +9,7 @@ use App\Models\CategoryEvents;
 use App\Models\Event;
 use App\Models\EventType;
 use App\Models\Gallery;
+use App\Models\Weekday;
 use Illuminate\Http\Request;
 
 class EventsController extends Controller
@@ -65,6 +66,17 @@ class EventsController extends Controller
      */
     public function show($id)
     {
+        $event = Event::find($id);
+        $categories = CategoryEvents::whereNotIn("id",$event->categoryEvent->pluck("category_id")->toArray())->get();
+        $types = EventType::all();
+        $weekdays = Weekday::all();
+        if($event){
+            return view("admin.events.show",compact("event","types","weekdays","categories"));
+        }
+        else{
+            return redirect(route('events.index'));
+        }
+
 
     }
 

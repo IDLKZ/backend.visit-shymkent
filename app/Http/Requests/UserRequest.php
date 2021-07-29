@@ -51,7 +51,6 @@ class UserRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'status' => (int)$this->boolean("status"),
             'verified' => (int)$this->boolean("verified"),
             'password' => bcrypt($this->get("password")),
         ]);

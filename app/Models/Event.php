@@ -65,7 +65,7 @@ class Event extends Model
     /**
      * @var array
      */
-    protected $fillable = ['place_id', 'type_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'phone', 'social_networks', 'sites', 'address', 'address_link', 'price', 'image', 'ratings', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['user_id','place_id', 'type_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'phone', 'social_networks', 'sites', 'address', 'address_link', 'price', 'image', 'ratings', 'status', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -115,5 +115,10 @@ class Event extends Model
     public function workdays()
     {
         return $this->hasMany(Workday::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

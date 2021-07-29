@@ -6,7 +6,7 @@
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">{{__('admin.main')}}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{__('admin.sliders')}}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{__('admin.event_categories')}}</li>
             </ol>
         </nav>
 
@@ -57,10 +57,17 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label for="status">{{__('admin.status')}}</label>
-                                <input id="status" type="checkbox"  data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger" name="status">
-                            </div>
+
+
+                                <div class="form-group">
+                                    <label for="description{{__('admin.status')}}">{{__('admin.status')}}</label>
+                                    <select class="form-select" name="status">
+                                        <option value="1">{{__("admin.yes_status")}}</option>
+                                        <option value="0">{{__("admin.not_status")}}</option>
+                                        <option value="-1">{{__("admin.mod_status")}}</option>
+                                    </select>
+                                </div>
+
 
 
                             <button type="submit" class="btn btn-primary mr-2">{{__('admin.save')}}</button>

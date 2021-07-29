@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategorySouvenirRequest extends FormRequest
+class CategoriesEventsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,10 @@ class CategorySouvenirRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
-            'title_kz' => 'required|max:255',
-            'title_ru' => 'required|max:255',
-            'title_en' => 'required|max:255',
-            'image' => 'sometimes|nullable|image|max:10240',
+        return [
+            "category_id"=>"required|exists:categoryevents,id",
+            "event_id"=>"required|exists:events,id"
+
         ];
-        return  $rules;
     }
-
-
 }

@@ -38,7 +38,7 @@ class Slider extends Model
      */
     protected $fillable = ['title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'button_ru', 'button_kz', 'button_en', 'link', 'image', 'number', 'status', 'created_at', 'updated_at'];
 
-    protected $casts = ['status' => 'boolean'];
+    protected $casts = ['status' => 'integer'];
 
     use FileUpload;
     use Language;

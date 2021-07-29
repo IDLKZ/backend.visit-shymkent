@@ -33,9 +33,9 @@
                             <table id="dataTableExample" class="table">
                                 <thead>
                                 <tr>
-                                    <th>Наименование</th>
-                                    <th>Порядковый номер</th>
-                                    <th>Изображение</th>
+                                    <th>{{__("admin.title")}}</th>
+                                    <th>{{__("admin.number")}}</th>
+                                    <th>{{__("admin.image")}}</th>
                                     <th>{{__("admin.status")}}</th>
                                     <th>{{__("admin.action")}}</th>
                                 </tr>
@@ -49,15 +49,30 @@
                                                 <td>{{$slider->title}}</td>
                                                 <td>{{$slider->number}}</td>
                                                 <td><img src="{{$slider->getFile('image')}}" width="50"></td>
-                                                <td><input type="checkbox" checked data-toggle="toggle" data-on="Ready" data-off="Not Ready" data-onstyle="success" data-offstyle="danger"></td>
-                                                <td><input type="checkbox" checked data-toggle="toggle" data-on="Ready" data-off="Not Ready" data-onstyle="success" data-offstyle="danger"></td>
+                                                <td>
+
+                                                    @if($slider->status == 1)
+                                                        <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                                    @elseif($slider->status == 0)
+                                                        <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                                    @elseif($slider->status == -1)
+                                                        <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                                    @endif
+                                                </td>
                                                 <td class="d-flex">
                                                     <div class="btn-group dropdown">
                                                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             {{__("admin.action")}}
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            <a class="dropdown-item" href="#">{{__("admin.info")}}</a>
+                                                            <a class="dropdown-item" href="{{route('sliders.show', $slider->id)}}">{{__("admin.info")}}</a>
                                                             <a class="dropdown-item" href="{{route('sliders.edit', $slider->id)}}">{{__("admin.change")}}</a>
                                                             <form action="{{route('sliders.destroy', $slider->id)}}" method="post">
                                                                 @csrf

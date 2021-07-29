@@ -14,7 +14,7 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <h6 class="card-title">Basic Form</h6>
+                        <h6 class="card-title">{{__("admin.create")}}</h6>
                         <form class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('sliders.store')}}">
                             @csrf
                             <div class="form-group">
@@ -127,7 +127,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="description{{__('admin.status')}}">{{__('admin.status')}}</label>
-                                <input type="checkbox" class="form-control" id="checkbox{{__('admin.status')}}" name='status'>
+                                <select class="form-select" name="status">
+                                    <option value="1">{{__("admin.yes_status")}}</option>
+                                    <option value="0">{{__("admin.not_status")}}</option>
+                                    <option value="-1">{{__("admin.mod_status")}}</option>
+                                </select>
                             </div>
 
                             <button type="submit" class="btn btn-primary mr-2">{{__('admin.save')}}</button>

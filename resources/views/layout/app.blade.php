@@ -7,6 +7,7 @@
     <title>Visit-Shymkent</title>
     <!-- core:css -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <link rel="stylesheet" href="{{asset('css/mystyle.css')}}">
     @toastr_css
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 
@@ -39,9 +40,9 @@
 @jquery
 @toastr_js
 @toastr_render
-@stack("scripts")
-<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+@stack("scripts")
 <!-- end custom js for this page -->
 </body>
 </html>

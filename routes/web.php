@@ -17,6 +17,9 @@ use App\Http\Controllers\Admin\CategoryNewsController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\Admin\WorkdayController;
+use App\Http\Controllers\Admin\CategoriesEventsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -66,10 +69,9 @@ Route::group(
             Route::resource("/news",NewsController::class);
             Route::resource("/tags",TagController::class);
             Route::resource("/blogs",BlogController::class);
-
-
-
-
+            Route::resource("/gallery",GalleryController::class);
+            Route::resource("/workday",WorkdayController::class);
+            Route::resource("/categories-events",CategoriesEventsController::class);
             Route::group(['middleware' => 'admin'], function (){
 
             });

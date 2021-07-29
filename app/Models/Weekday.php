@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Weekday extends Model
 {
+    use \App\Language;
     /**
      * The "type" of the auto-incrementing ID.
      *

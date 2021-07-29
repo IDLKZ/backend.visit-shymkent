@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SliderRequest;
-use App\Models\Slider;
+use App\Http\Requests\WorkdayRequest;
+use App\Models\Workday;
 use Illuminate\Http\Request;
 
-class SliderController extends Controller
+class WorkdayController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Slider::paginate(10);
-        return view('admin.sliders.index', compact('sliders'));
+        //
     }
 
     /**
@@ -27,7 +26,7 @@ class SliderController extends Controller
      */
     public function create()
     {
-        return view('admin.sliders.create');
+        //
     }
 
     /**
@@ -36,11 +35,10 @@ class SliderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SliderRequest $request)
+    public function store(WorkdayRequest $request)
     {
-        $slider = Slider::add($request->all());
-        $slider->uploadFile($request['image'], 'image');
-        return redirect(route('sliders.index'));
+        Workday::add($request->all());
+        return redirect()->back();
     }
 
     /**
@@ -51,8 +49,7 @@ class SliderController extends Controller
      */
     public function show($id)
     {
-        $slider = Slider::find($id);
-        return view("admin.sliders.show",compact("slider"));
+        //
     }
 
     /**
@@ -63,8 +60,7 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        $slider = Slider::find($id);
-        return view('admin.sliders.edit', compact('slider'));
+        //
     }
 
     /**
@@ -74,12 +70,11 @@ class SliderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SliderRequest $request, $id)
+    public function update(WorkdayRequest $request, $id)
     {
-        $slider = Slider::find($id);
-        $slider->edit($request->all(),'image');
-        $slider->uploadFile($request['image'], 'image');
-        return redirect(route('sliders.index'));
+        $workday = Workday::find($id);
+        $workday->edit($request->all(),'image');
+        return redirect()->back();
     }
 
     /**
@@ -90,7 +85,7 @@ class SliderController extends Controller
      */
     public function destroy($id)
     {
-        Slider::destroy($id);
-        return redirect()->back();
+        Workday::destroy($id);
+        return  redirect()->back();
     }
 }

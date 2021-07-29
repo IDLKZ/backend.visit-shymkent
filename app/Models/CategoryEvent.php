@@ -41,7 +41,7 @@ class CategoryEvent extends Model
      */
     public function categoryevent()
     {
-        return $this->belongsTo(CategoryEvent::class, 'category_id');
+        return $this->belongsTo(CategoryEvents::class, 'category_id');
     }
 
     /**
