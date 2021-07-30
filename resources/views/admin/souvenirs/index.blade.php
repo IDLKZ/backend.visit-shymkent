@@ -54,7 +54,22 @@
                                                 <td>{{$souvenir->title}}</td>
                                                 <td>{{$souvenir->souvenirCategory->title}}</td>
                                                 <td>{{$souvenir->shop->title}}</td>
-                                                <td><input disabled type="checkbox" @if($souvenir->status)checked @endif data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger"></td>
+                                                <td>
+                                                    @if($souvenir->status == 1)
+                                                        <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                                    @elseif($souvenir->status == 0)
+                                                        <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                                    @elseif($souvenir->status == -1)
+                                                        <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                                    @endif
+                                                </td>
                                                 <td>{{$souvenir->eventum}}</td>
                                                 <td class="d-flex">
                                                     <div class="btn-group dropdown">
@@ -62,7 +77,7 @@
                                                             {{__("admin.action")}}
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            <a class="dropdown-item" href="#">{{__("admin.info")}}</a>
+                                                            <a class="dropdown-item" href="{{route('souvenirs.show', $souvenir->id)}}">{{__("admin.info")}}</a>
                                                             <a class="dropdown-item" href="{{route('souvenirs.edit', $souvenir->id)}}">{{__("admin.change")}}</a>
                                                             <form action="{{route('souvenirs.destroy', $souvenir->id)}}" method="post">
                                                                 @csrf

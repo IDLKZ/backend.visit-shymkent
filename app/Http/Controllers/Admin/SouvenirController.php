@@ -62,7 +62,12 @@ class SouvenirController extends Controller
      */
     public function show($id)
     {
-        //
+        if($souvenir = Souvenir::find($id)){
+            return view("admin.souvenirs.show",compact("souvenir"));
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**

@@ -52,8 +52,23 @@
                                                 <td><img src="{{$shop->getFile('image')}}" width="50"></td>
                                                 <td>{{$shop->role->title}}</td>
                                                 <td>{{$shop->title}}</td>
-                                                <td><input disabled type="checkbox" @if($shop->status)checked @endif data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger"></td>
-                                                <td>{{$shop->evehtum}}</td>
+                                                <td>
+                                                    @if($shop->status == 1)
+                                                        <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                                    @elseif($shop->status == 0)
+                                                        <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                                    @elseif($shop->status == -1)
+                                                        <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                                <td>{{$shop->eventum}}</td>
 
                                                 <td class="d-flex">
                                                     <div class="btn-group dropdown">
@@ -61,7 +76,7 @@
                                                             {{__("admin.action")}}
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            <a class="dropdown-item" href="#">{{__("admin.info")}}</a>
+                                                            <a class="dropdown-item" href="{{route('shops.show', $shop->id)}}">{{__("admin.info")}}</a>
                                                             <a class="dropdown-item" href="{{route('shops.edit', $shop->id)}}">{{__("admin.change")}}</a>
                                                             <form action="{{route('shops.destroy', $shop->id)}}" method="post">
                                                                 @csrf

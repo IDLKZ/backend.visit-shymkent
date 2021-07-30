@@ -63,7 +63,12 @@ class BlogController extends Controller
      */
     public function show($id)
     {
-        //
+        if($blog = Blog::find($id)){
+            return view("admin.blogs.show",compact("blog"));
+        }
+        else{
+            return  redirect()->back();
+        }
     }
 
     /**

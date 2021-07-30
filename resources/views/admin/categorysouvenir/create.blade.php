@@ -58,8 +58,12 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="status">{{__('admin.status')}}</label>
-                                <input id="status" type="checkbox"  data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger" name="status">
+                                <label for="description{{__('admin.status')}}">{{__('admin.status')}}</label>
+                                <select class="form-select" name="status">
+                                    <option value="1">{{__("admin.yes_status")}}</option>
+                                    <option value="0">{{__("admin.not_status")}}</option>
+                                    <option value="-1">{{__("admin.mod_status")}}</option>
+                                </select>
                             </div>
 
 

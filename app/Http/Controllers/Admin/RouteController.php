@@ -56,7 +56,12 @@ class RouteController extends Controller
      */
     public function show($id)
     {
-        //
+        if($route = Route::find($id)){
+            return view("admin.routes.show",compact("route"));
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**

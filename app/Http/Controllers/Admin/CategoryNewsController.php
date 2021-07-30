@@ -54,7 +54,12 @@ class CategoryNewsController extends Controller
      */
     public function show($id)
     {
-        //
+        if($category = CategoryNews::find($id)){
+            return view("admin.categorynews.show",compact("category"));
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**

@@ -61,7 +61,12 @@ class OrganizatorController extends Controller
      */
     public function show($id)
     {
-        //
+        if($organizator = Organizator::find($id)){
+            return view("admin.organizators.show",compact("organizator"));
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**

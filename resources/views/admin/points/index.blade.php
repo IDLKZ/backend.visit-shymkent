@@ -55,14 +55,29 @@
                                                 <td>{{$point->title}}</td>
                                                 <td>{{$point->price}}</td>
                                                 <td>{{$point->number}}</td>
-                                                <td><input disabled type="checkbox" @if($point->status)checked @endif data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger"></td>
+                                                <td>
+                                                    @if($point->status == 1)
+                                                        <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                                    @elseif($point->status == 0)
+                                                        <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                                    @elseif($point->status == -1)
+                                                        <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                                    @endif
+                                                </td>
                                                 <td class="d-flex">
                                                     <div class="btn-group dropdown">
                                                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             {{__("admin.action")}}
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            <a class="dropdown-item" href="#">{{__("admin.info")}}</a>
+                                                            <a class="dropdown-item" href="{{route('points.show', $point->id)}}">{{__("admin.info")}}</a>
                                                             <a class="dropdown-item" href="{{route('points.edit', $point->id)}}">{{__("admin.change")}}</a>
                                                             <form action="{{route('points.destroy', $point->id)}}" method="post">
                                                                 @csrf

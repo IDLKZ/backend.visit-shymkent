@@ -46,7 +46,7 @@ class Souvenir extends Model
      */
     public function souvenirCategory()
     {
-        return $this->belongsTo('App\Models\SouvenirCategory', 'category_id');
+        return $this->belongsTo(SouvenirCategory::class, 'category_id');
     }
 
     /**
@@ -54,7 +54,7 @@ class Souvenir extends Model
      */
     public function shop()
     {
-        return $this->belongsTo('App\Models\Shop');
+        return $this->belongsTo(Shop::class);
     }
 
     /**

@@ -62,7 +62,12 @@ class ShopController extends Controller
      */
     public function show($id)
     {
-        //
+        if($shop = Shop::find($id)){
+            return view("admin.shops.show",compact("shop"));
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**
