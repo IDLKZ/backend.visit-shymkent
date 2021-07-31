@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoriesPlace;
+use App\Http\Controllers\Admin\CategoryPlace;
+use App\Http\Controllers\Admin\PlaceController;
 use App\Http\Controllers\Admin\SliderController;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
@@ -72,6 +76,9 @@ Route::group(
             Route::resource("/gallery",GalleryController::class);
             Route::resource("/workday",WorkdayController::class);
             Route::resource("/categories-events",CategoriesEventsController::class);
+            Route::resource('/places', PlaceController::class);
+            Route::resource('/category-place', CategoryPlace::class);
+            Route::resource('/categories-place', CategoriesPlace::class);
             Route::group(['middleware' => 'admin'], function (){
 
             });

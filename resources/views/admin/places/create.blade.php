@@ -23,10 +23,10 @@
                         <h6 class="card-title">
                             {{__("admin.create")}}
                         </h6>
-                        <form id="event-form" class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('events.store')}}">
+                        <form id="event-form" class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('places.store')}}">
                             @csrf
                             <div class="form-group">
-                                <label for="event_type">{{__('admin.event_categories')}}</label>
+                                <label for="event_type">{{__('admin.places_category')}}</label>
                                 <select class="w-100" id="category_id" name="category_id[]">
                                     @if($categories->isNotEmpty())
                                         @foreach($categories as $category)
@@ -54,23 +54,6 @@
                                     @endif
                                 </select>
                                 @error('user_id')
-                                <div class="invalid-feedback">
-                                    {{$message}}
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="event_type">{{__('admin.event_type')}}</label>
-                                <select class="w-100" name="type_id">
-                                    @if($types->isNotEmpty())
-                                        @foreach($types as $type)
-                                            <option value="{{$type->id}}">
-                                                {{$type->title}}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                                @error('type_id')
                                 <div class="invalid-feedback">
                                     {{$message}}
                                 </div>
@@ -222,6 +205,61 @@
                                 <label for="eventum">{{__('admin.address')}}</label>
                                 <input type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{old('address')}}">
                                 @error('address')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputUsername{{__('admin.video_kz')}}">{{__('admin.video_kz')}}</label>
+                                <input type="text" class="form-control  @error('video_kz') is-invalid @enderror" id="exampleInputUsername{{__('admin.video_kz')}}" name='video_kz' autocomplete="off" placeholder="{{__('admin.video_kz')}}" value="{{old('video_kz')}}">
+                                @error('video_kz')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputUsername{{__('admin.video_ru')}}">{{__('admin.video_ru')}}</label>
+                                <input type="text" class="form-control @error('video_ru') is-invalid @enderror" id="exampleInputUsername{{__('admin.video_ru')}}" name='video_ru' autocomplete="off" placeholder="{{__('admin.video_ru')}}" value="{{old('video_ru')}}">
+                                @error('video_ru')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputUsername{{__('admin.video_en')}}">{{__('admin.video_en')}}</label>
+                                <input type="text" class="form-control @error('video_en') is-invalid @enderror" id="exampleInputUsername{{__('admin.video_en')}}" name='video_en' autocomplete="off" placeholder="{{__('admin.video_en')}}" value="{{old('video_en')}}">
+                                @error('video_en')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputUsername{{__('admin.audio_kz')}}">{{__('admin.audio_kz')}}</label>
+                                <input type="text" class="form-control  @error('audio_kz') is-invalid @enderror" id="exampleInputUsername{{__('admin.audio_kz')}}" name='audio_kz' autocomplete="off" placeholder="{{__('admin.audio_kz')}}" value="{{old('audio_kz')}}">
+                                @error('audio_kz')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputUsername{{__('admin.audio_ru')}}">{{__('admin.audio_ru')}}</label>
+                                <input type="text" class="form-control @error('audio_ru') is-invalid @enderror" id="exampleInputUsername{{__('admin.audio_ru')}}" name='audio_ru' autocomplete="off" placeholder="{{__('admin.audio_ru')}}" value="{{old('audio_ru')}}">
+                                @error('audio_ru')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputUsername{{__('admin.audio_en')}}">{{__('admin.audio_en')}}</label>
+                                <input type="text" class="form-control @error('audio_en') is-invalid @enderror" id="exampleInputUsername{{__('admin.audio_en')}}" name='audio_en' autocomplete="off" placeholder="{{__('admin.audio_en')}}" value="{{old('audio_en')}}">
+                                @error('audio_en')
                                 <div class="invalid-feedback">
                                     {{$message}}
                                 </div>

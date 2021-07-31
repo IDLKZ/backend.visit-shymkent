@@ -50,6 +50,27 @@
                                 </div>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <label for="event_type">{{__('admin.user_id')}}</label>
+                                <select class="w-100" id="user_id" name="user_id">
+                                    @if($users->isNotEmpty())
+                                        @foreach($users as $user)
+                                            <option
+                                                @if($user->id == $event->user_id)
+                                                selected
+                                                @endif
+                                                value="{{$user->id}}">
+                                                {{$user->name}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('user_id')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
                             {{--                            Title starts--}}
                             <div class="form-group">
                                 <label for="exampleInputUsername{{__('admin.title_kz')}}">{{__('admin.title_kz')}}</label>

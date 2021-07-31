@@ -25,6 +25,20 @@
                     <span class="link-title">{{__("admin.sliders")}}</span>
                 </a>
             </li>
+{{--            PLaces--}}
+            <li class="nav-item nav-category">{{__("admin.places")}}</li>
+            <li class="nav-item">
+                <a href="{{route("category-place.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="align-justify"></i>
+                    <span class="link-title">{{__("admin.places_category")}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route("places.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="map"></i>
+                    <span class="link-title">{{__("admin.places_name")}}</span>
+                </a>
+            </li>
 {{--            Events--}}
             <li class="nav-item nav-category">{{__("admin.events")}}</li>
             <li class="nav-item">

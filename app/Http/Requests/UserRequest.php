@@ -52,6 +52,7 @@ class UserRequest extends FormRequest
     {
         $this->merge([
             'verified' => (int)$this->boolean("verified"),
+            'status' => (int)$this->boolean("status"),
             'password' => bcrypt($this->get("password")),
         ]);
     }

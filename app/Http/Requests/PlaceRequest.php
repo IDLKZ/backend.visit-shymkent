@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EventRequest extends FormRequest
+class PlaceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class EventRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'place_id'=>"sometimes|nullable|exists:places,id",
             'user_id'=>"required|exists:users,id",
-            'type_id'=>"required|exists:event_types,id",
             'title_kz' => 'required|max:255',
             'title_ru' => 'required|max:255',
             'title_en' => 'required|max:255',
@@ -36,7 +34,7 @@ class EventRequest extends FormRequest
         ];
 
         if ($this->getMethod() == 'POST') {
-            $rules += ["category_id"=>"required|array", "category_id.*"=>"required|exists:categoryevents,id"];
+            $rules += ["category_id"=>"required|array", "category_id.*"=>"required|exists:categoryplaces,id"];
             $rules += ['image' => 'required|image|max:10240'];
             $rules += ['images.*' => 'required|image|max:10240'];
         }
@@ -47,6 +45,4 @@ class EventRequest extends FormRequest
 
         return $rules;
     }
-
-
 }

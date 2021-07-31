@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\EventRequest;
-use App\Models\CategoryEvent;
-use App\Models\CategoryEvents;
-use App\Models\Event;
-use App\Models\EventType;
+use App\Http\Requests\PlaceRequest;
 use App\Models\Gallery;
+use App\Models\Place;
 use App\Models\User;
 use App\Models\Weekday;
+use App\Models\CategoryPlace as CategoryPlaces;
+use App\Models\CategoriesPlace as CategoriesPlaces;
 
-class EventsController extends Controller
+class PlaceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,8 +20,8 @@ class EventsController extends Controller
      */
     public function index()
     {
-        $events = Event::paginate(15);
-        return view("admin.events.index",compact("events"));
+        $places = Place::paginate(15);
+        return view('admin.places.index', compact('places'));
     }
 
     /**
@@ -32,10 +31,9 @@ class EventsController extends Controller
      */
     public function create()
     {
-        $categories = CategoryEvents::all();
-        $types = EventType::all();
+        $categories = CategoryPlaces::all();
         $users = User::whereNotIn('role_id', [1,2])->get();
-        return view("admin.events.create",compact("types","categories", 'users'));
+        return view('admin.places.create', compact('categories', 'users'));
     }
 
     /**
@@ -44,19 +42,18 @@ class EventsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EventRequest $request)
+    public function store(PlaceRequest $request)
     {
-
-        $event = Event::add($request->all());
-        $event->uploadFile($request['image'], 'image');
+        $place = Place::add($request->all());
+        $place->uploadFile($request['image'], 'image');
         foreach ($request->images as $file){
-            $gallery = Gallery::add(["event_id"=>$event->id]);
+            $gallery = Gallery::add(["place_id"=>$place->id]);
             $gallery->uploadFile($file,"image");
         }
         foreach ($request->category_id as $key => $category){
-            $category = CategoryEvent::add(["category_id"=>$category,"event_id"=>$event->id]);
+            $category = CategoriesPlaces::add(["category_id"=>$category,"place_id"=>$place->id]);
         }
-        return redirect(route('events.index'));
+        return redirect(route('places.index'));
     }
 
     /**
@@ -67,15 +64,14 @@ class EventsController extends Controller
      */
     public function show($id)
     {
-        $event = Event::find($id);
-        $categories = CategoryEvents::whereNotIn("id",$event->categoryEvent->pluck("category_id")->toArray())->get();
-        $types = EventType::all();
+        $place = Place::find($id);
+        $categories = CategoryPlaces::whereNotIn("id",$place->categoriesPlaces->pluck("category_id")->toArray())->get();
         $weekdays = Weekday::all();
-        if($event){
-            return view("admin.events.show",compact("event","types","weekdays","categories"));
+        if($place){
+            return view("admin.places.show",compact("place","weekdays","categories"));
         }
         else{
-            return redirect(route('events.index'));
+            return redirect(route('places.index'));
         }
     }
 
@@ -87,11 +83,10 @@ class EventsController extends Controller
      */
     public function edit($id)
     {
-        $event = Event::find($id);
-        $types = EventType::all();
+        $place = Place::find($id);
+        $categories = CategoryPlaces::all();
         $users = User::whereNotIn('role_id', [1,2])->get();
-        return view("admin.events.edit",compact("event","types", 'users'));
-
+        return view('admin.places.edit', compact('place', 'users', 'categories'));
     }
 
     /**
@@ -101,12 +96,12 @@ class EventsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EventRequest $request, $id)
+    public function update(PlaceRequest $request, $id)
     {
-        $event = Event::find($id);
-        $event->edit($request->all(),'image');
-        $event->uploadFile($request['image'], 'image');
-        return redirect(route('events.index'));
+        $place = Place::find($id);
+        $place->edit($request->all(),'image');
+        $place->uploadFile($request['image'], 'image');
+        return redirect(route('places.index'));
     }
 
     /**
@@ -117,7 +112,7 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
-        Event::destroy($id);
-        return redirect()->route("events.index");
+        Place::destroy($id);
+        return redirect()->route("places.index");
     }
 }
