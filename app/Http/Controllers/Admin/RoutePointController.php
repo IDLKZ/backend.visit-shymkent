@@ -59,7 +59,12 @@ class RoutePointController extends Controller
      */
     public function show($id)
     {
-        //
+        if($point = RoutePoint::find($id)){
+            return view("admin.points.show",compact("point"));
+        }
+        else{
+            return  redirect()->back();
+        }
     }
 
     /**

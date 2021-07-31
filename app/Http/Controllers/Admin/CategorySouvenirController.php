@@ -51,7 +51,12 @@ class CategorySouvenirController extends Controller
      */
     public function show($id)
     {
-        //
+        if($category = SouvenirCategory::find($id)){
+            return view("admin.categorysouvenir.show",compact("category"));
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**

@@ -54,7 +54,22 @@
                                                 <td>{{$organizator->title}}</td>
                                                 <td>{{$organizator->role->title}}</td>
                                                 <td>{{$organizator->user->name}}</td>
-                                                <td><input disabled type="checkbox" @if($organizator->status)checked @endif data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger"></td>
+                                                <td>
+                                                    @if($organizator->status == 1)
+                                                        <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                                    @elseif($organizator->status == 0)
+                                                        <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                                    @elseif($organizator->status == -1)
+                                                        <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                                    @endif
+                                                </td>
                                                 <td>{{$organizator->eventum}}</td>
                                                 <td class="d-flex">
                                                     <div class="btn-group dropdown">
@@ -62,7 +77,7 @@
                                                             {{__("admin.action")}}
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            <a class="dropdown-item" href="#">{{__("admin.info")}}</a>
+                                                            <a class="dropdown-item" href="{{route('organizators.show', $organizator->id)}}">{{__("admin.info")}}</a>
                                                             <a class="dropdown-item" href="{{route('organizators.edit', $organizator->id)}}">{{__("admin.change")}}</a>
                                                             <form action="{{route('organizators.destroy', $organizator->id)}}" method="post">
                                                                 @csrf

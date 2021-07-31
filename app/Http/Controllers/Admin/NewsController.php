@@ -60,7 +60,12 @@ class NewsController extends Controller
      */
     public function show($id)
     {
-        //
+        if($news = News::find($id)){
+            return view("admin.news.show",compact("news"));
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**

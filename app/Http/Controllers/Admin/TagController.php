@@ -53,7 +53,12 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        //
+        if($tag = Tag::find($id)){
+            return view("admin.tags.show",compact("tag"));
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**
