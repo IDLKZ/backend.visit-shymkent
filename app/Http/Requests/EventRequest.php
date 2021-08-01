@@ -30,9 +30,9 @@ class EventRequest extends FormRequest
             'title_kz' => 'required|max:255',
             'title_ru' => 'required|max:255',
             'title_en' => 'required|max:255',
-            'description_kz' => 'required|max:255',
-            'description_ru' => 'required|max:255',
-            'description_en' => 'required|max:255',
+            'description_kz' => 'required',
+            'description_ru' => 'required',
+            'description_en' => 'required',
         ];
 
         if ($this->getMethod() == 'POST') {

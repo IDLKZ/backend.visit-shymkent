@@ -117,6 +117,8 @@ class Event extends Model
         return $this->hasMany(Workday::class);
     }
 
+
+
     public function user()
     {
         return $this->belongsTo(User::class);

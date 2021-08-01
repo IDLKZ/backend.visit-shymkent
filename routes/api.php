@@ -15,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get("/sliders",[\App\Http\Controllers\Api\SliderController::class,"index"]);
+Route::get("/categoriesofthe-places",[\App\Http\Controllers\Api\CategoryOfThePlaceController::class,"index"]);
+Route::get("/events",[\App\Http\Controllers\Api\EventController::class,"index"]);
