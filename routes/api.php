@@ -1,6 +1,13 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\BlogsController;
+use App\Http\Controllers\Api\CategoryOfThePlaceController;
+use App\Http\Controllers\Api\EventController;
+use App\Http\Controllers\Api\NewsController;
+use App\Http\Controllers\Api\PlacesController;
+use App\Http\Controllers\Api\RoutesController;
+use App\Http\Controllers\Api\SliderController;
+use App\Http\Controllers\Api\SouvenirController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +21,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/sliders",[\App\Http\Controllers\Api\SliderController::class,"index"]);
-Route::get("/categoriesofthe-places",[\App\Http\Controllers\Api\CategoryOfThePlaceController::class,"index"]);
-Route::get("/events",[\App\Http\Controllers\Api\EventController::class,"index"]);
+Route::get("/sliders",[SliderController::class,"index"]);
+Route::get("/categoriesofthe-places",[CategoryOfThePlaceController::class,"index"]);
+Route::get("/categoriesofthe-places-all",[CategoryOfThePlaceController::class,"getCategories"]);
+Route::get("/events",[EventController::class,"index"]);
+Route::get('/routes', [RoutesController::class, 'index']);
+Route::get('/souvenirs', [SouvenirController::class, 'index']);
+Route::get('/blogs', [BlogsController::class, 'index']);
+Route::get('/news', [NewsController::class, 'index']);
+Route::get('/places', [PlacesController::class, 'index']);

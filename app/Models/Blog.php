@@ -32,6 +32,9 @@ class Blog extends Model
     use \App\Language;
     use Sluggable;
 
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y'
+    ];
 
     public function sluggable(): array
     {

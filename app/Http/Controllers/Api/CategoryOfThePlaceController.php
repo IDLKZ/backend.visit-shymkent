@@ -12,4 +12,10 @@ class CategoryOfThePlaceController extends Controller
         $categoryoftheplace = CategoryPlace::where("parent_id",null)->get();
         return response()->json($categoryoftheplace);
     }
+
+    public function getCategories()
+    {
+        $categories = CategoryPlace::getTree();
+        return response()->json($categories);
+    }
 }

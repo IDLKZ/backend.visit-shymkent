@@ -48,9 +48,11 @@ class BlogController extends Controller
     {
         $blogs = Blog::add($request->all());
         $blogs->uploadFile($request['image'], 'image');
-        foreach ($request->images as $file){
-            $gallery = Gallery::add(["blog_id"=>$blogs->id]);
-            $gallery->uploadFile($file,"image");
+        if ($request->images){
+            foreach ($request->images as $file){
+                $gallery = Gallery::add(["blog_id"=>$blogs->id]);
+                $gallery->uploadFile($file,"image");
+            }
         }
         return redirect(route('blogs.index'));
     }
