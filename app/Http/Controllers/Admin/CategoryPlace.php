@@ -29,6 +29,7 @@ class CategoryPlace extends Controller
     {
         $categories = CategoryPlaces::getTree();
         $option = CategoryPlaces::renderTemplate($categories);
+
 //        dd($categories);
 //        dd($option);
         return view('admin.placecategories.create', compact('categories', 'option'));

@@ -31,3 +31,5 @@ Route::get('/souvenirs', [SouvenirController::class, 'index']);
 Route::get('/blogs', [BlogsController::class, 'index']);
 Route::get('/news', [NewsController::class, 'index']);
 Route::get('/places', [PlacesController::class, 'index']);
+
+Route::get('/single-place/{alias}', [PlacesController::class, 'singlePlace']);
