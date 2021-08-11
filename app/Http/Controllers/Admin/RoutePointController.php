@@ -44,9 +44,11 @@ class RoutePointController extends Controller
     {
         $point = RoutePoint::add($request->all());
         $point->uploadFile($request['image'], 'image');
-        foreach ($request->images as $file){
-            $gallery = Gallery::add(["point_id"=>$point->id]);
-            $gallery->uploadFile($file,"image");
+        if ($request->images){
+            foreach ($request->images as $file){
+                $gallery = Gallery::add(["point_id"=>$point->id]);
+                $gallery->uploadFile($file,"image");
+            }
         }
         return redirect(route('points.index'));
     }

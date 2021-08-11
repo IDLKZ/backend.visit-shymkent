@@ -27,23 +27,23 @@
                         <form id="event-form" class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('places.update',$place->id)}}">
                             @csrf
                             @method("PUT")
-                            <div class="form-group">
-                                <label for="event_type">{{__('admin.places_category')}}</label>
-                                <select class="w-100" id="category_id" name="category_id[]">
-                                    @if($categories->isNotEmpty())
-                                        @foreach($categories as $category)
-                                            <option value="{{$category->id}}">
-                                                {{$category->title}}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                                @error('category_id[]')
-                                <div class="invalid-feedback">
-                                    {{$message}}
-                                </div>
-                                @enderror
-                            </div>
+{{--                            <div class="form-group">--}}
+{{--                                <label for="event_type">{{__('admin.places_category')}}</label>--}}
+{{--                                <select class="w-100" id="category_id" name="category_id[]">--}}
+{{--                                    @if($categories->isNotEmpty())--}}
+{{--                                        @foreach($categories as $category)--}}
+{{--                                            <option value="{{$category->id}}">--}}
+{{--                                                {{$category->title}}--}}
+{{--                                            </option>--}}
+{{--                                        @endforeach--}}
+{{--                                    @endif--}}
+{{--                                </select>--}}
+{{--                                @error('category_id[]')--}}
+{{--                                <div class="invalid-feedback">--}}
+{{--                                    {{$message}}--}}
+{{--                                </div>--}}
+{{--                                @enderror--}}
+{{--                            </div>--}}
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.user_id')}}</label>
                                 <select class="w-100" id="user_id" name="user_id">

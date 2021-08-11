@@ -36,6 +36,7 @@
                                 <thead>
                                 <tr>
                                     <th>{{__("admin.id")}}</th>
+                                    <th>{{__("admin.image")}}</th>
                                     <th>{{__("admin.name")}}</th>
                                     <th>{{__("admin.role_id")}}</th>
                                     <th>E-mail</th>

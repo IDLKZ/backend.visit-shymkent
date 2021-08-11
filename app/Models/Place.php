@@ -114,4 +114,10 @@ class Place extends Model
     {
         return $this->hasMany(Workday::class);
     }
+
+//    public function weekday()
+//    {
+//        return $this->hasManyThrough(Weekday::class, Workday::class, 'weekday_id', 'id', 'id', 'place_id');
+//    }
+
 }

@@ -33,7 +33,7 @@
                             <table id="dataTableExample" class="table">
                                 <thead>
                                 <tr>
-                                    <th>{{__("admin.id")}}</th>
+{{--                                    <th>{{__("admin.id")}}</th>--}}
                                     <th>{{__("admin.image")}}</th>
                                     <th>{{__("admin.routes")}}</th>
                                     <th>{{__("admin.title")}}</th>
@@ -49,7 +49,7 @@
                                     @if($points->isNotEmpty())
                                         @foreach($points as $point)
                                             <tr>
-                                                <td>{{$point->id}}</td>
+{{--                                                <td>{{$point->id}}</td>--}}
                                                 <td><img src="{{$point->getFile('image')}}" width="50"></td>
                                                 <td>{{$point->route->title}}</td>
                                                 <td>{{$point->title}}</td>

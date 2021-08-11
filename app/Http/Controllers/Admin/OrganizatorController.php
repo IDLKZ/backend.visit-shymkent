@@ -31,7 +31,7 @@ class OrganizatorController extends Controller
     public function create()
     {
         $roles = Role::whereIn("id",[4,5])->get();
-        $users = User::where('role_id',3)->get();
+        $users = User::whereIn('role_id',[3,4,5])->get();
         return view("admin.organizators.create",compact("roles","users"));
 
     }
@@ -46,9 +46,11 @@ class OrganizatorController extends Controller
     {
         $organizator = Organizator::add($request->all());
         $organizator->uploadFile($request['image'], 'image');
-        foreach ($request->images as $file){
-            $gallery = Gallery::add(["organizator_id"=>$organizator->id]);
-            $gallery->uploadFile($file,"image");
+        if ($request->images){
+            foreach ($request->images as $file){
+                $gallery = Gallery::add(["organizator_id"=>$organizator->id]);
+                $gallery->uploadFile($file,"image");
+            }
         }
         return redirect(route('organizators.index'));
     }

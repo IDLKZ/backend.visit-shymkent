@@ -46,9 +46,11 @@ class PlaceController extends Controller
     {
         $place = Place::add($request->all());
         $place->uploadFile($request['image'], 'image');
-        foreach ($request->images as $file){
-            $gallery = Gallery::add(["place_id"=>$place->id]);
-            $gallery->uploadFile($file,"image");
+        if ($request->images){
+            foreach ($request->images as $file){
+                $gallery = Gallery::add(["place_id"=>$place->id]);
+                $gallery->uploadFile($file,"image");
+            }
         }
         foreach ($request->category_id as $key => $category){
             $category = CategoriesPlaces::add(["category_id"=>$category,"place_id"=>$place->id]);
@@ -98,6 +100,7 @@ class PlaceController extends Controller
      */
     public function update(PlaceRequest $request, $id)
     {
+//        dd($request->all());
         $place = Place::find($id);
         $place->edit($request->all(),'image');
         $place->uploadFile($request['image'], 'image');
