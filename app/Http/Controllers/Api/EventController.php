@@ -14,8 +14,17 @@ class EventController extends Controller
         return response()->json($events);
     }
 
+
+    public function events(Request  $request){
+        $events = Event::where("status",1)->orderBy("created_at","DESC")->paginate(8);
+        $events->load(["workdays","workdays.weekday"]);
+        return response()->json($events);
+    }
+
+
+
     public function event($alias){
-        $event = Event::with(['galleries'])->firstWhere("alias",$alias);
+        $event = Event::with(['galleries',"workdays","workdays.weekday"])->firstWhere("alias",$alias);
         return response()->json($event);
     }
 }

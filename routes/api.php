@@ -25,6 +25,7 @@ Route::get("/sliders",[SliderController::class,"index"]);
 Route::get("/categoriesofthe-places",[CategoryOfThePlaceController::class,"index"]);
 Route::get("/categoriesofthe-places-all",[CategoryOfThePlaceController::class,"getCategories"]);
 Route::get("/events",[EventController::class,"index"]);
+Route::get("/all-events",[EventController::class,"events"]);
 Route::get("/event/{alias}",[EventController::class,"event"]);
 Route::get('/routes', [RoutesController::class, 'index']);
 Route::get('/souvenirs', [SouvenirController::class, 'index']);
