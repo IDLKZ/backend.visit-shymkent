@@ -13,4 +13,10 @@ class NewsController extends Controller
         $news = News::with('user', 'categorynews')->where("status",1)->take(4)->get();
         return response()->json($news);
     }
+
+    public function allNews()
+    {
+        $news = News::with('user', 'categorynews')->where('status', 1)->paginate(8);
+        return response()->json($news);
+    }
 }

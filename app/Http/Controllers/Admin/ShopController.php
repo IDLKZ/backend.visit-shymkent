@@ -31,7 +31,7 @@ class ShopController extends Controller
      */
     public function create()
     {
-        $users = User::whereNotIn('role_id', [1,2])->get();
+        $users = User::whereNotIn('role_id', [1,2,4,5])->get();
         $roles = Role::whereIn('id', [6,7])->get();
         return view("admin.shops.create",compact("users","roles"));
     }
@@ -79,7 +79,7 @@ class ShopController extends Controller
     public function edit($id)
     {
         $shop = Shop::find($id);
-        $users = User::whereNotIn('role_id', [1,2])->get();
+        $users = User::whereNotIn('role_id', [1,2,4,5])->get();
         $roles = Role::whereIn('id', [6,7])->get();
         return view("admin.shops.edit",compact("roles","shop","users"));
     }

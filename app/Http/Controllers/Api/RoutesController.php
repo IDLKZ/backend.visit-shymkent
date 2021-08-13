@@ -17,4 +17,10 @@ class RoutesController extends Controller
         $agents = Organizator::with('user')->where('role_id', 5)->paginate(10);
         return response()->json([$routes, $guides, $agents]);
     }
+
+    public function route($alias)
+    {
+        $route = Route::with(['galleries', 'routePoints', 'routePoints.galleries'])->firstWhere("alias",$alias);
+        return response()->json($route);
+    }
 }

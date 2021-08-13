@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\FileUpload;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -29,6 +30,16 @@ class Souvenir extends Model
 {
     use \App\Language;
     use FileUpload;
+    use Sluggable;
+
+    public function sluggable(): array
+    {
+        return [
+            'alias' => [
+                'source' => 'title_ru'
+            ]
+        ];
+    }
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -39,7 +50,7 @@ class Souvenir extends Model
     /**
      * @var array
      */
-    protected $fillable = ['category_id', 'shop_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'eventum', 'image', 'price', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['category_id', 'shop_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'image', 'price', 'status', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
