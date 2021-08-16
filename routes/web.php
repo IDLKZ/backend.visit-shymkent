@@ -49,6 +49,7 @@ Route::group(
             return redirect('/login');
         });
 
+
         //Action when register, login, forgot and recovery user
         Route::group(["middleware"=>"guest"],function (){
             Route::get("/login",[AuthController::class,"login"])->name("login");
