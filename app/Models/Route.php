@@ -77,4 +77,14 @@ class Route extends Model
     public function organizatorsRoute(){
         return $this->hasMany(RouteAndOrganizator::class,"route_id");
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'route_id');
+    }
+
+    public function user(){
+        return $this->load(["organizatorsRoute.organizatorsRoute.user"]);
+    }
+
 }
