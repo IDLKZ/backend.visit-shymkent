@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class WorkdayRequest extends FormRequest
+class RouteAndOrganizator extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,8 @@ class WorkdayRequest extends FormRequest
     public function rules()
     {
         return [
-            "weekday_id"=>"required|exists:weekdays,id",
-            "shop_id"=>"sometimes|exists:shops,id",
-            "place_id"=>"sometimes|exists:places,id",
-            "point_id"=>"sometimes|exists:route_points,id",
-            "event_id"=>"sometimes|exists:events,id"
+            "organizator_id"=>"required|exists:organizators,id",
+            "route_id"=>"required|exists:routes,id"
         ];
     }
 }

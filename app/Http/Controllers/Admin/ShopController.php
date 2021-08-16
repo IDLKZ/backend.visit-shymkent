@@ -8,6 +8,7 @@ use App\Models\Gallery;
 use App\Models\Shop;
 use App\Models\ShopUser;
 use App\Models\User;
+use App\Models\Weekday;
 use App\Role;
 use Illuminate\Http\Request;
 
@@ -31,7 +32,7 @@ class ShopController extends Controller
      */
     public function create()
     {
-        $users = User::whereNotIn('role_id', [1,2,4,5])->get();
+        $users = User::whereNotIn('role_id', [1,2,3,4,5])->get();
         $roles = Role::whereIn('id', [6,7])->get();
         return view("admin.shops.create",compact("users","roles"));
     }
@@ -47,9 +48,11 @@ class ShopController extends Controller
 
         $shop = Shop::add($request->all());
         $shop->uploadFile($request['image'], 'image');
-        foreach ($request->images as $file){
-            $gallery = Gallery::add(["shop_id"=>$shop->id]);
-            $gallery->uploadFile($file,"image");
+        if($request->images){
+            foreach ($request->images as $file){
+                $gallery = Gallery::add(["shop_id"=>$shop->id]);
+                $gallery->uploadFile($file,"image");
+            }
         }
         return redirect(route('shops.index'));
     }
@@ -63,7 +66,8 @@ class ShopController extends Controller
     public function show($id)
     {
         if($shop = Shop::find($id)){
-            return view("admin.shops.show",compact("shop"));
+            $weekdays = Weekday::all();
+            return view("admin.shops.show",compact("shop","weekdays"));
         }
         else{
             return redirect()->back();

@@ -105,4 +105,14 @@ class Shop extends Model
     {
         return $this->hasMany(Souvenir::class);
     }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'shop_id');
+    }
+
+    public function workdays()
+    {
+        return $this->hasMany(Workday::class, 'shop_id');
+    }
 }

@@ -34,14 +34,14 @@ class Workday extends Model
     /**
      * @var array
      */
-    protected $fillable = ['weekday_id', 'place_id', 'event_id', 'date_start', 'date_end', 'time_start', 'time_end', 'created_at', 'updated_at'];
+    protected $fillable = ['weekday_id', 'place_id', 'event_id','shop_id','point_id', 'date_start', 'date_end', 'time_start', 'time_end', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function event()
     {
-        return $this->belongsTo('App\Event');
+        return $this->belongsTo(Event::class);
     }
 
     /**
@@ -49,7 +49,16 @@ class Workday extends Model
      */
     public function place()
     {
-        return $this->belongsTo('App\Place');
+        return $this->belongsTo(Place::class);
+    }
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
+    }
+    public function point()
+    {
+        return $this->belongsTo(RoutePoint::class);
     }
 
     /**

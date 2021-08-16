@@ -60,7 +60,7 @@
                 {{--                            Description start--}}
                 <div class="form-group">
                     <label for="description{{__('admin.description_kz')}}">{{__('admin.description_kz')}}</label>
-                    <textarea hidden class="form-control @error('description_kz') is-invalid @enderror" id="description{{__('admin.description_kz')}}" name='description_kz' autocomplete="off">
+                    <textarea disabled class="form-control @error('description_kz') is-invalid @enderror" id="description{{__('admin.description_kz')}}" name='description_kz' autocomplete="off">
                                     {!! $route->description_kz !!}
                                 </textarea>
                     @error('description_kz')
@@ -71,7 +71,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description{{__('admin.description_ru')}}">{{__('admin.description_ru')}}</label>
-                    <textarea hidden class="form-control @error('description_ru') is-invalid @enderror" id="description{{__('admin.description_ru')}}" name='description_ru' autocomplete="off">
+                    <textarea disabled class="form-control @error('description_ru') is-invalid @enderror" id="description{{__('admin.description_ru')}}" name='description_ru' autocomplete="off">
                                     {!! $route->description_ru !!}
                                 </textarea>
                     @error('description_ru')
@@ -82,7 +82,7 @@
                 </div>
                 <div class="form-group">
                     <label for="description{{__('admin.description_en')}}">{{__('admin.description_en')}}</label>
-                    <textarea hidden class="form-control @error('description_en') is-invalid @enderror" id="description{{__('admin.description_en')}}" name='description_en' autocomplete="off">
+                    <textarea  disabled class="form-control @error('description_en') is-invalid @enderror" id="description{{__('admin.description_en')}}" name='description_en' autocomplete="off">
                                     {!! $route->description_en !!}
                                 </textarea>
                     @error('description_en')
@@ -92,7 +92,7 @@
                     @enderror
                 </div>
                 {{--                    Description end--}}
-                {{--                            Eventum, Description, Time--}}
+                {{--                            eventum, Description, Time--}}
 
                 <div class="form-group">
                     <label for="eventum">{{__('admin.eventum')}}</label>
@@ -308,7 +308,7 @@
                                             {{__("admin.action")}}
                                         </button>
                                         <div class="dropdown-menu">
-                                            <form method="post" action="{{route("gallery.destroy",$type->id)}}">
+                                            <form method="post" action="{{route("route_and_organizator.destroy",$organizator->id)}}">
                                                 @csrf
                                                 @method("delete")
                                                 <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
@@ -380,7 +380,62 @@
             </div>
         </div>
 
+        {{--        Ratings--}}
+        <div class="row bg-white py-5 px-4">
+            <h2>Рейтинг</h2>
+            <div class="col-md-12 text-right">
+                <button class="btn btn-success" data-toggle="modal" data-target="#createRating">{{__("admin.create")}}</button>
+            </div>
+            <div class="table-responsive">
+                <table id="dataTableExample" class="table">
+                    <thead>
+                    <tr>
+                        <th>{{__("admin.title")}}</th>
+                        <th>{{__("admin.routes")}}</th>
+                        <th>Рейтинг</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if($route->ratings->isNotEmpty())
+                        @foreach($route->ratings as $rating)
+                            <tr>
+                                <td>
+                                    {{$rating->title}}
+                                </td>
+                                <td>
+                                    {{$rating->route->title}}
+                                </td>
+                                <td>
+                                    {{$rating->rating}}
+                                </td>
+                                <td class="d-flex">
+                                    <div class="btn-group dropdown">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{__("admin.action")}}
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form method="post" action="{{route("ratings.destroy",$rating->id)}}">
+                                                @csrf
+                                                @method("delete")
+                                                <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                            </form>
+                                        </div>
+                                    </div>
 
+
+
+                                </td>
+
+                            </tr>
+                        @endforeach
+
+                    @endif
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 {{--    Route and Type--}}
@@ -398,7 +453,7 @@
                     <div class="modal-body">
                         <input type="hidden" value="{{$route->id}}" name="route_id">
                         <div class="form-group">
-                            <label for="event_type">{{__('admin.route_types')}}</label>
+                            <label for="route_type">{{__('admin.route_types')}}</label>
                             <select class="w-100" id="type_id" name="type_id">
                                 @if($types->isNotEmpty())
                                     @foreach($types as $type)
@@ -408,7 +463,7 @@
                                     @endforeach
                                 @endif
                             </select>
-                            @error('types')
+                            @error('type_id')
                             <div class="invalid-feedback">
                                 {{$message}}
                             </div>
@@ -425,7 +480,47 @@
         </div>
     </div>
 
+{{--    Organizator Modal--}}
+    <div class="modal fade" id="createRouteOrganizator" tabindex="-1" role="dialog" aria-labelledby="createRouteOrganizator" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить Организатора</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="{{route("route_and_organizator.store")}}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" value="{{$route->id}}" name="route_id">
+                        <div class="form-group">
+                            <label for="route_type">{{__('admin.organizators')}}</label>
+                            <select class="w-100" id="organizator_id" name="organizator_id">
+                                @if($organizators->isNotEmpty())
+                                    @foreach($organizators as $organizator)
+                                        <option value="{{$organizator->id}}">
+                                            {{$organizator->title}}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('organizator_id')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("admin.cancel")}}</button>
+                        <button type="submit" class="btn btn-primary">{{__("admin.create")}}</button>
+                    </div>
+                </form>
 
+            </div>
+        </div>
+    </div>
     {{--    Modal Gallery--}}
     <div class="modal fade" id="changeGallery" tabindex="-1" role="dialog" aria-labelledby="changeGallery" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -495,6 +590,48 @@
             </div>
         </div>
     </div>
+{{--    Rating--}}
+    <div class="modal fade" id="createRating" tabindex="-1" role="dialog" aria-labelledby="createRating" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Создать рейтинг</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="{{route("ratings.store")}}">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" value="{{$route->id}}" name="route_id">
+                        <div class="form-group">
+                            <label for="exampleInputUsername{{__('admin.title')}}">{{__('admin.title')}}</label>
+                            <input required type="text" class="form-control @error('title') is-invalid @enderror" id="exampleInputUsername{{__('admin.title')}}" name='title' autocomplete="off" placeholder="{{__('admin.title')}}" value="{{old('title')}}">
+                            @error('title')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputUsername{{__('admin.title')}}">Рейтинг</label>
+                            <input required type="number" step="0.1" class="form-control @error('rating') is-invalid @enderror" id="exampleInputUsername{{__('admin.rating')}}" name='rating' autocomplete="off" placeholder="0.0-5.0" value="{{old('rating')}}">
+                            @error('rating')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("admin.cancel")}}</button>
+                        <button type="submit" class="btn btn-primary">{{__("admin.create")}}</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
 @endsection
 @push("scripts")
@@ -536,7 +673,7 @@
         }
 
         $(".gallery-edit").on("click",function (e){
-            e.preventDefault();
+            e.prrouteDefault();
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");
             $("#gallery").attr("src",image);
