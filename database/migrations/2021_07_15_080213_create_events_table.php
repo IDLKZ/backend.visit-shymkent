@@ -15,7 +15,7 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements("id")->autoIncrement();
-            $table->foreignId("organizator_id")->references("id")->on("organizators")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId("organizator_id")->nullable()->references("id")->on("organizators")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("place_id")->nullable()->references("id")->on("places")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("type_id")->references("id")->on("event_types")->cascadeOnUpdate()->cascadeOnDelete();
             $table->string("title_ru");

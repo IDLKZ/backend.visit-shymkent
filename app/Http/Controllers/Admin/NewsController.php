@@ -45,10 +45,14 @@ class NewsController extends Controller
     {
         $news = News::add($request->all());
         $news->uploadFile($request['image'], 'image');
-        foreach ($request->images as $file){
-            $gallery = Gallery::add(["news_id"=>$news->id]);
-            $gallery->uploadFile($file,"image");
+        if ($request->images){
+            foreach ($request->images as $file){
+                $gallery = Gallery::add(["news_id"=>$news->id]);
+                $gallery->uploadFile($file,"image");
+            }
         }
+
+
         return redirect(route('news.index'));
     }
 

@@ -46,9 +46,11 @@ class SouvenirController extends Controller
     {
         $souvenir = Souvenir::add($request->all());
         $souvenir->uploadFile($request['image'], 'image');
-        foreach ($request->images as $file){
-            $gallery = Gallery::add(["souvenir_id"=>$souvenir->id]);
-            $gallery->uploadFile($file,"image");
+        if ($request->images) {
+            foreach ($request->images as $file) {
+                $gallery = Gallery::add(["souvenir_id" => $souvenir->id]);
+                $gallery->uploadFile($file, "image");
+            }
         }
         return redirect()->route("souvenirs.index");
 
