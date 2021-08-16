@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\BlogsController;
 use App\Http\Controllers\Api\CategoryOfThePlaceController;
 use App\Http\Controllers\Api\EventController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Api\RoutesController;
 use App\Http\Controllers\Api\ShopController;
 use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SouvenirController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,3 +40,26 @@ Route::get('/all-news', [NewsController::class, 'allNews']);
 Route::get('/places', [PlacesController::class, 'index']);
 Route::get('/shop/{alias}', [ShopController::class, 'shop']);
 Route::get('/single-place/{alias}', [PlacesController::class, 'singlePlace']);
+
+
+
+//CABINET
+Route::group([
+
+    'middleware' => ['api', 'auth:api'],
+    'prefix' => 'auth'
+
+], function ($router) {
+    Route::post('/login', [LoginController::class, 'login'])->withoutMiddleware(['auth:api']);
+    Route::get('/user', [LoginController::class, 'user']);
+    Route::post('/logout', [LoginController::class, 'logout']);
+});
+
+Route::group(['middleware' => 'auth:api', 'prefix' => 'cabinet'], function (){
+    Route::put('/update-info', [UserController::class, 'update']);
+    Route::post('/update-photo', [UserController::class, 'updatePhoto']);
+
+    Route::get('/my-blogs', [BlogsController::class, 'myBlogs']);
+    Route::post('/send-blog', [BlogsController::class, 'sendBlog']);
+});
+
