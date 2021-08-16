@@ -24,6 +24,11 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\WorkdayController;
 use App\Http\Controllers\Admin\CategoriesEventsController;
+use App\Http\Controllers\Admin\RatingController;
+use App\Http\Controllers\Admin\CategoriesOfRouteController;
+use App\Http\Controllers\Admin\TypesOfRouteController;
+use App\Http\Controllers\Admin\RouteAndTypeController;
+use App\Http\Controllers\Admin\RouteAndOrganizatorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,6 +61,7 @@ Route::group(
             Route::get("/recover-email/{alias}",[AuthController::class,"recoverEmail"])->name("recover-email");
             Route::post("/recover",[AuthController::class,"recover"])->name("recover");
         });
+        Route::get("/logout",[AuthController::class,"logout"])->name("logout");
 
         Route::group(["middleware"=>"admin_moderator", 'prefix' => 'admin'],function (){
             Route::get("/main-cabinet",[AdminController::class,"index"])->name("admin-home");
@@ -79,6 +85,11 @@ Route::group(
             Route::resource('/places', PlaceController::class);
             Route::resource('/category-place', CategoryPlace::class);
             Route::resource('/categories-place', CategoriesPlace::class);
+            Route::resource("/ratings",RatingController::class);
+            Route::resource("/route_categories",CategoriesOfRouteController::class);
+            Route::resource("/route_types",TypesOfRouteController::class);
+            Route::resource("/route_and_type",RouteAndTypeController::class);
+            Route::resource("/route_and_organizator",RouteAndOrganizatorController::class);
             Route::group(['middleware' => 'admin'], function (){
 
             });

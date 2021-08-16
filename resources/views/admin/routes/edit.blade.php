@@ -25,6 +25,28 @@
                         <form id="event-form" class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('routes.update',$route->id)}}">
                             @csrf
                             @method("PUT")
+                            {{--                    Категория, Типы и Организаторы--}}
+                            <div class="form-group">
+                                <label for="event_type">{{__('admin.route_categories')}}</label>
+                                <select class="w-100" id="category_id" name="category_id">
+                                    @if($categories->isNotEmpty())
+                                        @foreach($categories as $category)
+                                            <option
+                                                @if($category->id == $route->category_id)
+                                                selected
+                                                @endif
+                                                value="{{$category->id}}">
+                                                {{$category->title}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('category_id')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
                             {{--                            Title starts--}}
                             <div class="form-group">
                                 <label for="exampleInputUsername{{__('admin.title_kz')}}">{{__('admin.title_kz')}}</label>

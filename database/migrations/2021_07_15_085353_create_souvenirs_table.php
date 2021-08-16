@@ -20,6 +20,7 @@ class CreateSouvenirsTable extends Migration
             $table->string("title_ru");
             $table->string("title_kz");
             $table->string("title_en");
+            $table->string("alias");
             $table->text("description_ru");
             $table->text("description_kz");
             $table->text("description_en");

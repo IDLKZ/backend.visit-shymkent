@@ -96,7 +96,37 @@
                         <input disabled type="text" class="form-control  @error('eventum') is-invalid @enderror" id="eventum" name='eventum' autocomplete="off" placeholder="{{__('admin.eventum')}}" value="{{$organizator->eventum}}">
                     </div>
                     {{--                            End of eventum--}}
+                {{--                            Start of contacts--}}
+                <div class="form-group border px-2 py-2">
+                    <label for="{{__('admin.phone')}}">{{__('admin.phone')}}</label>
+                    <br>
+                    @if($organizator->phone)
+                        @foreach($organizator->phone as $phone)
+                            <a href="tel:{{$phone}}">{{$phone}}</a>
+                        @endforeach
+                    @endif
 
+                </div>
+                <div class="form-group border px-2 py-2">
+                    <label for="{{__('admin.social_networks')}}">{{__('admin.social_networks')}}</label>
+                    <br>
+                    @if($organizator->social_networks)
+                        @foreach($organizator->social_networks as $item)
+                            <a target="_blank" href="{{$item}}">{{$item}}</a>
+                        @endforeach
+                    @endif
+
+                </div>
+                <div class="form-group border px-2 py-2">
+                    <label for="{{__('admin.sites')}}">{{__('admin.sites')}}</label>
+                    <br>
+                    @if($organizator->sites)
+                        @foreach($organizator->sites as $item)
+                            <a target="_blank" href="{{$item}}">{{$item}}</a>
+                        @endforeach
+                    @endif
+                </div>
+                {{--                            End of contacts--}}
                     {{--                            Start of languages--}}
                     <div class="form-group">
                         <label for="{{__('admin.languages')}}">{{__('admin.languages')}}</label>
@@ -156,7 +186,7 @@
                                             {{__("admin.action")}}
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" id="gallery-edit" data-id="{{$gallery->id}}" data-image="{{$gallery->getFile("image")}}">{{__("admin.change")}}</a>
+                                            <a class="dropdown-item gallery-edit" data-id="{{$gallery->id}}" data-image="{{$gallery->getFile("image")}}">{{__("admin.change")}}</a>
                                             <form method="post" action="{{route("gallery.destroy",$gallery->id)}}">
                                                 @csrf
                                                 @method("delete")
@@ -264,7 +294,7 @@
         }
 
 
-        $("#gallery-edit").on("click",function (e){
+        $(".gallery-edit").on("click",function (e){
             e.preventDefault();
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");

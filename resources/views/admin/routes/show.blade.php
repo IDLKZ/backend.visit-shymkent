@@ -8,7 +8,7 @@
 @endpush
 @section("content")
     <!-- partial -->
-    <div class="page-content">
+    <div class="page-content ">
 
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
@@ -21,11 +21,15 @@
             </ol>
         </nav>
 
-        <div class="row bg-white py-5">
+        <div class="row bg-white py-5 px-4">
             <div class="col-md-4">
                 <img src="{{$route->getFile('image')}}" width="100%">
             </div>
             <div class="col-md-8">
+                <div class="form-group">
+                    <label for="{{__("admin.route_categories")}}">{{__('admin.route_categories')}}</label>
+                    <input disabled type="text" class="form-control" id="{__('admin.route_categories')}}" name='category_id' autocomplete="off" value="{{$route->category->title}}">
+                </div>
                 <div class="form-group">
                     <label for="exampleInputUsername{{__('admin.title_kz')}}">{{__('admin.title_kz')}}</label>
                     <input disabled type="text" class="form-control  @error('title_kz') is-invalid @enderror" id="exampleInputUsername{{__('admin.title_kz')}}" name='title_kz' autocomplete="off" placeholder="{{__('admin.title_kz')}}" value="{{$route->title_kz}}">
@@ -224,8 +228,111 @@
                 </div>
                 @endif
         @endif
+
+
+
+        {{--            Types --}}
+        <div class="row bg-white py-5 px-4">
+            <h2>{{__("admin.route_types")}}</h2>
+            <div class="col-md-12 text-right">
+                <button class="btn btn-success" data-toggle="modal" data-target="#createRouteType">{{__("admin.create")}}</button>
+            </div>
+            <div class="table-responsive">
+                <table id="dataTableExample" class="table">
+                    <thead>
+                    <tr>
+                        <th>{{__("admin.routes")}}</th>
+                        <th>{{__("admin.route_types")}}</th>
+                        <th>{{__("admin.action")}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if($route->types->isNotEmpty())
+                        @foreach($route->types as $type)
+                            <tr>
+                                <td>{{$route->title}}</td>
+                                <td>{{$type->routeType->title}}</td>
+                                <td class="d-flex">
+                                    <div class="btn-group dropdown">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{__("admin.action")}}
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form method="post" action="{{route("route_and_type.destroy",$type->id)}}">
+                                                @csrf
+                                                @method("delete")
+                                                <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
+                                </td>
+
+                            </tr>
+                        @endforeach
+
+                    @endif
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {{--            Organizators --}}
+        <div class="row bg-white py-5 px-4">
+            <h2>{{__("admin.organizators")}}</h2>
+            <div class="col-md-12 text-right">
+                <button class="btn btn-success" data-toggle="modal" data-target="#createRouteOrganizator">{{__("admin.create")}}</button>
+            </div>
+            <div class="table-responsive">
+                <table id="dataTableExample" class="table">
+                    <thead>
+                    <tr>
+                        <th>{{__("admin.routes")}}</th>
+                        <th>{{__("admin.organizators")}}</th>
+                        <th>{{__("admin.action")}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if($route->organizatorsRoute->isNotEmpty())
+                        @foreach($route->organizatorsRoute as $organizator)
+                            <tr>
+                                <td>{{$route->title}}</td>
+                                <td>{{$organizator->organizator->title ."(". $organizator->organizator->role->title .")"}}</td>
+                                <td class="d-flex">
+                                    <div class="btn-group dropdown">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{__("admin.action")}}
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form method="post" action="{{route("gallery.destroy",$type->id)}}">
+                                                @csrf
+                                                @method("delete")
+                                                <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
+                                </td>
+
+                            </tr>
+                        @endforeach
+
+                    @endif
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         {{--            Galleries --}}
-        <div class="row bg-white py-5">
+        <div class="row bg-white py-5 px-4">
             <h2>{{__("admin.galleries")}}</h2>
             <div class="col-md-12 text-right">
                 <button class="btn btn-success" data-toggle="modal" data-target="#createGallery">{{__("admin.create")}}</button>
@@ -249,7 +356,7 @@
                                             {{__("admin.action")}}
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" id="gallery-edit" data-id="{{$gallery->id}}" data-image="{{$gallery->getFile("image")}}">{{__("admin.change")}}</a>
+                                            <a class="gallery-edit dropdown-item"  data-id="{{$gallery->id}}" data-image="{{$gallery->getFile("image")}}">{{__("admin.change")}}</a>
                                             <form method="post" action="{{route("gallery.destroy",$gallery->id)}}">
                                                 @csrf
                                                 @method("delete")
@@ -275,6 +382,49 @@
 
 
     </div>
+
+{{--    Route and Type--}}
+    <div class="modal fade" id="createRouteType" tabindex="-1" role="dialog" aria-labelledby="createRouteType" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить типы маршрута</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="{{route("route_and_type.store")}}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" value="{{$route->id}}" name="route_id">
+                        <div class="form-group">
+                            <label for="event_type">{{__('admin.route_types')}}</label>
+                            <select class="w-100" id="type_id" name="type_id">
+                                @if($types->isNotEmpty())
+                                    @foreach($types as $type)
+                                        <option value="{{$type->id}}">
+                                            {{$type->title}}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('types')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("admin.cancel")}}</button>
+                        <button type="submit" class="btn btn-primary">{{__("admin.create")}}</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
 
     {{--    Modal Gallery--}}
     <div class="modal fade" id="changeGallery" tabindex="-1" role="dialog" aria-labelledby="changeGallery" aria-hidden="true">
@@ -385,7 +535,7 @@
             }
         }
 
-        $("#gallery-edit").on("click",function (e){
+        $(".gallery-edit").on("click",function (e){
             e.preventDefault();
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");

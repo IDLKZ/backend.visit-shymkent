@@ -23,6 +23,15 @@
                         <h6 class="card-title">
                             {{__("admin.create")}}
                         </h6>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form id="event-form" class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('events.store')}}">
                             @csrf
                             <div class="form-group">
@@ -42,23 +51,45 @@
                                 </div>
                                 @enderror
                             </div>
+
                             <div class="form-group">
-                                <label for="event_type">{{__('admin.user_id')}}</label>
-                                <select class="w-100" id="user_id" name="user_id">
-                                    @if($users->isNotEmpty())
-                                        @foreach($users as $user)
-                                            <option value="{{$user->id}}">
-                                                {{$user->name}}
+                                <label for="organizator_id">{{__('admin.organizators')}}</label>
+                                <select class="w-100" id="organizator_id" name="organizator_id">
+                                    <option value="">Не выбрано</option>
+                                @if($organizators->isNotEmpty())
+                                        @foreach($organizators as $organizator)
+                                            <option value="{{$organizator->id}}">
+                                                {{$organizator->title . "(" . $organizator->role->title .")"}}
                                             </option>
                                         @endforeach
                                     @endif
                                 </select>
-                                @error('user_id')
+                                @error('organizator_id')
                                 <div class="invalid-feedback">
                                     {{$message}}
                                 </div>
                                 @enderror
                             </div>
+
+                            <div class="form-group">
+                                <label for="organizator_id">{{__('admin.places')}}</label>
+                                <select class="w-100" id="place_id" name="place_id">
+                                    <option value="">Не выбрано</option>
+                                    @if($places->isNotEmpty())
+                                        @foreach($places as $place)
+                                            <option value="{{$place->id}}">
+                                                {{$place->title}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('place_id')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.event_type')}}</label>
                                 <select class="w-100" name="type_id">
@@ -243,7 +274,6 @@
 
 
                             <div class="form-group">
-                                <label for="status">{{__('admin.status')}}</label><br>
                                 <div class="form-group">
                                     <label for="description{{__('admin.status')}}">{{__('admin.status')}}</label>
                                     <select class="form-select" name="status">

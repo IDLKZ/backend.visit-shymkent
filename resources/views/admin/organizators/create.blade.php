@@ -31,7 +31,7 @@
                                     @if($users->isNotEmpty())
                                         @foreach($users as $user)
                                             <option value="{{$user->id}}">
-                                                {{$user->name}}
+                                                {{$user->name . " (" . $user->role->title . ")"}}
                                             </option>
                                         @endforeach
                                     @endif
@@ -43,7 +43,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="event_type">{{__('admin.event_type')}}</label>
+                                <label for="event_type">{{__('admin.role_id')}}</label>
                                 <select class="w-100" name="role_id">
                                     @if($roles->isNotEmpty())
                                         @foreach($roles as $role)
@@ -168,7 +168,39 @@
                                 @enderror
                             </div>
                             {{--                            End of eventum--}}
+                            {{--                            Start of contacts--}}
+                            <div class="form-group">
+                                <label for="{{__('admin.phone')}}">{{__('admin.phone')}}</label>
+                                <select class="phone" name="phone[]" style="font-size: 14px">
+                                </select>
+                                @error('phone')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
 
+                            </div>
+                            <div class="form-group">
+                                <label for="{{__('admin.social_networks')}}">{{__('admin.social_networks')}}</label>
+                                <select class="social_networks" name="social_networks[]" style="font-size: 14px">
+                                </select>
+                                @error('social_networks')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="{{__('admin.sites')}}">{{__('admin.sites')}}</label>
+                                <select class="sites" name="sites[]" style="font-size: 14px">
+                                </select>
+                                @error('sites')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            {{--                            End of contacts--}}
                             {{--                            Start of languages--}}
                             <div class="form-group">
                                 <label for="{{__('admin.languages')}}">{{__('admin.languages')}}</label>
@@ -239,6 +271,16 @@
         let classNames = ['description_ru','description_kz','description_en',
         "education_kz","education_ru","education_en"
         ];
+        let selectNames2 = [".phone",".social_networks",".sites"];
+        for (let i = 0; i<classNames.length;i++){
+            CKEDITOR.replace(classNames[i])
+        }
+        for (let i = 0; i<selectNames2.length;i++){
+            $(selectNames2[i]).select2({
+                multiple:true,
+                tags:true
+            });
+        }
         let selectNames = [".languages"];
         for (let i = 0; i<classNames.length;i++){
             CKEDITOR.replace(classNames[i])

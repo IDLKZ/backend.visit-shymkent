@@ -84,8 +84,11 @@ class CategoryEventsController extends Controller
     public function update(EventCategoryRequest $request, $id)
     {
         $category = CategoryEvents::find($id);
-        $category->edit($request->all(),'image');
-        $category->uploadFile($request['image'], 'image');
+        if($category){
+            $category->edit($request->all(),'image');
+            $category->uploadFile($request['image'], 'image');
+        }
+
         return redirect(route('category-events.index'));
 
     }

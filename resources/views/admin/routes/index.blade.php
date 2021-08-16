@@ -36,6 +36,9 @@
                                     <th>{{__("admin.id")}}</th>
                                     <th>{{__("admin.image")}}</th>
                                     <th>{{__("admin.title")}}</th>
+                                    <th>{{__("admin.route_categories")}}</th>
+                                    <th>{{__("admin.route_types")}}</th>
+                                    <th>{{__("admin.organizators")}}</th>
                                     <th>{{__("admin.distance")}}</th>
                                     <th>{{__("admin.time")}}</th>
                                     <th>{{__("admin.status")}}</th>
@@ -51,6 +54,29 @@
                                                 <td>{{$route->id}}</td>
                                                 <td><img src="{{$route->getFile('image')}}" width="50"></td>
                                                 <td>{{$route->title}}</td>
+                                                <td>{{$route->category->title}}</td>
+                                                <td>
+                                                    @if($route->types)
+                                                        @if($route->types->isNotEmpty())
+                                                            <ul>
+                                                            @foreach($route->types as $type)
+                                                                <li>{{$type->routeType->title}}</li>
+                                                            @endforeach
+                                                            </ul>
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($route->organizatorsRoute)
+                                                        @if($route->organizatorsRoute->isNotEmpty())
+                                                            <ul>
+                                                                @foreach($route->organizatorsRoute as $organizator)
+                                                                    <li>{{$organizator->organizator->title . "(" .$organizator->organizator->role->title . ")"}}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
+                                                    @endif
+                                                </td>
                                                 <td>{{$route->distance}}</td>
                                                 <td>{{$route->time}}</td>
                                                 <td>

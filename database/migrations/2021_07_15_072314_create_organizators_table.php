@@ -29,8 +29,10 @@ class CreateOrganizatorsTable extends Migration
             $table->text("languages");
             $table->string("image");
             $table->string("eventum")->nullable();
+            $table->json("phone")->nullable();
+            $table->json("social_networks")->nullable();
+            $table->json("sites")->nullable();
             $table->integer("status");
-
             $table->timestamps();
         });
     }

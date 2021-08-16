@@ -24,8 +24,8 @@ class EventRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'place_id'=>"sometimes|nullable|exists:places,id",
-            'user_id'=>"required|exists:users,id",
+            'place_id'=>"nullable|exists:places,id",
+            'organizator_id'=>"nullable|exists:organizators,id",
             'type_id'=>"required|exists:event_types,id",
             'title_kz' => 'required|max:255',
             'title_ru' => 'required|max:255',

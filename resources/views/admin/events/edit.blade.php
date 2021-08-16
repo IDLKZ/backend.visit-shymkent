@@ -50,27 +50,56 @@
                                 </div>
                                 @enderror
                             </div>
+
                             <div class="form-group">
-                                <label for="event_type">{{__('admin.user_id')}}</label>
-                                <select class="w-100" id="user_id" name="user_id">
-                                    @if($users->isNotEmpty())
-                                        @foreach($users as $user)
+                                <label for="organizator_id">{{__('admin.organizators')}}</label>
+                                <select class="w-100" id="organizator_id" name="organizator_id">
+                                    <option value="">Не выбрано</option>
+                                    @if($organizators->isNotEmpty())
+                                        @foreach($organizators as $organizator)
                                             <option
-                                                @if($user->id == $event->user_id)
-                                                selected
-                                                @endif
-                                                value="{{$user->id}}">
-                                                {{$user->name}}
+                                                @if($event->organizator_id == $organizator->id)
+                                                    selected
+                                                    @endif
+                                                value="{{$organizator->id}}">
+                                                {{$organizator->title . "(" . $organizator->role->title .")"}}
                                             </option>
                                         @endforeach
                                     @endif
                                 </select>
-                                @error('user_id')
+                                @error('organizator_id')
                                 <div class="invalid-feedback">
                                     {{$message}}
                                 </div>
                                 @enderror
                             </div>
+
+                            <div class="form-group">
+                                <label for="organizator_id">{{__('admin.places')}}</label>
+                                <select class="w-100" id="place_id" name="place_id">
+                                    <option value="">Не выбрано</option>
+                                    @if($places->isNotEmpty())
+                                        @foreach($places as $place)
+                                            <option
+                                                @if($event->place_id == $place->id)
+                                                selected
+                                                @endif
+                                                value="{{$place->id}}">
+                                                {{$place->title}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('place_id')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+
+
+
+
                             {{--                            Title starts--}}
                             <div class="form-group">
                                 <label for="exampleInputUsername{{__('admin.title_kz')}}">{{__('admin.title_kz')}}</label>

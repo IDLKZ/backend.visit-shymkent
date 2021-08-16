@@ -325,7 +325,62 @@
                 </table>
             </div>
         </div>
+        {{--        Ratings--}}
+        <div class="row bg-white py-5">
+            <h2>Рейтинг</h2>
+            <div class="col-md-12 text-right">
+                <button class="btn btn-success" data-toggle="modal" data-target="#createRating">{{__("admin.create")}}</button>
+            </div>
+            <div class="table-responsive">
+                <table id="dataTableExample" class="table">
+                    <thead>
+                    <tr>
+                        <th>{{__("admin.title")}}</th>
+                        <th>{{__("admin.places")}}</th>
+                        <th>Рейтинг</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if($place->ratings->isNotEmpty())
+                        @foreach($place->ratings as $rating)
+                            <tr>
+                                <td>
+                                    {{$rating->title}}
+                                </td>
+                                <td>
+                                    {{$rating->place->title}}
+                                </td>
+                                <td>
+                                    {{$rating->rating}}
+                                </td>
+                                <td class="d-flex">
+                                    <div class="btn-group dropdown">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{__("admin.action")}}
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form method="post" action="{{route("ratings.destroy",$rating->id)}}">
+                                                @csrf
+                                                @method("delete")
+                                                <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                            </form>
+                                        </div>
+                                    </div>
 
+
+
+                                </td>
+
+                            </tr>
+                        @endforeach
+
+                    @endif
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 {{--    Modal Gallery--}}
@@ -500,6 +555,48 @@
                                 @endif
                             </select>
                             @error('category_id')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("admin.cancel")}}</button>
+                        <button type="submit" class="btn btn-primary">{{__("admin.create")}}</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+{{--Create Rating --}}
+    <div class="modal fade" id="createRating" tabindex="-1" role="dialog" aria-labelledby="createRating" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Создать рейтинг</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="{{route("ratings.store")}}">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" value="{{$place->id}}" name="place_id">
+                        <div class="form-group">
+                            <label for="exampleInputUsername{{__('admin.title')}}">{{__('admin.title')}}</label>
+                            <input required type="text" class="form-control @error('title') is-invalid @enderror" id="exampleInputUsername{{__('admin.title')}}" name='title' autocomplete="off" placeholder="{{__('admin.title')}}" value="{{old('title')}}">
+                            @error('title')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputUsername{{__('admin.title')}}">Рейтинг</label>
+                            <input required type="number" step="0.1" class="form-control @error('rating') is-invalid @enderror" id="exampleInputUsername{{__('admin.rating')}}" name='rating' autocomplete="off" placeholder="0.0-5.0" value="{{old('rating')}}">
+                            @error('rating')
                             <div class="invalid-feedback">
                                 {{$message}}
                             </div>

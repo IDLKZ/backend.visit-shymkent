@@ -68,14 +68,14 @@ class Place extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'phone', 'social_networks', 'sites', 'address', 'address_link', 'price', 'image', 'video_ru', 'video_kz', 'video_en', 'audio_ru', 'audio_kz', 'audio_en', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['organizator_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'phone', 'social_networks', 'sites', 'address', 'address_link', 'price', 'image', 'video_ru', 'video_kz', 'video_en', 'audio_ru', 'audio_kz', 'audio_en', 'status', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function organizator()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Organizator::class,"organizator_id");
     }
 
     /**
@@ -83,7 +83,7 @@ class Place extends Model
      */
     public function categoriesPlaces()
     {
-        return $this->hasMany(CategoriesPlace::class);
+        return $this->hasMany(CategoriesPlace::class, 'place_id');
     }
 
     public function category()
@@ -96,7 +96,7 @@ class Place extends Model
      */
     public function events()
     {
-        return $this->hasMany(Event::class);
+        return $this->hasMany(Event::class, 'place_id');
     }
 
     /**
@@ -104,7 +104,7 @@ class Place extends Model
      */
     public function galleries()
     {
-        return $this->hasMany(Gallery::class);
+        return $this->hasMany(Gallery::class, 'place_id');
     }
 
     /**
@@ -112,12 +112,23 @@ class Place extends Model
      */
     public function workdays()
     {
-        return $this->hasMany(Workday::class);
+        return $this->hasMany(Workday::class, 'place_id');
+    }
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'place_id');
     }
 
-//    public function weekday()
-//    {
-//        return $this->hasManyThrough(Weekday::class, Workday::class, 'weekday_id', 'id', 'id', 'place_id');
-//    }
+    public function savings()
+    {
+        return $this->hasMany(Saving::class, 'place_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'place_id');
+    }
+
+
 
 }

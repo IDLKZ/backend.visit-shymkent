@@ -12,7 +12,7 @@
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">{{__('admin.main')}}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{__('admin.sliders')}}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{__('admin.places')}}</li>
             </ol>
         </nav>
 
@@ -43,12 +43,12 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="event_type">{{__('admin.user_id')}}</label>
-                                <select class="w-100" id="user_id" name="user_id">
-                                    @if($users->isNotEmpty())
-                                        @foreach($users as $user)
-                                            <option value="{{$user->id}}">
-                                                {{$user->name}}
+                                <label for="event_type">{{__('admin.organizators')}}</label>
+                                <select class="w-100" id="organizator_id" name="organizator_id">
+                                    @if($organizators->isNotEmpty())
+                                        @foreach($organizators as $organizator)
+                                            <option value="{{$organizator->id}}">
+                                                {{$organizator->title . "(" . $organizator->role->title . ")"}}
                                             </option>
                                         @endforeach
                                     @endif
@@ -280,8 +280,6 @@
 
 
 
-                            <div class="form-group">
-                                <label for="status">{{__('admin.status')}}</label><br>
                                 <div class="form-group">
                                     <label for="description{{__('admin.status')}}">{{__('admin.status')}}</label>
                                     <select class="form-select" name="status">
@@ -290,7 +288,7 @@
                                         <option value="-1">{{__("admin.mod_status")}}</option>
                                     </select>
                                 </div>
-                            </div>
+
 
                             <button type="submit" id="save" class="btn btn-primary mr-2">{{__('admin.save')}}</button>
                             <button class="btn btn-light">{{__('admin.cancel')}}</button>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PlaceRequest;
 use App\Models\Gallery;
+use App\Models\Organizator;
 use App\Models\Place;
 use App\Models\User;
 use App\Models\Weekday;
@@ -32,8 +33,8 @@ class PlaceController extends Controller
     public function create()
     {
         $categories = CategoryPlaces::all();
-        $users = User::whereNotIn('role_id', [1,2])->get();
-        return view('admin.places.create', compact('categories', 'users'));
+        $organizators = Organizator::where("status","=","1")->with("role")->get();
+        return view('admin.places.create', compact('categories', 'organizators'));
     }
 
     /**
@@ -87,8 +88,8 @@ class PlaceController extends Controller
     {
         $place = Place::find($id);
         $categories = CategoryPlaces::all();
-        $users = User::whereNotIn('role_id', [1,2])->get();
-        return view('admin.places.edit', compact('place', 'users', 'categories'));
+        $organizators = Organizator::where("status","=","1")->with("role")->get();
+        return view('admin.places.edit', compact('place', 'organizators', 'categories'));
     }
 
     /**

@@ -24,7 +24,7 @@ class PlaceRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'user_id'=>"required|exists:users,id",
+            'organizator_id'=>"required|exists:organizators,id",
             'title_kz' => 'required|max:255',
             'title_ru' => 'required|max:255',
             'title_en' => 'required|max:255',

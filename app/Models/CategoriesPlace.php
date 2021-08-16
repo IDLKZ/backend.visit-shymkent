@@ -35,7 +35,7 @@ class CategoriesPlace extends Model
      */
     public function categoryplace()
     {
-        return $this->belongsTo('App\Models\Categoryplace', 'category_id');
+        return $this->belongsTo(CategoryPlace::class, 'category_id');
     }
 
     /**
@@ -43,6 +43,6 @@ class CategoriesPlace extends Model
      */
     public function place()
     {
-        return $this->belongsTo('App\Models\Place');
+        return $this->belongsTo(Place::class,"place_id");
     }
 }

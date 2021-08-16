@@ -15,6 +15,10 @@ class CreateWorkdaysTable extends Migration
     {
         Schema::create('workdays', function (Blueprint $table) {
             $table->bigIncrements("id")->autoIncrement();
+            $table->foreignId("place_id")->nullable()->references("id")->on("places")->cascadeOnDelete()->cascadeOnUpdate()->after("id");
+            $table->foreignId("event_id")->nullable()->references("id")->on("events")->cascadeOnDelete()->cascadeOnUpdate()->after("id");
+            $table->foreignId("point_id")->nullable()->references("id")->on("route_points")->cascadeOnDelete()->cascadeOnUpdate()->after("id");
+            $table->foreignId("shop_id")->nullable()->references("id")->on("shops")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("weekday_id")->references("id")->on("weekdays")->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("date_start")->nullable();
             $table->string("date_end")->nullable();

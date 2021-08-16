@@ -56,6 +56,18 @@
 {{--Routes--}}
             <li class="nav-item nav-category">{{__("admin.routes_points")}}</li>
             <li class="nav-item">
+                <a href="{{route("route_categories.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="align-justify"></i>
+                    <span class="link-title">{{__("admin.route_categories")}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route("route_types.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="align-justify"></i>
+                    <span class="link-title">{{__("admin.route_types")}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="{{route("routes.index")}}" class="nav-link">
                     <i class="link-icon" data-feather="map"></i>
                     <span class="link-title">{{__("admin.routes")}}</span>
@@ -122,11 +134,20 @@
                 </a>
             </li>
 
+            <li class="nav-item nav-category">
+                <a href="{{route("logout")}}" class="nav-link">
+                    <i class="link-icon" data-feather="power"></i>
+                    <span class="link-title">{{__("admin.logout")}}</span>
+                </a>
+            </li>
+
 
 
         </ul>
     </div>
 </nav>
+
+
 <nav class="settings-sidebar">
     <div class="sidebar-body">
         <a href="#" class="settings-sidebar-toggler">

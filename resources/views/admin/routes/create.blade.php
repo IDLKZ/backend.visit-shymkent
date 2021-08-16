@@ -1,5 +1,6 @@
 @extends('layout.app')
 @push("styles")
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />
 @endpush
@@ -24,6 +25,65 @@
 
                         <form id="event-form" class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('routes.store')}}">
                             @csrf
+{{--                    Категория, Типы и Организаторы--}}
+                            <div class="form-group">
+                                <label for="event_type">{{__('admin.route_categories')}}</label>
+                                <select class="w-100" id="category_id" name="category_id">
+                                    @if($categories->isNotEmpty())
+                                        @foreach($categories as $category)
+                                            <option value="{{$category->id}}">
+                                                {{$category->title}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('category_id')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="event_type">{{__('admin.route_types')}}</label>
+                                <select class="w-100" id="types" name="types[]">
+                                    @if($types->isNotEmpty())
+                                        @foreach($types as $type)
+                                            <option value="{{$type->id}}">
+                                                {{$type->title}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('types')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="event_type">{{__('admin.organizators')}}</label>
+                                <select class="w-100" id="organizators" name="organizators[]">
+                                    @if($organizators->isNotEmpty())
+                                        @foreach($organizators as $organizator)
+                                            <option value="{{$organizator->id}}">
+                                                {{$organizator->title . "(" . $organizator->role->title .")"}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('types')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+
+
+
+                            {{--                    Категория, Типы и Организаторы--}}
 
                             {{--                            Title starts--}}
                             <div class="form-group">
@@ -188,6 +248,7 @@
 @endsection
 
 @push("scripts")
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
@@ -196,6 +257,12 @@
         for (let i = 0; i<classNames.length;i++){
             CKEDITOR.replace(classNames[i])
         }
+        $("#types").select2({
+            multiple:true
+        })
+        $("#organizators").select2({
+            multiple:true
+        })
 
 
         var map = L.map('map',{preferCanvas:true}).setView([42.30, 69.56], 12);

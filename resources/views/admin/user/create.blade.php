@@ -84,7 +84,7 @@
 
                             <div class="form-group">
                                 <label for="image">{{__('admin.image')}}</label>
-                                <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name='image'>
+                                <input accept="image/jpeg,image/png,image/gif" type="file" class="form-control @error('image') is-invalid @enderror" id="image" name='image'>
                                 @error('image')
                                 <div class="invalid-feedback">
                                     {{$message}}

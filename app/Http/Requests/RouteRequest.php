@@ -24,6 +24,7 @@ class RouteRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'category_id'=>"required|exists:route_categories,id",
             'title_kz' => 'required|max:255',
             'title_ru' => 'required|max:255',
             'title_en' => 'required|max:255',
@@ -36,6 +37,8 @@ class RouteRequest extends FormRequest
         ];
 
         if ($this->getMethod() == 'POST') {
+            $rules += ["types.*"=>"required|exists:route_types,id"];
+            $rules += ["organizators.*"=>"sometimes|exists:organizators,id"];
             $rules += ['image' => 'required|image|max:10240'];
             $rules += ['images.*' => 'required|image|max:10240'];
         }

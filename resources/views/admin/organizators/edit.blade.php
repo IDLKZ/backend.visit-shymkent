@@ -36,7 +36,7 @@
                                                     selected
                                                 @endif
                                                 value="{{$user->id}}">
-                                                {{$user->name}}
+                                                {{$user->name . " (" . $user->role->title . ")"}}
                                             </option>
                                         @endforeach
                                     @endif
@@ -48,7 +48,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="event_type">{{__('admin.event_type')}}</label>
+                                <label for="event_type">{{__('admin.role_id')}}</label>
                                 <select class="w-100" name="role_id">
                                     @if($roles->isNotEmpty())
                                         @foreach($roles as $role)
@@ -177,7 +177,54 @@
                                 @enderror
                             </div>
                             {{--                            End of eventum--}}
+                            {{--                            Start of contacts--}}
+                            <div class="form-group">
+                                <label for="{{__('admin.phone')}}">{{__('admin.phone')}}</label>
+                                <select multiple class="phone" name="phone[]" style="font-size: 14px">
+                                    @if($organizator->phone)
+                                        @foreach($organizator->phone as $phone)
+                                            <option selected="selected" value="{{$phone}}">{{$phone}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('phone')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
 
+                            </div>
+                            <div class="form-group">
+                                <label for="{{__('admin.social_networks')}}">{{__('admin.social_networks')}}</label>
+                                <select multiple class="social_networks" name="social_networks[]" style="font-size: 14px">
+                                    @if($organizator->social_networks)
+                                        @foreach($organizator->social_networks as $social_networks)
+                                            <option selected="selected" value="{{$social_networks}}">{{$social_networks}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('social_networks')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="{{__('admin.sites')}}">{{__('admin.sites')}}</label>
+                                <select multiple class="sites" name="sites[]" style="font-size: 14px">
+                                    @if($organizator->sites)
+                                        @foreach($organizator->sites as $site)
+                                            <option selected="selected" value="{{$site}}">{{$site}}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('sites')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            {{--                            End of contacts--}}
                             {{--                            Start of languages--}}
                             <div class="form-group">
                                 <label for="{{__('admin.languages')}}">{{__('admin.languages')}}</label>
@@ -245,11 +292,19 @@
             "education_kz","education_ru","education_en"
         ];
         let selectNames = [".languages"];
+        let selectNames2 = [".phone",".social_networks",".sites"];
+
         for (let i = 0; i<classNames.length;i++){
             CKEDITOR.replace(classNames[i])
         }
         for (let i = 0; i<selectNames.length;i++){
             $(selectNames[i]).select2({
+                multiple:true,
+                tags:true
+            });
+        }
+        for (let i = 0; i<selectNames2.length;i++){
+            $(selectNames2[i]).select2({
                 multiple:true,
                 tags:true
             });

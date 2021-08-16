@@ -5,6 +5,7 @@ namespace App\Models;
 use App\FileUpload;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 
 /**
  * @property integer $id
@@ -58,12 +59,12 @@ class CategoryPlace extends Model
      */
     public function parent()
     {
-        return $this->belongsTo('App\Models\Categoryplace', 'parent_id');
+        return $this->belongsTo(CategoryPlace::class, 'parent_id');
     }
 
     public function child()
     {
-        return $this->hasMany('App\Models\Categoryplace','parent_id');
+        return $this->hasMany(CategoryPlace::class,'parent_id');
     }
 
     /**
@@ -71,7 +72,7 @@ class CategoryPlace extends Model
      */
     public function categoriesPlaces()
     {
-        return $this->hasMany('App\Models\CategoriesPlace', 'category_id');
+        return $this->hasMany(CategoriesPlace::class, 'category_id');
     }
 
     public function places(){

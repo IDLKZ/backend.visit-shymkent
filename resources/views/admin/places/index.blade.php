@@ -36,6 +36,7 @@
                                     <th>{{__("admin.id")}}</th>
                                     <th>{{__("admin.image")}}</th>
                                     <th>{{__("admin.title")}}</th>
+                                    <th>{{__("admin.organizators")}}</th>
                                     <th>{{__("admin.event_categories")}}</th>
                                     <th>{{__("admin.status")}}</th>
                                     <th>{{__("admin.eventum")}}</th>
@@ -51,6 +52,7 @@
                                                 <td>{{$place->id}}</td>
                                                 <td><img src="{{$place->getFile('image')}}" width="50"></td>
                                                 <td>{{$place->title}}</td>
+                                                <td>{{$place->organizator->title . "(" . $place->organizator->role->title . ")"}}</td>
                                                 <td>
                                                 @if($place->category->isNotEmpty())
                                                     @foreach($place->category as $category)
@@ -59,16 +61,16 @@
                                                 @endif
                                                 </td>
                                                 <td>
-                                                    @if($category->status == 1)
+                                                    @if($place->status == 1)
                                                         <span class="badge bg-success text-white">
                                                             {{__("admin.yes_status")}}
                                                         </span>
 
-                                                    @elseif($category->status == 0)
+                                                    @elseif($place->status == 0)
                                                         <span class="badge bg-danger text-white">
                                                             {{__("admin.not_status")}}
                                                         </span>
-                                                    @elseif($category->status == -1)
+                                                    @elseif($place->status == -1)
                                                         <span class="badge bg-warning text-white">
                                                             {{__("admin.mod_status")}}
                                                         </span>

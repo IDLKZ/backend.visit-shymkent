@@ -9,6 +9,8 @@ use App\Models\CategoryEvents;
 use App\Models\Event;
 use App\Models\EventType;
 use App\Models\Gallery;
+use App\Models\Organizator;
+use App\Models\Place;
 use App\Models\User;
 use App\Models\Weekday;
 
@@ -34,8 +36,9 @@ class EventsController extends Controller
     {
         $categories = CategoryEvents::all();
         $types = EventType::all();
-        $users = User::whereNotIn('role_id', [1,2])->get();
-        return view("admin.events.create",compact("types","categories", 'users'));
+        $organizators = Organizator::where("status",1)->with("user")->get();
+        $places = Place::where("status",1)->get();
+        return view("admin.events.create",compact("types","categories", 'organizators',"places"));
     }
 
     /**
@@ -46,13 +49,15 @@ class EventsController extends Controller
      */
     public function store(EventRequest $request)
     {
-
         $event = Event::add($request->all());
         $event->uploadFile($request['image'], 'image');
-        foreach ($request->images as $file){
-            $gallery = Gallery::add(["event_id"=>$event->id]);
-            $gallery->uploadFile($file,"image");
+        if($request->images){
+            foreach ($request->images as $file){
+                $gallery = Gallery::add(["event_id"=>$event->id]);
+                $gallery->uploadFile($file,"image");
+            }
         }
+
         foreach ($request->category_id as $key => $category){
             $category = CategoryEvent::add(["category_id"=>$category,"event_id"=>$event->id]);
         }
@@ -89,8 +94,9 @@ class EventsController extends Controller
     {
         $event = Event::find($id);
         $types = EventType::all();
-        $users = User::whereNotIn('role_id', [1,2])->get();
-        return view("admin.events.edit",compact("event","types", 'users'));
+        $organizators = Organizator::where("status",1)->with("user")->get();
+        $places = Place::where("status",1)->get();
+        return view("admin.events.edit",compact("event","types", 'organizators',"places"));
 
     }
 

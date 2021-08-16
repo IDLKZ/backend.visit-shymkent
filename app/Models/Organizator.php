@@ -37,7 +37,10 @@ class Organizator extends Model
 
 
     protected $casts = [
-      "languages"=>"object"
+      "languages"=>"object",
+        'phone' => 'object',
+        'social_networks' => 'object',
+        'sites' => 'object',
     ];
 
     /**
@@ -50,7 +53,8 @@ class Organizator extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'role_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'education_ru', 'education_kz', 'education_en', 'languages', 'image','eventum','status', 'created_at', 'updated_at'];
+    protected $fillable = ['user_id', 'role_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'education_ru', 'education_kz', 'education_en', 'languages','phone', 'social_networks', 'sites', 'image','eventum','status', 'created_at', 'updated_at'];
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

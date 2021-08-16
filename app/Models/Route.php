@@ -48,7 +48,7 @@ class Route extends Model
     /**
      * @var array
      */
-    protected $fillable = ['title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en','address', 'address_link', 'image', 'eventum' ,'alias', 'time', 'distance', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['category_id','title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en','address', 'address_link', 'image', 'eventum' ,'alias', 'time', 'distance', 'status', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -64,5 +64,17 @@ class Route extends Model
     public function routePoints()
     {
         return $this->hasMany(RoutePoint::class);
+    }
+    public function category()
+    {
+        return $this->belongsTo(CategoryOfRoute::class, 'category_id');
+    }
+
+    public function types(){
+        return $this->hasMany(RouteAndType::class,"route_id");
+    }
+
+    public function organizatorsRoute(){
+        return $this->hasMany(RouteAndOrganizator::class,"route_id");
     }
 }

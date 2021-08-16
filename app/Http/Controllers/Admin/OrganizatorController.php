@@ -31,7 +31,7 @@ class OrganizatorController extends Controller
     public function create()
     {
         $roles = Role::whereIn("id",[4,5])->get();
-        $users = User::whereIn('role_id',[3,4,5])->get();
+        $users = User::whereIn('role_id',[4,5])->with("role")->get();
         return view("admin.organizators.create",compact("roles","users"));
 
     }
@@ -81,7 +81,7 @@ class OrganizatorController extends Controller
     {
         $organizator = Organizator::find($id);
         $roles = Role::whereIn("id",[4,5])->get();
-        $users = User::where('role_id',3)->get();
+        $users = User::where('role_id',[4,5])->with("role")->get();
         return view("admin.organizators.edit",compact("roles","users","organizator"));
     }
 

@@ -15,6 +15,7 @@ class CreateRoutesTable extends Migration
     {
         Schema::create('routes', function (Blueprint $table) {
             $table->bigIncrements("id")->autoIncrement();
+            $table->foreignId("category_id")->references("id")->on("route_categories")->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("title_ru");
             $table->string("title_kz");
             $table->string("title_en");

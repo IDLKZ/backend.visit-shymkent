@@ -14,7 +14,7 @@ class CreateGalleriesTable extends Migration
     public function up()
     {
         Schema::create('galleries', function (Blueprint $table) {
-            $table->bigIncrements("id");
+            $table->bigIncrements("id")->autoIncrement();
             $table->foreignId("place_id")->nullable()->references("id")->on("places")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("event_id")->nullable()->references("id")->on("events")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("route_id")->nullable()->references("id")->on("routes")->cascadeOnDelete()->cascadeOnUpdate();
