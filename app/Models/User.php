@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\FileUpload;
+use App\Recovery;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -70,17 +71,14 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function organizatorUsers()
-    {
-        return $this->hasMany('App\OrganizatorUser');
-    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function organizators()
     {
-        return $this->hasMany('App\Organizator', 'role_id');
+        return $this->hasMany(Organizator::class, 'user_id');
     }
 
     /**
@@ -88,23 +86,30 @@ class User extends Authenticatable
      */
     public function recoveries()
     {
-        return $this->hasMany('App\Recovery');
+        return $this->hasMany(Recovery::class,"user_id");
     }
+    public function savings()
+    {
+        return $this->hasMany(Saving::class,"user_id");
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class,"user_id");
+    }
+
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function shopUsers()
-    {
-        return $this->hasMany('App\ShopUser');
-    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function shops()
     {
-        return $this->hasMany('App\Shop', 'role_id');
+        return $this->hasMany(Shop::class, 'user_id');
     }
 
 
