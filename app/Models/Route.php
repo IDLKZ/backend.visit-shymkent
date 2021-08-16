@@ -83,8 +83,5 @@ class Route extends Model
         return $this->hasMany(Rating::class, 'route_id');
     }
 
-    public function user(){
-        return $this->load(["organizatorsRoute.organizatorsRoute.user"]);
-    }
 
 }

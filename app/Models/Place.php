@@ -78,6 +78,17 @@ class Place extends Model
         return $this->belongsTo(Organizator::class,"organizator_id");
     }
 
+    public function user(){
+        return $this->hasManyThrough(
+            User::class,
+            Organizator::class,
+            'user_id', // Foreign key on organizator table...
+            'id', // Foreign key on user table...
+            'organizator_id', // Local key on countries table...
+            'id' // Local key on organizator table...
+        );
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
