@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Saving;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -35,5 +36,10 @@ class UserController extends Controller
         $user = User::find($request['id']);
         $user->uploadFile($request['image'], 'image');
         return true;
+    }
+
+    public function addSave(Request $request)
+    {
+        return Saving::addSave($request->all());
     }
 }

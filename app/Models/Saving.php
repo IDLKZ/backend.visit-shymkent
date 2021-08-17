@@ -112,4 +112,83 @@ class Saving extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function addSave($request)
+    {
+        $color = '';
+        if (array_key_exists('place_id', $request)){
+            $save = self::where(['user_id' => $request['user_id'], 'place_id' => $request['place_id']])->first();
+            if ($save){
+                $save->delete();
+            } else {
+                self::create($request);
+                $color = 'color--red';
+            }
+        }
+        if (array_key_exists('event_id', $request)){
+            $save = self::where(['user_id' => $request['user_id'], 'event_id' => $request['event_id']])->first();
+            if ($save){
+                $save->delete();
+            } else {
+                self::create($request);
+                $color = 'color--red';
+            }
+        }
+        if (array_key_exists('route_id', $request)){
+            $save = self::where(['user_id' => $request['user_id'], 'route_id' => $request['route_id']])->first();
+            if ($save){
+                $save->delete();
+            } else {
+                self::create($request);
+                $color = 'color--red';
+            }
+        }
+        if (array_key_exists('blog_id', $request)){
+            $save = self::where(['user_id' => $request['user_id'], 'blog_id' => $request['blog_id']])->first();
+            if ($save){
+                $save->delete();
+            } else {
+                self::create($request);
+                $color = 'color--red';
+            }
+        }
+        if (array_key_exists('news_id', $request)){
+            $save = self::where(['user_id' => $request['user_id'], 'news_id' => $request['news_id']])->first();
+            if ($save){
+                $save->delete();
+            } else {
+                self::create($request);
+                $color = 'color--red';
+            }
+        }
+        if (array_key_exists('shop_id', $request)){
+            $save = self::where(['user_id' => $request['user_id'], 'shop_id' => $request['shop_id']])->first();
+            if ($save){
+                $save->delete();
+            } else {
+                self::create($request);
+                $color = 'color--red';
+            }
+        }
+        if (array_key_exists('organizator_id', $request)){
+            $save = self::where(['user_id' => $request['user_id'], 'organizator_id' => $request['organizator_id']])->first();
+            if ($save){
+                $save->delete();
+            } else {
+                self::create($request);
+                $color = 'color--red';
+            }
+        }
+        if (array_key_exists('souvenir_id', $request)){
+            $save = self::where(['user_id' => $request['user_id'], 'souvenir_id' => $request['souvenir_id']])->first();
+            if ($save){
+                $save->delete();
+            } else {
+                self::create($request);
+                $color = 'color--red';
+            }
+        }
+
+        return $color;
+    }
 }

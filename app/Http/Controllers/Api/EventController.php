@@ -24,7 +24,7 @@ class EventController extends Controller
 
 
     public function event($alias){
-        $event = Event::with(['galleries',"workdays","workdays.weekday"])->firstWhere("alias",$alias);
+        $event = Event::with(['galleries',"workdays","workdays.weekday", 'savings'])->firstWhere("alias",$alias);
         return response()->json($event);
     }
 }
