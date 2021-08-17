@@ -17,7 +17,7 @@ class RoutesType extends Model
 {
     /**
      * The "type" of the auto-incrementing ID.
-     * 
+     *
      * @var string
      */
     protected $keyType = 'integer';
@@ -32,7 +32,7 @@ class RoutesType extends Model
      */
     public function route()
     {
-        return $this->belongsTo('App\Models\Route');
+        return $this->belongsTo(Route::class);
     }
 
     /**
@@ -40,6 +40,6 @@ class RoutesType extends Model
      */
     public function routeType()
     {
-        return $this->belongsTo('App\Models\RouteType', 'type_id');
+        return $this->belongsTo(TypeOfRoute::class, 'type_id');
     }
 }

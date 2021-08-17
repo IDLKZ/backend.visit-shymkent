@@ -12,11 +12,22 @@
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">{{__('admin.main')}}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{__('admin.routes')}}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{__('admin.points')}}</li>
             </ol>
         </nav>
 
         <div class="row">
+            <div class="col-md-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
@@ -115,7 +126,7 @@
                             {{--                    Description end--}}
                             {{--                            Start of contacts--}}
                             <div class="form-group">
-                                <label for="{{__('admin.phone')}}">{{__('admin.phone')}}</label>
+                                <label for="{{__('admin.phone')}}">{{__('admin.phone')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select multiple class="phone" name="phone[]" style="font-size: 14px">
                                     @if($point->phone)
                                         @foreach($point->phone as $phone)
@@ -131,7 +142,7 @@
 
                             </div>
                             <div class="form-group">
-                                <label for="{{__('admin.social_networks')}}">{{__('admin.social_networks')}}</label>
+                                <label for="{{__('admin.social_networks')}}">{{__('admin.social_networks')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select multiple class="social_networks" name="social_networks[]" style="font-size: 14px">
                                     @if($point->social_networks)
                                         @foreach($point->social_networks as $social_networks)
@@ -146,7 +157,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="{{__('admin.sites')}}">{{__('admin.sites')}}</label>
+                                <label for="{{__('admin.sites')}}">{{__('admin.sites')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select multiple class="sites" name="sites[]" style="font-size: 14px">
                                     @if($point->sites)
                                         @foreach($point->sites as $site)
@@ -163,7 +174,7 @@
                             {{--                            End of contacts--}}
                             {{--            Start of the price--}}
                             <div class="form-group">
-                                <label for="eventum">{{__('admin.price')}}</label>
+                                <label for="eventum">{{__('admin.price')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control  @error('price') is-invalid @enderror" id="price" name='price' autocomplete="off" placeholder="{{__('admin.price')}}" value="{{$point->price}}">
                                 @error('price')
                                 <div class="invalid-feedback">
@@ -172,7 +183,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="eventum">{{__('admin.number')}}</label>
+                                <label for="eventum">{{__('admin.number')}} </label>
                                 <input type="number" min="1" max="10000" class="form-control  @error('number') is-invalid @enderror" id="number" name='number' autocomplete="off" placeholder="{{__('admin.number')}}" value="{{$point->number}}">
                                 @error('number')
                                 <div class="invalid-feedback">
@@ -185,7 +196,7 @@
 
                             {{--                            Start of the images--}}
                             <div class="form-group">
-                                <label for="description{{__('admin.image')}}">{{__('admin.image')}}</label>
+                                <label for="description{{__('admin.image')}}">{{__('admin.image')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input accept="image/png, image/jpeg" type="file" class="form-control @error('image') is-invalid @enderror" id="description{{__('admin.image')}}" name='image'>
                                 @error('image')
                                 <div class="invalid-feedback">
@@ -197,7 +208,7 @@
 
                             {{--                            Start Address--}}
                             <div class="form-group">
-                                <label for="eventum">{{__('admin.address')}}</label>
+                                <label for="eventum">{{__('admin.address')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{$point->address}}">
                                 @error('address')
                                 <div class="invalid-feedback">

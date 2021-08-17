@@ -11,7 +11,19 @@
         </nav>
 
         <div class="row">
+            <div class="col-md-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
             <div class="col-md-12 grid-margin stretch-card">
+
                 <div class="card">
                     <div class="card-body">
                         <h6 class="card-title">{{__("admin.create")}}</h6>
@@ -73,7 +85,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="description">{{__('admin.description')}}</label>
+                                <label for="description">{{__('admin.description')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control @error('description') is-invalid @enderror" id="description" name='description' autocomplete="off" placeholder="{{__('admin.description')}}" value="{{old('description')}}">
                                 @error('description')
                                 <div class="invalid-feedback">
@@ -83,7 +95,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="image">{{__('admin.image')}}</label>
+                                <label for="image">{{__('admin.image')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input accept="image/jpeg,image/png,image/gif" type="file" class="form-control @error('image') is-invalid @enderror" id="image" name='image'>
                                 @error('image')
                                 <div class="invalid-feedback">

@@ -83,5 +83,15 @@ class Route extends Model
         return $this->hasMany(Rating::class, 'route_id');
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'route_id');
+    }
+
+    public function savings()
+    {
+        return $this->hasMany(Saving::class, 'route_id');
+    }
+
 
 }

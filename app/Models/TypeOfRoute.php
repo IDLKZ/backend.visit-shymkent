@@ -57,4 +57,6 @@ class TypeOfRoute extends Model
         return $this->hasMany(RouteAndType::class, 'type_id');
     }
 
+
+
 }

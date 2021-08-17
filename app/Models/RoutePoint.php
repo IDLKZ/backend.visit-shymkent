@@ -78,4 +78,8 @@ class RoutePoint extends Model
     {
         return $this->hasMany(Gallery::class, 'point_id');
     }
+    public function workdays()
+    {
+        return $this->hasMany(Workday::class, 'point_id');
+    }
 }

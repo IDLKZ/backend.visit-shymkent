@@ -10,7 +10,7 @@
                         {{__("admin.main")}}
                     </a></li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    {{__("admin.events")}}
+                    {{__("admin.places")}}
                 </li>
             </ol>
         </nav>
@@ -21,7 +21,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center my-5">
                             <h6 class="card-title">
-                                {{__("admin.events")}}
+                                {{__("admin.places")}}
                             </h6>
                             <a href="{{route('places.create')}}" class="btn btn-success">
                                 {{__("admin.create")}}
@@ -52,7 +52,7 @@
                                                 <td>{{$place->id}}</td>
                                                 <td><img src="{{$place->getFile('image')}}" width="50"></td>
                                                 <td>{{$place->title}}</td>
-                                                <td>{{$place->organizator->title . "(" . $place->organizator->role->title . ")"}}</td>
+                                                <td>{{$place->organizator ? $place->organizator->title . "(" . $place->organizator->role->title . ")" : "-"}}</td>
                                                 <td>
                                                 @if($place->category->isNotEmpty())
                                                     @foreach($place->category as $category)

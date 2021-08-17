@@ -21,16 +21,78 @@
             </ol>
         </nav>
 
-        <div class="row bg-white py-5">
+        <div class="row bg-white py-5 px-4">
             <div class="col-md-4">
                 <img src="{{$place->getFile('image')}}" width="100%">
             </div>
             <div class="col-md-8">
                 {{--                            Title starts--}}
+                @if($place->organizator)
+                <div class="form-group">
+                    <label for="organizators">{{__('admin.organizators')}}</label>
+                    <div class="table-responsive">
+                        <table id="dataTableExample" class="table">
+                            <thead>
+                            <tr>
+                                <th>{{__("admin.id")}}</th>
+                                <th>{{__("admin.image")}}</th>
+                                <th>{{__("admin.title")}}</th>
+                                <th>{{__("admin.role_id")}}</th>
+                                <th>{{__("admin.user_id")}}</th>
+                                <th>{{__("admin.status")}}</th>
+                                <th>{{__("admin.eventum")}}</th>
+                                <th>{{__("admin.action")}}</th>
+                            </tr>
+                            </thead>
+                                <tbody>
+                                        <tr>
+                                            <td>{{$place->organizator->id}}</td>
+                                            <td><img src="{{$place->organizator->getFile('image')}}" width="50"></td>
+                                            <td>{{$place->organizator->title}}</td>
+                                            <td>{{$place->organizator->role->title}}</td>
+                                            <td>{{$place->organizator->user->name}}</td>
+                                            <td>
+                                                @if($place->organizator->status == 1)
+                                                    <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                                @elseif($place->organizator->status == 0)
+                                                    <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                                @elseif($place->organizator->status == -1)
+                                                    <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                                @endif
+                                            </td>
+                                            <td>{{$place->organizator->eventum}}</td>
+                                            <td class="d-flex">
+                                                <div class="btn-group dropdown">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{__("admin.action")}}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="{{route('organizators.show', $place->organizator->id)}}">{{__("admin.info")}}</a>
+                                                        <a class="dropdown-item" href="{{route('organizators.edit', $place->organizator->id)}}">{{__("admin.change")}}</a>
+                                                        <form action="{{route('organizators.destroy', $place->organizator->id)}}" method="post">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+                @endif
                 <div class="form-group">
                     <label for="exampleInputUsername{{__('admin.title_kz')}}">{{__('admin.title_kz')}}</label>
                     <input disabled type="text" class="form-control  @error('title_kz') is-invalid @enderror" id="exampleInputUsername{{__('admin.title_kz')}}" name='title_kz' autocomplete="off" placeholder="{{__('admin.title_kz')}}" value="{{$place->title_kz}}">
-
                 </div>
                 <div class="form-group">
                     <label for="exampleInputUsername{{__('admin.title_ru')}}">{{__('admin.title_ru')}}</label>
@@ -160,8 +222,7 @@
             </div>
         </div>
         {{--        Categories --}}
-
-        <div class="row bg-white py-5">
+        <div class="row bg-white py-5 px-4">
             <h2>{{__("admin.places_category")}}</h2>
             <div class="col-md-12 text-right">
                 <button class="btn btn-success" data-toggle="modal" data-target="#createCategory">{{__("admin.create")}}</button>
@@ -209,11 +270,9 @@
                 </table>
             </div>
         </div>
-
-
         {{--        End Categories--}}
-{{--            Galleries --}}
-        <div class="row bg-white py-5">
+        {{--            Galleries --}}
+        <div class="row bg-white py-5 px-4">
             <h2>{{__("admin.galleries")}}</h2>
             <div class="col-md-12 text-right">
                 <button class="btn btn-success" data-toggle="modal" data-target="#createGallery">{{__("admin.create")}}</button>
@@ -260,8 +319,8 @@
                 </table>
             </div>
         </div>
-{{--        Workdays--}}
-        <div class="row bg-white py-5">
+        {{--        Workdays--}}
+        <div class="row bg-white py-5 px-4">
             <h2>{{__("admin.workdays")}}</h2>
             <div class="col-md-12 text-right">
                 <button class="btn btn-success" data-toggle="modal" data-target="#createWorkday">{{__("admin.create")}}</button>
@@ -326,7 +385,7 @@
             </div>
         </div>
         {{--        Ratings--}}
-        <div class="row bg-white py-5">
+        <div class="row bg-white py-5 px-4">
             <h2>Рейтинг</h2>
             <div class="col-md-12 text-right">
                 <button class="btn btn-success" data-toggle="modal" data-target="#createRating">{{__("admin.create")}}</button>
@@ -378,6 +437,91 @@
 
 
                     </tbody>
+                </table>
+            </div>
+        </div>
+        {{--        Events--}}
+        <div class="row bg-white py-5 px-4">
+            <h2>{{__("admin.events")}}</h2>
+            <div class="col-md-12 text-right">
+                <button class="btn btn-success" data-toggle="modal" data-target="#createRating">{{__("admin.events")}}</button>
+            </div>
+            <div class="table-responsive">
+                <table id="dataTableExample" class="table">
+                    <thead>
+                    <tr>
+                        <th>{{__("admin.id")}}</th>
+                        <th>{{__("admin.image")}}</th>
+                        <th>{{__("admin.title")}}</th>
+                        <th>{{__("admin.organizators")}}</th>
+                        <th>{{__("admin.places")}}</th>
+                        <th>{{__("admin.event_categories")}}</th>
+                        <th>{{__("admin.status")}}</th>
+                        <th>{{__("admin.eventum")}}</th>
+                        <th>{{__("admin.action")}}</th>
+                    </tr>
+                    </thead>
+                    @if($place->events)
+                        <tbody>
+
+                        @if($place->events->isNotEmpty())
+                            @foreach($place->events as $event)
+                                <tr>
+                                    <td>{{$event->id}}</td>
+                                    <td><img src="{{$event->getFile('image')}}" width="50"></td>
+                                    <td>{{$event->title}}</td>
+                                    <td>{{$event->organizator ? $event->organizator->title : "-"}}</td>
+                                    <td>{{$event->place ? $event->place->title : "-"}}</td>
+                                    <td>
+                                        @if($event->category->isNotEmpty())
+                                            @foreach($event->category as $category)
+                                                <p>{{$category->title}}</p>
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($event->status == 1)
+                                            <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                        @elseif($event->status == 0)
+                                            <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                        @elseif($event->status == -1)
+                                            <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                        @endif
+                                    </td>
+                                    <td>{{$event->eventum}}</td>
+                                    <td class="d-flex">
+                                        <div class="btn-group dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{__("admin.action")}}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{route('events.show', $event->id)}}">{{__("admin.info")}}</a>
+                                                <a class="dropdown-item" href="{{route('events.edit', $event->id)}}">{{__("admin.change")}}</a>
+                                                <form action="{{route('events.destroy', $event->id)}}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+
+
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+
+
+                        </tbody>
+                    @endif
                 </table>
             </div>
         </div>

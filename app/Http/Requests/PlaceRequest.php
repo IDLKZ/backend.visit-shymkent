@@ -24,7 +24,7 @@ class PlaceRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'organizator_id'=>"required|exists:organizators,id",
+            'organizator_id'=>"nullable|exists:organizators,id",
             'title_kz' => 'required|max:255',
             'title_ru' => 'required|max:255',
             'title_en' => 'required|max:255',
@@ -35,8 +35,8 @@ class PlaceRequest extends FormRequest
 
         if ($this->getMethod() == 'POST') {
             $rules += ["category_id"=>"required|array", "category_id.*"=>"required|exists:categoryplaces,id"];
-            $rules += ['image' => 'required|image|max:10240'];
-            $rules += ['images.*' => 'required|image|max:20480'];
+            $rules += ['image' => 'sometimes|image|max:10240'];
+            $rules += ['images.*' => 'sometimes|image|max:20480'];
         }
 
         if ($this->getMethod() == 'PUT') {

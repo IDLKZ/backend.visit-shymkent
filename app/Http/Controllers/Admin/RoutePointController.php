@@ -7,6 +7,7 @@ use App\Http\Requests\PointRequest;
 use App\Models\Gallery;
 use App\Models\Route;
 use App\Models\RoutePoint;
+use App\Models\Weekday;
 use Illuminate\Http\Request;
 
 class RoutePointController extends Controller
@@ -62,7 +63,8 @@ class RoutePointController extends Controller
     public function show($id)
     {
         if($point = RoutePoint::find($id)){
-            return view("admin.points.show",compact("point"));
+            $weekdays = Weekday::all();
+            return view("admin.points.show",compact("point","weekdays"));
         }
         else{
             return  redirect()->back();

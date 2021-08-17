@@ -93,7 +93,7 @@ class Event extends Model
      */
     public function categoriesEvents()
     {
-        return $this->hasMany(CategoryEvents::class);
+        return $this->belongsToMany(CategoryEvents::class,"categories_events","event_id","category_id");
     }
 
     public function categoryEvent()
@@ -118,6 +118,11 @@ class Event extends Model
     {
         return $this->hasMany(Rating::class, 'event_id');
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'event_id');
+    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

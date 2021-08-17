@@ -50,7 +50,7 @@
 
 
                             <div class="form-group">
-                                <label for="description{{__('admin.image')}}">{{__('admin.image')}}</label>
+                                <label for="description{{__('admin.image')}}">{{__('admin.image')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input  accept="image/png, image/jpeg" type="file" class="form-control @error('image') is-invalid @enderror" id="description{{__('admin.image')}}" name='image'>
                                 @error('image')
                                 <div class="invalid-feedback">

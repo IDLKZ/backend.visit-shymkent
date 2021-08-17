@@ -29,6 +29,66 @@
                 <div class="form-group">
                     <label for="{{__("admin.route_categories")}}">{{__('admin.route_categories')}}</label>
                     <input disabled type="text" class="form-control" id="{__('admin.route_categories')}}" name='category_id' autocomplete="off" value="{{$route->category->title}}">
+                    <div class="table-responsive">
+                        <table id="dataTableExample" class="table">
+                            <thead>
+                            <tr>
+                                <th>{{__("admin.image")}}</th>
+                                <th>{{__("admin.title")}}</th>
+                                <th>{{__("admin.alias")}}</th>
+                                <th>{{__("admin.status")}}</th>
+                                <th>{{__("admin.action")}}</th>
+                            </tr>
+                            </thead>
+                            @if($route->category)
+                                <tbody>
+
+
+                                        <tr>
+                                            <td><img src="{{$route->category->getFile('image')}}" width="50"></td>
+                                            <td>{{$route->category->title}}</td>
+                                            <td>{{$route->category->alias}}</td>
+                                            <td>
+                                                @if($route->category->status == 1)
+                                                    <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                                @elseif($route->category->status == 0)
+                                                    <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                                @elseif($route->category->status == -1)
+                                                    <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                                @endif
+                                            </td>
+                                            <td class="d-flex">
+                                                <div class="btn-group dropdown">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{__("admin.action")}}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="{{route("route_categories.show",$route->category->id)}}">{{__("admin.info")}}</a>
+                                                        <a class="dropdown-item" href="{{route("route_categories.edit",$route->category->id)}}">{{__("admin.change")}}</a>
+                                                        <form method="post" action="{{route("route_categories.destroy",$route->category->id)}}">
+                                                            @csrf
+                                                            @method("delete")
+                                                            <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </td>
+
+                                        </tr>
+                                </tbody>
+                            @endif
+                        </table>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputUsername{{__('admin.title_kz')}}">{{__('admin.title_kz')}}</label>
@@ -327,6 +387,76 @@
 
 
                     </tbody>
+                </table>
+            </div>
+            <div class="table-responsive">
+                <table id="dataTableExample" class="table">
+                    <thead>
+                    <tr>
+                        <th>{{__("admin.id")}}</th>
+                        <th>{{__("admin.image")}}</th>
+                        <th>{{__("admin.title")}}</th>
+                        <th>{{__("admin.role_id")}}</th>
+                        <th>{{__("admin.user_id")}}</th>
+                        <th>{{__("admin.status")}}</th>
+                        <th>{{__("admin.eventum")}}</th>
+                        <th>{{__("admin.action")}}</th>
+                    </tr>
+                    </thead>
+                    @if($route->organizatorsRoute)
+                        <tbody>
+
+                        @if($route->organizatorsRoute->isNotEmpty())
+                            @foreach($route->organizatorsRoute as $organizator)
+                                <tr>
+                                    <td>{{$organizator->organizator->id}}</td>
+                                    <td><img src="{{$organizator->organizator->getFile('image')}}" width="50"></td>
+                                    <td>{{$organizator->organizator->title}}</td>
+                                    <td>{{$organizator->organizator->role->title}}</td>
+                                    <td>{{$organizator->organizator->user->name}}</td>
+                                    <td>
+                                        @if($organizator->organizator->status == 1)
+                                            <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                        @elseif($organizator->organizator->status == 0)
+                                            <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                        @elseif($organizator->organizator->status == -1)
+                                            <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                        @endif
+                                    </td>
+                                    <td>{{$organizator->organizator->eventum}}</td>
+                                    <td class="d-flex">
+                                        <div class="btn-group dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{__("admin.action")}}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{route('organizators.show', $organizator->organizator->id)}}">{{__("admin.info")}}</a>
+                                                <a class="dropdown-item" href="{{route('organizators.edit', $organizator->organizator->id)}}">{{__("admin.change")}}</a>
+                                                <form action="{{route('organizators.destroy', $organizator->organizator->id)}}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+
+
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+
+
+                        </tbody>
+                    @endif
                 </table>
             </div>
         </div>
@@ -673,7 +803,7 @@
         }
 
         $(".gallery-edit").on("click",function (e){
-            e.prrouteDefault();
+            e.preventDefault();
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");
             $("#gallery").attr("src",image);

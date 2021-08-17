@@ -37,8 +37,8 @@ class EventRequest extends FormRequest
 
         if ($this->getMethod() == 'POST') {
             $rules += ["category_id"=>"required|array", "category_id.*"=>"required|exists:categoryevents,id"];
-            $rules += ['image' => 'required|image|max:10240'];
-            $rules += ['images.*' => 'required|image|max:10240'];
+            $rules += ['image' => 'sometimes|image|max:10240'];
+            $rules += ['images' => 'sometimes|array','images.*' => 'sometimes|image|max:10240'];
         }
 
         if ($this->getMethod() == 'PUT') {

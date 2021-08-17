@@ -24,7 +24,7 @@ class PointRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'route_id'=>"sometimes|nullable|exists:routes,id",
+            'route_id'=>"required|exists:routes,id",
             'title_kz' => 'required|max:255',
             'title_ru' => 'required|max:255',
             'title_en' => 'required|max:255',
@@ -37,7 +37,7 @@ class PointRequest extends FormRequest
 
         if ($this->getMethod() == 'POST') {
             $rules += ['image' => 'required|image|max:10240'];
-            $rules += ['images.*' => 'required|image|max:10240'];
+            $rules += ['images'=>"required|array",'images.*' => 'required|image|max:10240'];
         }
 
         if ($this->getMethod() == 'PUT') {

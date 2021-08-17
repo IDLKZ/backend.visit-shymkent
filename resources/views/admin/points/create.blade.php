@@ -12,11 +12,22 @@
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">{{__('admin.main')}}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{__('admin.routes')}}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{__('admin.points')}}</li>
             </ol>
         </nav>
 
         <div class="row">
+            <div class="col-md-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
@@ -108,7 +119,7 @@
                             {{--                    Description end--}}
                             {{--                            Start of contacts--}}
                             <div class="form-group">
-                                <label for="{{__('admin.phone')}}">{{__('admin.phone')}}</label>
+                                <label for="{{__('admin.phone')}}">{{__('admin.phone')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select class="phone" name="phone[]" style="font-size: 14px">
                                 </select>
                                 @error('phone')
@@ -119,7 +130,7 @@
 
                             </div>
                             <div class="form-group">
-                                <label for="{{__('admin.social_networks')}}">{{__('admin.social_networks')}}</label>
+                                <label for="{{__('admin.social_networks')}}">{{__('admin.social_networks')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select class="social_networks" name="social_networks[]" style="font-size: 14px">
                                 </select>
                                 @error('social_networks')
@@ -129,7 +140,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="{{__('admin.sites')}}">{{__('admin.sites')}}</label>
+                                <label for="{{__('admin.sites')}}">{{__('admin.sites')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select class="sites" name="sites[]" style="font-size: 14px">
                                 </select>
                                 @error('sites')
@@ -141,7 +152,7 @@
                             {{--                            End of contacts--}}
                             {{--            Start of the price--}}
                             <div class="form-group">
-                                <label for="eventum">{{__('admin.price')}}</label>
+                                <label for="eventum">{{__('admin.price')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control  @error('price') is-invalid @enderror" id="price" name='price' autocomplete="off" placeholder="{{__('admin.price')}}" value="{{old('price')}}">
                                 @error('price')
                                 <div class="invalid-feedback">
@@ -184,7 +195,7 @@
 
                             {{--                            Start Address--}}
                             <div class="form-group">
-                                <label for="eventum">{{__('admin.address')}}</label>
+                                <label for="eventum">{{__('admin.address')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{old('address')}}">
                                 @error('address')
                                 <div class="invalid-feedback">
@@ -192,7 +203,7 @@
                                 </div>
                                 @enderror
                             </div>
-
+                            <small class="text-danger">{{__("admin.not_required")}}</small>
                             <div id="map" style="height: 400px">
 
                             </div>

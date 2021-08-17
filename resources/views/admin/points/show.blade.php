@@ -29,13 +29,94 @@
                 <div class="form-group">
                     <label for="route_id">{{__('admin.routes')}}</label>
                     <select disabled class="w-100" name="route_id">
-
                                     <option selected value="{{$point->route_id}}">
                                         {{$point->route->title}}
                                     </option>
-
                     </select>
+                    <div class="table-responsive">
+                        <table id="dataTableExample" class="table">
+                            <thead>
+                            <tr>
+                                <th>{{__("admin.id")}}</th>
+                                <th>{{__("admin.image")}}</th>
+                                <th>{{__("admin.title")}}</th>
+                                <th>{{__("admin.route_categories")}}</th>
+                                <th>{{__("admin.route_types")}}</th>
+                                <th>{{__("admin.organizators")}}</th>
+                                <th>{{__("admin.distance")}}</th>
+                                <th>{{__("admin.time")}}</th>
+                                <th>{{__("admin.status")}}</th>
+                                <th>{{__("admin.action")}}</th>
+                            </tr>
+                            </thead>
+                            @if($point->route)
+                                <tbody>
+                                        <tr>
+                                            <td>{{$point->route->id}}</td>
+                                            <td><img src="{{$point->route->getFile('image')}}" width="50"></td>
+                                            <td>{{$point->route->title}}</td>
+                                            <td>{{$point->route->category->title}}</td>
+                                            <td>
+                                                @if($point->route->types)
+                                                    @if($point->route->types->isNotEmpty())
+                                                        <ul>
+                                                            @foreach($point->route->types as $type)
+                                                                <li>{{$type->routeType->title}}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($point->route->organizatorsRoute)
+                                                    @if($point->route->organizatorsRoute->isNotEmpty())
+                                                        <ul>
+                                                            @foreach($route->organizatorsRoute as $organizator)
+                                                                <li>{{$organizator->organizator->title . "(" .$organizator->organizator->role->title . ")"}}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                @endif
+                                            </td>
+                                            <td>{{$point->route->distance}}</td>
+                                            <td>{{$point->route->time}}</td>
+                                            <td>
+                                                @if($point->route->status == 1)
+                                                    <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
 
+                                                @elseif($point->route->status == 0)
+                                                    <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                                @elseif($point->route->status == -1)
+                                                    <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                                @endif
+                                            </td>
+                                            <td class="d-flex">
+                                                <div class="btn-group dropdown">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{__("admin.action")}}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="{{route('routes.show', $point->route->id)}}">{{__("admin.info")}}</a>
+                                                        <a class="dropdown-item" href="{{route('routes.edit', $point->route->id)}}">{{__("admin.change")}}</a>
+                                                        <form action="{{route('routes.destroy', $point->route->id)}}" method="post">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            @endif
+                        </table>
+                    </div>
                 </div>
                 {{--                            Title starts--}}
                 <div class="form-group">
@@ -144,7 +225,7 @@
         </div>
 
         {{--            Galleries --}}
-        <div class="row bg-white py-5">
+        <div class="row bg-white py-5 px-5">
             <h2>{{__("admin.galleries")}}</h2>
             <div class="col-md-12 text-right">
                 <button class="btn btn-success" data-toggle="modal" data-target="#createGallery">{{__("admin.create")}}</button>
@@ -168,7 +249,7 @@
                                             {{__("admin.action")}}
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" id="gallery-edit" data-id="{{$gallery->id}}" data-image="{{$gallery->getFile("image")}}">{{__("admin.change")}}</a>
+                                            <a class="gallery-edit dropdown-item" data-id="{{$gallery->id}}" data-image="{{$gallery->getFile("image")}}">{{__("admin.change")}}</a>
                                             <form method="post" action="{{route("gallery.destroy",$gallery->id)}}">
                                                 @csrf
                                                 @method("delete")
@@ -192,7 +273,71 @@
             </div>
         </div>
 
+        {{--        Workdays--}}
+        <div class="row bg-white py-5 px-4">
+            <h2>{{__("admin.workdays")}}</h2>
+            <div class="col-md-12 text-right">
+                <button class="btn btn-success" data-toggle="modal" data-target="#createWorkday">{{__("admin.create")}}</button>
+            </div>
+            <div class="table-responsive">
+                <table id="dataTableExample" class="table">
+                    <thead>
+                    <tr>
+                        <th>{{__("admin.weekday_id")}}</th>
+                        <th>{{__("admin.date_start")}}</th>
+                        <th>{{__("admin.date_end")}}</th>
+                        <th>{{__("admin.time_start")}}</th>
+                        <th>{{__("admin.time_end")}}</th>
+                        <th>{{__("admin.action")}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if($point->workdays->isNotEmpty())
+                        @foreach($point->workdays as $workday)
+                            <tr>
+                                <td>
+                                    {{$workday->weekday->title}}
+                                </td>
+                                <td>
+                                    {{$workday->date_start}}
+                                </td>
+                                <td>
+                                    {{$workday->date_end}}
+                                </td>
+                                <td>
+                                    {{$workday->time_start}}
+                                </td>
+                                <td>
+                                    {{$workday->time_end}}
+                                </td>
+                                <td class="d-flex">
+                                    <div class="btn-group dropdown">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{__("admin.action")}}
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form method="post" action="{{route("workday.destroy",$workday->id)}}">
+                                                @csrf
+                                                @method("delete")
+                                                <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                            </form>
+                                        </div>
+                                    </div>
 
+
+
+                                </td>
+
+                            </tr>
+                        @endforeach
+
+                    @endif
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     {{--    Modal Gallery--}}
@@ -264,7 +409,82 @@
             </div>
         </div>
     </div>
+    {{--Create WorkDay--}}
+    <div class="modal fade" id="createWorkday" tabindex="-1" role="dialog" aria-labelledby="createWorkday" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Создать время работы</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="{{route("workday.store")}}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" value="{{$point->id}}" name="point_id">
+                        <div class="form-group">
+                            <label for="description{{__('admin.weekday_id')}}">{{__('admin.weekday_id')}}</label>
+                            <select class="weekday_id" name="weekday_id" style="font-size: 14px">
+                                @foreach($weekdays as $weekday)
+                                    <option value="{{$weekday->id}}">
+                                        {{$weekday->title}}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('weekday_id')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="placeum">{{__('admin.date_start')}}</label>
+                            <input  type="text" class="form-control  @error('date_start') is-invalid @enderror" id="date_start" name='date_start' autocomplete="off" value="{{old('date_start')}}">
+                            @error('date_start')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="placeum">{{__('admin.date_end')}}</label>
+                            <input  type="text" class="form-control  @error('date_end') is-invalid @enderror" id="date_end" name='date_end' autocomplete="off" value="{{old('date_end')}}">
+                            @error('date_end')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="placeum">{{__('admin.time_start')}}</label>
+                            <input type="text" class="form-control  @error('time_start') is-invalid @enderror" id="time_start" name='time_start' autocomplete="off" value="{{old('time_start')}}">
+                            @error('time_start')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="placeum">{{__('admin.time_end')}}</label>
+                            <input type="text" class="form-control  @error('time_end') is-invalid @enderror" id="time_end" name='time_end' autocomplete="off" value="{{old('time_end')}}">
+                            @error('time_end')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("admin.cancel")}}</button>
+                        <button type="submit" class="btn btn-primary">{{__("admin.create")}}</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
 @endsection
 @push("scripts")
@@ -272,6 +492,9 @@
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js" integrity="sha512-tPXUMumrKam4J6sFLWF/06wvl+Qyn27gMfmynldU730ZwqYkhT2dFUmttn2PuVoVRgzvzDicZ/KgOhWD+KAYQQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         let classNames = ['description_ru','description_kz','description_en'];
         for (let i = 0; i<classNames.length;i++){
@@ -298,15 +521,18 @@
         map.pm.setLang('ru');
         displayMarkers();
         function displayMarkers(){
-            if(points.length > 0){
-                for(let i = 0; i <points.length; i++){
-                    L.marker([points[i].lat,points[i].lng]).addTo(map);
+            if(points){
+                if(points.length > 0){
+                    for(let i = 0; i <points.length; i++){
+                        L.marker([points[i].lat,points[i].lng]).addTo(map);
+                    }
+                    map.setView([points[0].lat,points[0].lng], 14);
                 }
-                map.setView([points[0].lat,points[0].lng], 14);
             }
+
         }
 
-        $("#gallery-edit").on("click",function (e){
+        $(".gallery-edit").on("click",function (e){
             e.preventDefault();
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");
@@ -314,6 +540,28 @@
             $('#changeGalleryForm').attr('action', 'http://backend.visit-shymkent/ru/admin/gallery/'+galery_id);
             jQuery.noConflict();
             $('#changeGallery').modal("show");
+        });
+
+        $("#date_start").datepicker(
+            {
+                format: 'dd/mm/yyyy',
+                language:"ru"
+            },
+
+        );
+        $("#date_end").datepicker(
+            {
+                format: 'dd/mm/yyyy',
+                language:"ru"
+            },
+        );
+        $("#time_start").datetimepicker({
+            datepicker:false,
+            format:'H:i'
+        });
+        $("#time_end").datetimepicker({
+            datepicker:false,
+            format:'H:i'
         });
 
     </script>

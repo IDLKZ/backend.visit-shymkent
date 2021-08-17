@@ -12,11 +12,22 @@
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">{{__('admin.main')}}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{__('admin.events')}}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{__('admin.places')}}</li>
             </ol>
         </nav>
 
         <div class="row">
+            <div class="col-md-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
@@ -31,6 +42,7 @@
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.organizators')}}</label>
                                 <select class="w-100" id="organizator_id" name="organizator_id">
+                                    <option value="">Не выбрано</option>
                                     @if($organizators->isNotEmpty())
                                         @foreach($organizators as $organizator)
                                             <option
@@ -116,7 +128,7 @@
                             {{--                            Eventum--}}
 
                             <div class="form-group">
-                                <label for="eventum">{{__('admin.eventum')}}</label>
+                                <label for="eventum">{{__('admin.eventum')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control  @error('eventum') is-invalid @enderror" id="eventum" name='eventum' autocomplete="off" placeholder="{{__('admin.eventum')}}" value="{{$place->eventum}}">
                                 @error('eventum')
                                 <div class="invalid-feedback">
@@ -128,7 +140,7 @@
 
                             {{--                            Start of contacts--}}
                             <div class="form-group">
-                                <label for="{{__('admin.phone')}}">{{__('admin.phone')}}</label>
+                                <label for="{{__('admin.phone')}}">{{__('admin.phone')}}<small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select multiple class="phone" name="phone[]" style="font-size: 14px">
                                     @if($place->phone)
                                         @foreach($place->phone as $phone)
@@ -144,7 +156,7 @@
 
                             </div>
                             <div class="form-group">
-                                <label for="{{__('admin.social_networks')}}">{{__('admin.social_networks')}}</label>
+                                <label for="{{__('admin.social_networks')}}">{{__('admin.social_networks')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select multiple class="social_networks" name="social_networks[]" style="font-size: 14px">
                                     @if($place->social_networks)
                                         @foreach($place->social_networks as $social_networks)
@@ -159,7 +171,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="{{__('admin.sites')}}">{{__('admin.sites')}}</label>
+                                <label for="{{__('admin.sites')}}">{{__('admin.sites')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select multiple class="sites" name="sites[]" style="font-size: 14px">
                                     @if($place->sites)
                                         @foreach($place->sites as $site)
@@ -176,7 +188,7 @@
                             {{--                            End of contacts--}}
                             {{--                            Start of the images--}}
                             <div class="form-group">
-                                <label for="description{{__('admin.image')}}">{{__('admin.image')}}</label>
+                                <label for="description{{__('admin.image')}}">{{__('admin.image')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input accept="image/png, image/jpeg" type="file" class="form-control @error('image') is-invalid @enderror" id="description{{__('admin.image')}}" name='image'>
                                 @error('image')
                                 <div class="invalid-feedback">
@@ -188,7 +200,7 @@
                             {{--                            End of the images--}}
                             {{--            Start of the price--}}
                             <div class="form-group">
-                                <label for="eventum">{{__('admin.price')}}</label>
+                                <label for="eventum">{{__('admin.price')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control  @error('price') is-invalid @enderror" id="price" name='price' autocomplete="off" placeholder="{{__('admin.price')}}" value="{{$place->price}}">
                                 @error('price')
                                 <div class="invalid-feedback">
@@ -200,7 +212,7 @@
                             {{--End of the price--}}
                             {{--                            Start Address--}}
                             <div class="form-group">
-                                <label for="eventum">{{__('admin.address')}}</label>
+                                <label for="eventum">{{__('admin.address')}}<small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{$place->address}}">
                                 @error('address')
                                 <div class="invalid-feedback">
@@ -210,7 +222,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputUsername{{__('admin.video_kz')}}">{{__('admin.video_kz')}}</label>
+                                <label for="exampleInputUsername{{__('admin.video_kz')}}">{{__('admin.video_kz')}}<small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control  @error('video_kz') is-invalid @enderror" id="exampleInputUsername{{__('admin.video_kz')}}" name='video_kz' autocomplete="off" placeholder="{{__('admin.video_kz')}}" value="{{$place->video_kz}}">
                                 @error('video_kz')
                                 <div class="invalid-feedback">
@@ -219,7 +231,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputUsername{{__('admin.video_ru')}}">{{__('admin.video_ru')}}</label>
+                                <label for="exampleInputUsername{{__('admin.video_ru')}}">{{__('admin.video_ru')}}<small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control @error('video_ru') is-invalid @enderror" id="exampleInputUsername{{__('admin.video_ru')}}" name='video_ru' autocomplete="off" placeholder="{{__('admin.video_ru')}}" value="{{$place->video_ru}}">
                                 @error('video_ru')
                                 <div class="invalid-feedback">
@@ -228,7 +240,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputUsername{{__('admin.video_en')}}">{{__('admin.video_en')}}</label>
+                                <label for="exampleInputUsername{{__('admin.video_en')}}">{{__('admin.video_en')}}<small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control @error('video_en') is-invalid @enderror" id="exampleInputUsername{{__('admin.video_en')}}" name='video_en' autocomplete="off" placeholder="{{__('admin.video_en')}}" value="{{$place->video_en}}">
                                 @error('video_en')
                                 <div class="invalid-feedback">
@@ -237,7 +249,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputUsername{{__('admin.audio_kz')}}">{{__('admin.audio_kz')}}</label>
+                                <label for="exampleInputUsername{{__('admin.audio_kz')}}">{{__('admin.audio_kz')}}<small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control  @error('audio_kz') is-invalid @enderror" id="exampleInputUsername{{__('admin.audio_kz')}}" name='audio_kz' autocomplete="off" placeholder="{{__('admin.audio_kz')}}" value="{{$place->audio_kz}}">
                                 @error('audio_kz')
                                 <div class="invalid-feedback">
@@ -246,7 +258,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputUsername{{__('admin.audio_ru')}}">{{__('admin.audio_ru')}}</label>
+                                <label for="exampleInputUsername{{__('admin.audio_ru')}}">{{__('admin.audio_ru')}}<small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control @error('audio_ru') is-invalid @enderror" id="exampleInputUsername{{__('admin.audio_ru')}}" name='audio_ru' autocomplete="off" placeholder="{{__('admin.audio_ru')}}" value="{{$place->audio_ru}}">
                                 @error('audio_ru')
                                 <div class="invalid-feedback">
@@ -255,7 +267,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputUsername{{__('admin.audio_en')}}">{{__('admin.audio_en')}}</label>
+                                <label for="exampleInputUsername{{__('admin.audio_en')}}">{{__('admin.audio_en')}}<small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control @error('audio_en') is-invalid @enderror" id="exampleInputUsername{{__('admin.audio_en')}}" name='audio_en' autocomplete="off" placeholder="{{__('admin.audio_en')}}" value="{{$place->audio_en}}">
                                 @error('audio_en')
                                 <div class="invalid-feedback">
@@ -263,7 +275,7 @@
                                 </div>
                                 @enderror
                             </div>
-
+                            <small class="text-danger">{{__("admin.not_required")}}</small>
                             <div id="map" style="height: 400px">
 
                             </div>

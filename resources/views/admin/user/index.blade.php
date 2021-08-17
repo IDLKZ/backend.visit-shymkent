@@ -66,7 +66,7 @@
                                                         {{__("admin.action")}}
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">{{__("admin.info")}}</a>
+                                                        <a class="dropdown-item" href="{{route("admin-user.show",$user->id)}}">{{__("admin.info")}}</a>
                                                         <a class="dropdown-item" href="{{route("admin-user.edit",$user->id)}}">{{__("admin.change")}}</a>
                                                         <form method="post" action="{{route("admin-user.destroy",$user->id)}}">
                                                             @csrf

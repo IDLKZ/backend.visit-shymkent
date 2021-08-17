@@ -38,9 +38,9 @@ class RouteRequest extends FormRequest
 
         if ($this->getMethod() == 'POST') {
             $rules += ["types.*"=>"required|exists:route_types,id"];
-            $rules += ["organizators.*"=>"sometimes|exists:organizators,id"];
-            $rules += ['image' => 'required|image|max:10240'];
-            $rules += ['images.*' => 'required|image|max:10240'];
+            $rules += ["organizators"=>"sometimes|array","organizators.*"=>"sometimes|exists:organizators,id"];
+            $rules += ['image' => 'sometimes|image|max:10240'];
+            $rules += ['images' => 'sometimes|array','images.*' => 'sometimes|image|max:10240'];
         }
 
         if ($this->getMethod() == 'PUT') {

@@ -91,6 +91,7 @@ return[
     "rating_ball"=>"Рейтинг балл",
     "price"=>"Стоимость",
     "event_type"=>"Тип события",
+    "not_required"=>"*Необязательное поле",
 
 //    Routes
 "route_categories"=>"Категория Маршрутов",

@@ -10,7 +10,7 @@
                         {{__("admin.main")}}
                     </a></li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    {{__("admin.event_categories")}}
+                    {{__("admin.route_categories")}}
                 </li>
             </ol>
         </nav>

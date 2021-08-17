@@ -51,7 +51,7 @@ class TypesOfRouteController extends Controller
      */
     public function show($id)
     {
-        $category = TypeOfRoute::find($id);
+        $category = TypeOfRoute::with(["routesTypes.route"])->find($id);
         return view("admin.typesofroute.show",compact("category"));
     }
 

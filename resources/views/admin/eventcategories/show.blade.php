@@ -107,7 +107,7 @@
                                                         {{__("admin.action")}}
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <a class="dropdown-item" href="#">{{__("admin.info")}}</a>
+                                                        <a class="dropdown-item" href="{{route('events.show', $event->id)}}">{{__("admin.info")}}</a>
                                                         <a class="dropdown-item" href="{{route('events.edit', $event->id)}}">{{__("admin.change")}}</a>
                                                         <form action="{{route('events.destroy', $event->id)}}" method="post">
                                                             @csrf

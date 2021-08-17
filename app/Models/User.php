@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\FileUpload;
 use App\Recovery;
+use App\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -49,7 +50,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function role()
     {
-        return $this->belongsTo('App\Role', 'role_id');
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     /**
@@ -57,7 +58,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function blogs()
     {
-        return $this->hasMany('App\Blog', 'author_id');
+        return $this->hasMany(Blog::class, 'author_id');
     }
 
     /**
@@ -65,7 +66,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function news()
     {
-        return $this->hasMany('App\News', 'author_id');
+        return $this->hasMany(News::class, 'author_id');
     }
 
     /**
@@ -97,20 +98,20 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Review::class,"user_id");
     }
 
-
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function shops()
     {
         return $this->hasMany(Shop::class, 'user_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+
 
     public static function createFromRegister($request){
         $model = new self();

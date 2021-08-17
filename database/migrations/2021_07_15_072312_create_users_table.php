@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->text("description")->nullable();
             $table->integer("status")->default(1);
             $table->integer("verified")->default(0);
+            $table->string("remember_token",500)->nullable();
             $table->timestamps();
         });
     }

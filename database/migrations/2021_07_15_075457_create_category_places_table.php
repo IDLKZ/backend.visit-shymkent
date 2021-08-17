@@ -20,7 +20,7 @@ class CreateCategoryPlacesTable extends Migration
             $table->string("title_kz");
             $table->string("title_en");
             $table->string("alias");
-            $table->string("image");
+            $table->string("image")->nullable();
             $table->integer("status");
             $table->timestamps();
         });

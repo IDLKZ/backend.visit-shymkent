@@ -16,6 +16,17 @@
         </nav>
 
         <div class="row">
+            <div class="col-md-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
@@ -64,7 +75,7 @@
 
 
                             <div class="form-group">
-                                <label for="event_type">{{__('admin.organizators')}}</label>
+                                <label for="event_type">{{__('admin.organizators')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select class="w-100" id="organizators" name="organizators[]">
                                     @if($organizators->isNotEmpty())
                                         @foreach($organizators as $organizator)
@@ -151,7 +162,7 @@
                             {{--                            Eventum, Description, Time--}}
 
                             <div class="form-group">
-                                <label for="eventum">{{__('admin.eventum')}}</label>
+                                <label for="eventum">{{__('admin.eventum')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control  @error('eventum') is-invalid @enderror" id="eventum" name='eventum' autocomplete="off" placeholder="{{__('admin.eventum')}}" value="{{old('eventum')}}">
                                 @error('eventum')
                                 <div class="invalid-feedback">
@@ -160,7 +171,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="distance">{{__('admin.distance')}}</label>
+                                <label for="distance">{{__('admin.distance')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="number" class="form-control  @error('distance') is-invalid @enderror" id="distance" name='distance' autocomplete="off" placeholder="{{__('admin.distance')}}" value="{{old('distance')}}">
                                 @error('distance')
                                 <div class="invalid-feedback">
@@ -169,7 +180,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="time">{{__('admin.time')}}</label>
+                                <label for="time">{{__('admin.time')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="number" class="form-control  @error('time') is-invalid @enderror" id="time" name='time' autocomplete="off" placeholder="{{__('admin.time')}}" value="{{old('time')}}">
                                 @error('time')
                                 <div class="invalid-feedback">
@@ -181,7 +192,7 @@
 
                             {{--                            Start of the images--}}
                             <div class="form-group">
-                                <label for="description{{__('admin.image')}}">{{__('admin.image')}}</label>
+                                <label for="description{{__('admin.image')}}">{{__('admin.image')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input accept="image/png, image/jpeg" type="file" class="form-control @error('image') is-invalid @enderror" id="description{{__('admin.image')}}" name='image'>
                                 @error('image')
                                 <div class="invalid-feedback">
@@ -190,7 +201,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="{{__('admin.images')}}">{{__('admin.images')}}</label>
+                                <label for="{{__('admin.images')}}">{{__('admin.images')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input accept="image/png, image/jpeg" type="file" class="form-control @error('images') is-invalid @enderror" id="{{__('admin.images')}}" multiple name='images[]'>
                                 @error('images')
                                 <div class="invalid-feedback">
@@ -202,7 +213,7 @@
 
                             {{--                            Start Address--}}
                             <div class="form-group">
-                                <label for="eventum">{{__('admin.address')}}</label>
+                                <label for="eventum">{{__('admin.address')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{old('address')}}">
                                 @error('address')
                                 <div class="invalid-feedback">
@@ -210,7 +221,7 @@
                                 </div>
                                 @enderror
                             </div>
-
+                            <small class="text-danger">{{__("admin.not_required")}}</small>
                             <div id="map" style="height: 400px">
 
                             </div>

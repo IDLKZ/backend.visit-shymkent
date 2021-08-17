@@ -4,8 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Models\Blog;
+use App\Models\News;
+use App\Models\Organizator;
+use App\Models\Review;
+use App\Models\Saving;
+use App\Models\Shop;
 use App\Models\Slider;
 use App\Models\User;
+use App\Recovery;
 use App\Role;
 use Illuminate\Http\Request;
 
@@ -54,7 +61,13 @@ class AdminUserController extends Controller
      */
     public function show($id)
     {
-        //
+        if($user = User::find($id)){
+            $user->load(["blogs","news","organizators","recoveries","savings","reviews","shops"]);
+            return view("admin.user.show",compact("user"));
+        }
+        else{
+            return redirect()->back();
+        }
     }
 
     /**
