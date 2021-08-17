@@ -162,7 +162,7 @@
         </div>
 
         {{--            Galleries --}}
-        <div class="row bg-white py-5">
+        <div class="row bg-white py-5 px-4">
             <h2>{{__("admin.galleries")}}</h2>
             <div class="col-md-12 text-right">
                 <button class="btn btn-success" data-toggle="modal" data-target="#createGallery">{{__("admin.create")}}</button>
@@ -209,8 +209,168 @@
                 </table>
             </div>
         </div>
+        {{--        Event--}}
+        <div class="row bg-white py-5 px-4">
+            <h2>{{__("admin.events")}}</h2>
+            <div class="table-responsive">
+                <table id="dataTableExample" class="table">
+                    <thead>
+                    <tr>
+                        <th>{{__("admin.id")}}</th>
+                        <th>{{__("admin.image")}}</th>
+                        <th>{{__("admin.title")}}</th>
+                        <th>{{__("admin.organizators")}}</th>
+                        <th>{{__("admin.places")}}</th>
+                        <th>{{__("admin.event_categories")}}</th>
+                        <th>{{__("admin.status")}}</th>
+                        <th>{{__("admin.eventum")}}</th>
+                        <th>{{__("admin.action")}}</th>
+                    </tr>
+                    </thead>
+                    @if($organizator->events)
+                        <tbody>
+
+                        @if($organizator->events->isNotEmpty())
+                            @foreach($organizator->events as $event)
+                                <tr>
+                                    <td>{{$event->id}}</td>
+                                    <td><img src="{{$event->getFile('image')}}" width="50"></td>
+                                    <td>{{$event->title}}</td>
+                                    <td>{{$event->organizator ? $event->organizator->title : "-"}}</td>
+                                    <td>{{$event->place ? $event->place->title : "-"}}</td>
+                                    <td>
+                                        @if($event->category->isNotEmpty())
+                                            @foreach($event->category as $category)
+                                                <p>{{$category->title}}</p>
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($event->status == 1)
+                                            <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                        @elseif($event->status == 0)
+                                            <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                        @elseif($event->status == -1)
+                                            <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                        @endif
+                                    </td>
+                                    <td>{{$event->eventum}}</td>
+                                    <td class="d-flex">
+                                        <div class="btn-group dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{__("admin.action")}}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{route('events.show', $event->id)}}">{{__("admin.info")}}</a>
+                                                <a class="dropdown-item" href="{{route('events.edit', $event->id)}}">{{__("admin.change")}}</a>
+                                                <form action="{{route('events.destroy', $event->id)}}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                </form>
+                                            </div>
+                                        </div>
 
 
+
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+
+
+                        </tbody>
+                    @endif
+                </table>
+            </div>
+        </div>
+        {{--        Place--}}
+        <div class="row bg-white py-5 px-4">
+            <h2>{{__("admin.places")}}</h2>
+            <div class="table-responsive">
+                <table id="dataTableExample" class="table">
+                    <thead>
+                    <tr>
+                        <th>{{__("admin.id")}}</th>
+                        <th>{{__("admin.image")}}</th>
+                        <th>{{__("admin.title")}}</th>
+                        <th>{{__("admin.organizators")}}</th>
+                        <th>{{__("admin.event_categories")}}</th>
+                        <th>{{__("admin.status")}}</th>
+                        <th>{{__("admin.eventum")}}</th>
+                        <th>{{__("admin.action")}}</th>
+                    </tr>
+                    </thead>
+                    @if($event->places)
+                        <tbody>
+
+                        @if($event->places->isNotEmpty())
+                            @foreach($event->places as $place)
+                                <tr>
+                                    <td>{{$place->id}}</td>
+                                    <td><img src="{{$place->getFile('image')}}" width="50"></td>
+                                    <td>{{$place->title}}</td>
+                                    <td>{{$place->organizator ? $place->organizator->title . "(" . $place->organizator->role->title . ")" : "-"}}</td>
+                                    <td>
+                                        @if($place->category->isNotEmpty())
+                                            @foreach($place->category as $category)
+                                                <p>{{$category->title}}</p>
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($place->status == 1)
+                                            <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                        @elseif($place->status == 0)
+                                            <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                        @elseif($place->status == -1)
+                                            <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                        @endif
+                                    </td>
+                                    <td>{{$place->eventum}}</td>
+                                    <td class="d-flex">
+                                        <div class="btn-group dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{__("admin.action")}}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{route('places.show', $place->id)}}">{{__("admin.info")}}</a>
+                                                <a class="dropdown-item" href="{{route('places.edit', $place->id)}}">{{__("admin.change")}}</a>
+                                                <form action="{{route('places.destroy', $place->id)}}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+
+
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+
+
+                        </tbody>
+                    @endif
+                </table>
+            </div>
+        </div>
     </div>
 
     {{--    Modal Gallery--}}

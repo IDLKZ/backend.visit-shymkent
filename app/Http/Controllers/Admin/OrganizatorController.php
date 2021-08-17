@@ -81,7 +81,8 @@ class OrganizatorController extends Controller
     {
         $organizator = Organizator::find($id);
         $roles = Role::whereIn("id",[4,5])->get();
-        $users = User::where('role_id',[4,5])->with("role")->get();
+        $users = User::whereIn('role_id',[4,5])->with("role")->get();
+
         return view("admin.organizators.edit",compact("roles","users","organizator"));
     }
 
