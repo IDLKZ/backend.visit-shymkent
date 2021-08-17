@@ -16,7 +16,7 @@
             </ol>
         </nav>
 
-        <div class="row bg-white py-5">
+        <div class="row bg-white py-5 px-4">
             <div class="col-md-4">
                 <img src="{{$organizator->getFile('image')}}" width="100%">
             </div>
@@ -218,7 +218,7 @@
         </div>
 
         {{--            Galleries --}}
-        <div class="row bg-white py-5 px-4">
+        <div class="row bg-white py-5 px-4 px-4">
             <h2>{{__("admin.galleries")}}</h2>
             <div class="col-md-12 text-right">
                 <button class="btn btn-success" data-toggle="modal" data-target="#createGallery">{{__("admin.create")}}</button>
@@ -266,7 +266,7 @@
             </div>
         </div>
         {{--        Event--}}
-        <div class="row bg-white py-5 px-4">
+        <div class="row bg-white py-5 px-4 px-4">
             <h2>{{__("admin.events")}}</h2>
             <div class="table-responsive">
                 <table id="dataTableExample" class="table">
@@ -348,7 +348,7 @@
             </div>
         </div>
         {{--        Place--}}
-        <div class="row bg-white py-5 px-4">
+        <div class="row bg-white py-5 px-4 px-4">
             <h2>{{__("admin.places")}}</h2>
             <div class="table-responsive">
                 <table id="dataTableExample" class="table">
@@ -427,6 +427,156 @@
                 </table>
             </div>
         </div>
+{{--        Routes--}}
+        <div class="row bg-white py-5 px-4 px-4">
+            <h2>{{__("admin.routes")}}</h2>
+            <div class="table-responsive">
+                <table id="dataTableExample" class="table">
+                    <thead>
+                    <tr>
+                        <th>{{__("admin.id")}}</th>
+                        <th>{{__("admin.image")}}</th>
+                        <th>{{__("admin.title")}}</th>
+                        <th>{{__("admin.route_categories")}}</th>
+                        <th>{{__("admin.route_types")}}</th>
+                        <th>{{__("admin.organizators")}}</th>
+                        <th>{{__("admin.distance")}}</th>
+                        <th>{{__("admin.time")}}</th>
+                        <th>{{__("admin.status")}}</th>
+                        <th>{{__("admin.action")}}</th>
+                    </tr>
+                    </thead>
+                    @if($organizator->routes)
+                        <tbody>
+
+                        @if($organizator->routes->isNotEmpty())
+                            @foreach($organizator->routes as $route)
+                                <tr>
+                                    <td>{{$route->id}}</td>
+                                    <td><img src="{{$route->getFile('image')}}" width="50"></td>
+                                    <td>{{$route->title}}</td>
+                                    <td>{{$route->category->title}}</td>
+                                    <td>
+                                        @if($route->types)
+                                            @if($route->types->isNotEmpty())
+                                                <ul>
+                                                    @foreach($route->types as $type)
+                                                        <li>{{$type->routeType->title}}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($route->organizatorsRoute)
+                                            @if($route->organizatorsRoute->isNotEmpty())
+                                                <ul>
+                                                    @foreach($route->organizatorsRoute as $organizator)
+                                                        <li>{{$organizator->organizator->title . "(" .$organizator->organizator->role->title . ")"}}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        @endif
+                                    </td>
+                                    <td>{{$route->distance}}</td>
+                                    <td>{{$route->time}}</td>
+                                    <td>
+                                        @if($route->status == 1)
+                                            <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                        @elseif($route->status == 0)
+                                            <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                        @elseif($route->status == -1)
+                                            <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                        @endif
+                                    </td>
+                                    <td class="d-flex">
+                                        <div class="btn-group dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{__("admin.action")}}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{route('routes.show', $route->id)}}">{{__("admin.info")}}</a>
+                                                <a class="dropdown-item" href="{{route('routes.edit', $route->id)}}">{{__("admin.change")}}</a>
+                                                <form action="{{route('routes.destroy', $route->id)}}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+
+
+                        </tbody>
+                    @endif
+                </table>
+            </div>
+        </div>
+{{--        Rating--}}
+        <div class="row bg-white py-5 px-4">
+            <h2>Рейтинг</h2>
+            <div class="col-md-12 text-right">
+                <button class="btn btn-success" data-toggle="modal" data-target="#createRating">{{__("admin.create")}}</button>
+            </div>
+            <div class="table-responsive">
+                <table id="dataTableExample" class="table">
+                    <thead>
+                    <tr>
+                        <th>{{__("admin.title")}}</th>
+                        <th>{{__("admin.routes")}}</th>
+                        <th>Рейтинг</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if($organizator->ratings->isNotEmpty())
+                        @foreach($organizator->ratings as $rating)
+                            <tr>
+                                <td>
+                                    {{$rating->title}}
+                                </td>
+                                <td>
+                                    {{$rating->route->title}}
+                                </td>
+                                <td>
+                                    {{$rating->rating}}
+                                </td>
+                                <td class="d-flex">
+                                    <div class="btn-group dropdown">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{__("admin.action")}}
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <form method="post" action="{{route("ratings.destroy",$rating->id)}}">
+                                                @csrf
+                                                @method("delete")
+                                                <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
+                                </td>
+
+                            </tr>
+                        @endforeach
+
+                    @endif
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     {{--    Modal Gallery--}}
@@ -498,7 +648,48 @@
             </div>
         </div>
     </div>
+    {{--Create Rating --}}
+    <div class="modal fade" id="createRating" tabindex="-1" role="dialog" aria-labelledby="createRating" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Создать рейтинг</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="{{route("ratings.store")}}">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" value="{{$organizator->id}}" name="organizator_id">
+                        <div class="form-group">
+                            <label for="exampleInputUsername{{__('admin.title')}}">{{__('admin.title')}}</label>
+                            <input required type="text" class="form-control @error('title') is-invalid @enderror" id="exampleInputUsername{{__('admin.title')}}" name='title' autocomplete="off" placeholder="{{__('admin.title')}}" value="{{old('title')}}">
+                            @error('title')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputUsername{{__('admin.title')}}">Рейтинг</label>
+                            <input required type="number" step="0.1" class="form-control @error('rating') is-invalid @enderror" id="exampleInputUsername{{__('admin.rating')}}" name='rating' autocomplete="off" placeholder="0.0-5.0" value="{{old('rating')}}">
+                            @error('rating')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("admin.cancel")}}</button>
+                        <button type="submit" class="btn btn-primary">{{__("admin.create")}}</button>
+                    </div>
+                </form>
 
+            </div>
+        </div>
+    </div>
 @endsection
 @push("scripts")
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
