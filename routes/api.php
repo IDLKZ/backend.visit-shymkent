@@ -30,7 +30,7 @@ Route::get("/categoriesofthe-places-all",[CategoryOfThePlaceController::class,"g
 Route::get("/events",[EventController::class,"index"]);
 Route::get("/all-events",[EventController::class,"events"]);
 Route::get("/event/{alias}",[EventController::class,"event"]);
-Route::get('/routes', [RoutesController::class, 'index']);
+Route::get('/routes', [RoutesController::class, 'routes']);
 Route::get('/route/{alias}', [RoutesController::class, 'route']);
 Route::get('/souvenirs', [SouvenirController::class, 'index']);
 Route::get('/souvenir/{alias}', [SouvenirController::class, 'souvenir']);
@@ -40,6 +40,10 @@ Route::get('/all-news', [NewsController::class, 'allNews']);
 Route::get('/places', [PlacesController::class, 'index']);
 Route::get('/shop/{alias}', [ShopController::class, 'shop']);
 Route::get('/single-place/{alias}', [PlacesController::class, 'singlePlace']);
+Route::get('/guides', [RoutesController::class, 'guides']);
+Route::get('/guide/{alias}', [RoutesController::class, 'guide']);
+Route::get('/agencies', [RoutesController::class, 'agencies']);
+Route::get('/agency/{alias}', [RoutesController::class, 'agency']);
 
 
 
@@ -61,5 +65,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'cabinet'], function (){
 
     Route::get('/my-blogs', [BlogsController::class, 'myBlogs']);
     Route::post('/send-blog', [BlogsController::class, 'sendBlog']);
+
+    Route::post('/add-save', [UserController::class, 'addSave']);
 });
 

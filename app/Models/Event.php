@@ -106,6 +106,11 @@ class Event extends Model
         return $this->belongsToMany(CategoryEvents::class,"categories_events","event_id","category_id");
     }
 
+    public function savings()
+    {
+        return $this->hasMany(Saving::class, 'event_id');
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

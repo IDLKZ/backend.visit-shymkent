@@ -17,7 +17,7 @@ class PlacesController extends Controller
 
     public function singlePlace($alias)
     {
-        $place = Place::with('category', 'galleries', 'workdays', 'workdays.weekday', 'user', 'events', 'events.workdays', 'events.workdays.weekday')->where('alias', $alias)->first();
+        $place = Place::with('category', 'galleries', 'workdays', 'workdays.weekday', 'user', 'events', 'events.workdays', 'events.workdays.weekday', 'savings')->where('alias', $alias)->first();
         return response()->json($place);
     }
 
