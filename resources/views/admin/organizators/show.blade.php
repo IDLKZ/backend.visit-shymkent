@@ -533,7 +533,7 @@
                     <thead>
                     <tr>
                         <th>{{__("admin.title")}}</th>
-                        <th>{{__("admin.routes")}}</th>
+                        <th>{{__("admin.organizators")}}</th>
                         <th>Рейтинг</th>
                     </tr>
                     </thead>
@@ -545,7 +545,7 @@
                                     {{$rating->title}}
                                 </td>
                                 <td>
-                                    {{$rating->route->title}}
+                                    {{$rating->organizator->title}}
                                 </td>
                                 <td>
                                     {{$rating->rating}}
@@ -572,6 +572,7 @@
                         @endforeach
 
                     @endif
+
 
                     </tbody>
                 </table>

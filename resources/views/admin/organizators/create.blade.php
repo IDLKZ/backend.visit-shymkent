@@ -100,7 +100,7 @@
                             </div>
                             {{--                            Description and Education start--}}
                             <div class="form-group">
-                                <label for="description{{__('admin.description_kz')}}">{{__('admin.description_kz')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
+                                <label for="description{{__('admin.description_kz')}}">{{__('admin.description_kz')}}</label>
                                 <textarea class="form-control @error('description_kz') is-invalid @enderror" id="description{{__('admin.description_kz')}}" name='description_kz' autocomplete="off">
                                     {{old('description_kz')}}
                                 </textarea>
@@ -134,7 +134,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="description{{__('admin.education_kz')}}">{{__('admin.education_kz')}} </label>
+                                <label for="description{{__('admin.education_kz')}}">{{__('admin.education_kz')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <textarea class="form-control @error('education_kz') is-invalid @enderror" id="description{{__('admin.education_kz')}}" name='education_kz' autocomplete="off">
                                     {{old('education_kz')}}
                                 </textarea>

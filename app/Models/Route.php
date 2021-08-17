@@ -105,5 +105,17 @@ class Route extends Model
         );
     }
 
+    public function organizators()
+    {
+        return $this->hasManyThrough(
+            Organizator::class,
+            RouteAndOrganizator::class,
+            "route_id",
+            "id",
+            "id",
+            "organizator_id"
+        );
+    }
+
 
 }
