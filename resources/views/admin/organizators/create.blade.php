@@ -224,7 +224,15 @@
                                 @enderror
 
                             </div>
-
+                            <div class="form-group">
+                                <label for="eventum">{{__('admin.address')}}<small class="text-danger">{{__("admin.not_required")}}</small></label>
+                                <input type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{old('address')}}">
+                                @error('address')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
                             {{--                            End of contacts--}}
                             {{--                            Start of the images--}}
                             <div class="form-group">

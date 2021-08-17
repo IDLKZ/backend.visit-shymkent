@@ -29,8 +29,60 @@
                                     </option>
                         </select>
                     </div>
+                    <div class="table-responsive">
+                    <table id="dataTableExample" class="table">
+                        <thead>
+                        <tr>
+                            <th>{{__("admin.id")}}</th>
+                            <th>{{__("admin.image")}}</th>
+                            <th>{{__("admin.name")}}</th>
+                            <th>{{__("admin.role_id")}}</th>
+                            <th>E-mail</th>
+                            <th>{{__("admin.phone")}}</th>
+                            <th>{{__("admin.status")}}</th>
+                            <th>{{__("admin.verified")}}</th>
+                            <th>{{__("admin.action")}}</th>
+                        </tr>
+                        </thead>
+                        @if($organizator->user)
+                            <tbody>
+                                    <tr>
+                                        <td>{{$organizator->user->id}}</td>
+                                        <td><img src="{{$organizator->user->getFile('image')}}" width="50"></td>
+                                        <td>{{$organizator->user->name}}</td>
+                                        <td>{{$organizator->user->role->title}}</td>
+                                        <td>{{$organizator->user->email}}</td>
+                                        <td>{{$organizator->user->phone}}</td>
+                                        <td><input disabled type="checkbox" @if($organizator->user->status)checked @endif data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger"></td>
+                                        <td><input disabled type="checkbox" @if($organizator->user->verified)checked @endif data-toggle="toggle" data-on="{{__("admin.verified")}}" data-off="{{__("admin.not_verified")}}" data-onstyle="success" data-offstyle="danger"></td>
+                                        <td class="d-flex">
+                                            <div class="btn-group dropdown">
+                                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{__("admin.action")}}
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="{{route("admin-user.show",$organizator->user->id)}}">{{__("admin.info")}}</a>
+                                                    <a class="dropdown-item" href="{{route("admin-user.edit",$organizator->user->id)}}">{{__("admin.change")}}</a>
+                                                    <form method="post" action="{{route("admin-user.destroy",$organizator->user->id)}}">
+                                                        @csrf
+                                                        @method("delete")
+                                                        <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+
+
+                                        </td>
+                                    </tr>
+                            </tbody>
+                        @endif
+                    </table>
+                </div>
+
+
                     <div class="form-group">
-                        <label for="event_type">{{__('admin.event_type')}}</label>
+                        <label for="event_type">{{__('admin.role_id')}}</label>
                         <select disabled class="w-100" name="role_id">
                                     <option selected>
                                         {{$organizator->role->title}}
@@ -125,6 +177,10 @@
                             <a target="_blank" href="{{$item}}">{{$item}}</a>
                         @endforeach
                     @endif
+                </div>
+                <div class="form-group">
+                    <label for="eventum">{{__('admin.address')}}<small class="text-danger">{{__("admin.not_required")}}</small></label>
+                    <input disabled type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{$organizator->address}}">
                 </div>
                 {{--                            End of contacts--}}
                     {{--                            Start of languages--}}
@@ -308,11 +364,11 @@
                         <th>{{__("admin.action")}}</th>
                     </tr>
                     </thead>
-                    @if($event->places)
+                    @if($organizator->places)
                         <tbody>
 
-                        @if($event->places->isNotEmpty())
-                            @foreach($event->places as $place)
+                        @if($organizator->places->isNotEmpty())
+                            @foreach($organizator->places as $place)
                                 <tr>
                                     <td>{{$place->id}}</td>
                                     <td><img src="{{$place->getFile('image')}}" width="50"></td>

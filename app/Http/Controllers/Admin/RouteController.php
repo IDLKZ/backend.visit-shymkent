@@ -77,7 +77,6 @@ class RouteController extends Controller
     public function show($id)
     {
         if($route = Route::find($id)){
-
             $route->load((["types.routeType","organizatorsRoute.organizator.role","routePoints"]));
             $organizators = Organizator::whereNotIn("id",$route->organizatorsRoute->pluck("organizator_id"))->get();
             $types = TypeOfRoute::whereNotIn("id",$route->types->pluck("type_id"))->get();

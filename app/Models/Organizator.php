@@ -62,7 +62,7 @@ class Organizator extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'role_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'education_ru', 'education_kz', 'education_en', 'languages','phone', 'social_networks', 'sites', 'image','eventum','status', 'created_at', 'updated_at'];
+    protected $fillable = ['user_id', 'role_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'education_ru', 'education_kz', 'education_en', 'languages','phone','address', 'social_networks', 'sites', 'image','eventum','status', 'created_at', 'updated_at'];
 
 
     /**
@@ -113,6 +113,19 @@ class Organizator extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    public function routes()
+    {
+        return $this->hasManyThrough(
+            Route::class,
+            RouteAndOrganizator::class,
+            "organizator_id",
+            "id",
+            "id",
+            "route_id"
+        );
+    }
+
 
 
 

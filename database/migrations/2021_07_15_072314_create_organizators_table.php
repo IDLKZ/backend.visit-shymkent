@@ -33,6 +33,7 @@ class CreateOrganizatorsTable extends Migration
             $table->json("phone")->nullable();
             $table->json("social_networks")->nullable();
             $table->json("sites")->nullable();
+            $table->string("address")->nullable();
             $table->integer("status");
             $table->timestamps();
         });
