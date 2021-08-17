@@ -93,7 +93,7 @@ class Route extends Model
         return $this->hasMany(Saving::class, 'route_id');
     }
 
-    public function routes()
+    public function typesRoute()
     {
         return $this->hasManyThrough(
             TypeOfRoute::class,
