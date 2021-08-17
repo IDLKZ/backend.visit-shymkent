@@ -79,4 +79,17 @@ class Blog extends Model
     {
         return $this->hasMany('App\Models\Gallery');
     }
+
+    public function savings()
+    {
+        return $this->hasMany(Saving::class);
+    }
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

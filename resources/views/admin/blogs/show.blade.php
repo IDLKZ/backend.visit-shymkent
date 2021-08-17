@@ -37,6 +37,56 @@
                             {{$blog->user->name}}
                         </option>
                     </select>
+                    <div class="table-responsive">
+                        <table id="dataTableExample" class="table">
+                            <thead>
+                            <tr>
+                                <th>{{__("admin.id")}}</th>
+                                <th>{{__("admin.image")}}</th>
+                                <th>{{__("admin.name")}}</th>
+                                <th>{{__("admin.role_id")}}</th>
+                                <th>E-mail</th>
+                                <th>{{__("admin.phone")}}</th>
+                                <th>{{__("admin.status")}}</th>
+                                <th>{{__("admin.verified")}}</th>
+                                <th>{{__("admin.action")}}</th>
+                            </tr>
+                            </thead>
+                            @if($blog->user)
+                                <tbody>
+                                <tr>
+                                    <td>{{$blog->user->id}}</td>
+                                    <td><img src="{{$blog->user->getFile('image')}}" width="50"></td>
+                                    <td>{{$blog->user->name}}</td>
+                                    <td>{{$blog->user->role->title}}</td>
+                                    <td>{{$blog->user->email}}</td>
+                                    <td>{{$blog->user->phone}}</td>
+                                    <td><input disabled type="checkbox" @if($blog->user->status)checked @endif data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger"></td>
+                                    <td><input disabled type="checkbox" @if($blog->user->verified)checked @endif data-toggle="toggle" data-on="{{__("admin.verified")}}" data-off="{{__("admin.not_verified")}}" data-onstyle="success" data-offstyle="danger"></td>
+                                    <td class="d-flex">
+                                        <div class="btn-group dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{__("admin.action")}}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{route("admin-user.show",$blog->user->id)}}">{{__("admin.info")}}</a>
+                                                <a class="dropdown-item" href="{{route("admin-user.edit",$blog->user->id)}}">{{__("admin.change")}}</a>
+                                                <form method="post" action="{{route("admin-user.destroy",$blog->user->id)}}">
+                                                    @csrf
+                                                    @method("delete")
+                                                    <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            @endif
+                        </table>
+                    </div>
                 </div>
 
                 {{--                            Title starts--}}
@@ -113,7 +163,7 @@
                                             {{__("admin.action")}}
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" id="gallery-edit" data-id="{{$gallery->id}}" data-image="{{$gallery->getFile("image")}}">{{__("admin.change")}}</a>
+                                            <a class="gallery-edit dropdown-item"  data-id="{{$gallery->id}}" data-image="{{$gallery->getFile("image")}}">{{__("admin.change")}}</a>
                                             <form method="post" action="{{route("gallery.destroy",$gallery->id)}}">
                                                 @csrf
                                                 @method("delete")
@@ -157,7 +207,7 @@
                         <img id="gallery" width="100%">
                         <input type="hidden" value="{{$blog->id}}" name="blog_id">
                         <div class="form-group">
-                            <label for="description{{__('admin.image')}}">{{__('admin.image')}}</label>
+                            <label for="description{{__('admin.image')}}">{{__('admin.image')}} </label>
                             <input accept="image/png, image/jpeg" type="file" class="form-control @error('image') is-invalid @enderror" id="description{{__('admin.image')}}" name='image'>
                             @error('image')
                             <div class="invalid-feedback">
@@ -220,7 +270,7 @@
         }
 
 
-        $("#gallery-edit").on("click",function (e){
+        $(".gallery-edit").on("click",function (e){
             e.preventDefault();
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");

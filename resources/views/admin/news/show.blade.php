@@ -16,7 +16,7 @@
             </ol>
         </nav>
 
-        <div class="row bg-white py-5">
+        <div class="row bg-white py-5 px-4">
             <div class="col-md-4">
                 <img src="{{$news->getFile('image')}}" width="100%">
             </div>
@@ -37,6 +37,57 @@
                                         {{$news->user->name}}
                                     </option>
                         </select>
+
+                        <div class="table-responsive">
+                            <table id="dataTableExample" class="table">
+                                <thead>
+                                <tr>
+                                    <th>{{__("admin.id")}}</th>
+                                    <th>{{__("admin.image")}}</th>
+                                    <th>{{__("admin.name")}}</th>
+                                    <th>{{__("admin.role_id")}}</th>
+                                    <th>E-mail</th>
+                                    <th>{{__("admin.phone")}}</th>
+                                    <th>{{__("admin.status")}}</th>
+                                    <th>{{__("admin.verified")}}</th>
+                                    <th>{{__("admin.action")}}</th>
+                                </tr>
+                                </thead>
+                                @if($news->user)
+                                    <tbody>
+                                    <tr>
+                                        <td>{{$news->user->id}}</td>
+                                        <td><img src="{{$news->user->getFile('image')}}" width="50"></td>
+                                        <td>{{$news->user->name}}</td>
+                                        <td>{{$news->user->role->title}}</td>
+                                        <td>{{$news->user->email}}</td>
+                                        <td>{{$news->user->phone}}</td>
+                                        <td><input disabled type="checkbox" @if($news->user->status)checked @endif data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger"></td>
+                                        <td><input disabled type="checkbox" @if($news->user->verified)checked @endif data-toggle="toggle" data-on="{{__("admin.verified")}}" data-off="{{__("admin.not_verified")}}" data-onstyle="success" data-offstyle="danger"></td>
+                                        <td class="d-flex">
+                                            <div class="btn-group dropdown">
+                                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{__("admin.action")}}
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="{{route("admin-user.show",$news->user->id)}}">{{__("admin.info")}}</a>
+                                                    <a class="dropdown-item" href="{{route("admin-user.edit",$news->user->id)}}">{{__("admin.change")}}</a>
+                                                    <form method="post" action="{{route("admin-user.destroy",$news->user->id)}}">
+                                                        @csrf
+                                                        @method("delete")
+                                                        <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                @endif
+                            </table>
+                        </div>
                     </div>
 
                     {{--                            Title starts--}}
@@ -89,7 +140,7 @@
         </div>
 
         {{--            Galleries --}}
-        <div class="row bg-white py-5">
+        <div class="row bg-white py-5 px-4">
             <h2>{{__("admin.galleries")}}</h2>
             <div class="col-md-12 text-right">
                 <button class="btn btn-success" data-toggle="modal" data-target="#createGallery">{{__("admin.create")}}</button>
@@ -113,7 +164,7 @@
                                             {{__("admin.action")}}
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" id="gallery-edit" data-id="{{$gallery->id}}" data-image="{{$gallery->getFile("image")}}">{{__("admin.change")}}</a>
+                                            <a class="gallery-edit dropdown-item" data-id="{{$gallery->id}}" data-image="{{$gallery->getFile("image")}}">{{__("admin.change")}}</a>
                                             <form method="post" action="{{route("gallery.destroy",$gallery->id)}}">
                                                 @csrf
                                                 @method("delete")
@@ -220,7 +271,7 @@
         }
 
 
-        $("#gallery-edit").on("click",function (e){
+        $(".gallery-edit").on("click",function (e){
             e.prnewsDefault();
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");

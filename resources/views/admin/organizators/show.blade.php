@@ -179,7 +179,7 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="eventum">{{__('admin.address')}}<small class="text-danger">{{__("admin.not_required")}}</small></label>
+                    <label for="eventum">{{__('admin.address')}}</label>
                     <input disabled type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{$organizator->address}}">
                 </div>
                 {{--                            End of contacts--}}

@@ -63,7 +63,7 @@ class News extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'author_id');
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     /**
@@ -79,6 +79,18 @@ class News extends Model
      */
     public function galleries()
     {
-        return $this->hasMany('App\Models\Gallery');
+        return $this->hasMany(Gallery::class);
+    }
+    public function savings()
+    {
+        return $this->hasMany(Saving::class);
+    }
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }

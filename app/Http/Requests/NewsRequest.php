@@ -35,8 +35,8 @@ class NewsRequest extends FormRequest
         ];
 
         if ($this->getMethod() == 'POST') {
-            $rules += ['image' => 'required|image|max:10240'];
-            $rules += ['images.*' => 'required|image|max:20480'];
+            $rules += ['image' => 'sometimes|image|max:10240'];
+            $rules += ['images' =>'sometimes|array','images.*' => 'sometimes|image|max:20480'];
         }
 
         if ($this->getMethod() == 'PUT') {
