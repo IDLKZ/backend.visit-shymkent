@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\FileUpload;
 use App\Role;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -31,10 +32,18 @@ use Illuminate\Database\Eloquent\Model;
 class Organizator extends Model
 {
 
-
+    use Sluggable;
     use FileUpload;
     use \App\Language;
 
+    public function sluggable(): array
+    {
+        return [
+            'alias' => [
+                'source' => 'title_ru'
+            ]
+        ];
+    }
 
     protected $casts = [
       "languages"=>"object",
@@ -53,7 +62,7 @@ class Organizator extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_id', 'role_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'education_ru', 'education_kz', 'education_en', 'languages','phone', 'social_networks', 'sites', 'image','eventum','status', 'created_at', 'updated_at'];
+    protected $fillable = ['user_id', 'role_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'education_ru', 'education_kz', 'education_en', 'languages','phone', 'social_networks', 'sites', 'image','eventum','status', 'created_at', 'updated_at'];
 
 
     /**
