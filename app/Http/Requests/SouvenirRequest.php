@@ -36,8 +36,8 @@ class SouvenirRequest extends FormRequest
         ];
 
         if ($this->getMethod() == 'POST') {
-            $rules += ['image' => 'required|image|max:10240'];
-            $rules += ['images.*' => 'required|image|max:10240'];
+            $rules += ['image' => 'sometimes|image|max:10240'];
+            $rules += ["images"=>"sometimes|array",'images.*' => 'required|image|max:10240'];
         }
 
         if ($this->getMethod() == 'PUT') {

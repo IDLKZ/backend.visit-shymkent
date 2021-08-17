@@ -17,6 +17,17 @@
         </nav>
 
         <div class="row">
+            <div class="col-md-12">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+            </div>
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
@@ -89,7 +100,7 @@
                             </div>
                             {{--                            Description and Education start--}}
                             <div class="form-group">
-                                <label for="description{{__('admin.description_kz')}}">{{__('admin.description_kz')}}</label>
+                                <label for="description{{__('admin.description_kz')}}">{{__('admin.description_kz')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <textarea class="form-control @error('description_kz') is-invalid @enderror" id="description{{__('admin.description_kz')}}" name='description_kz' autocomplete="off">
                                     {{old('description_kz')}}
                                 </textarea>
@@ -100,7 +111,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="description{{__('admin.description_ru')}}">{{__('admin.description_ru')}}</label>
+                                <label for="description{{__('admin.description_ru')}}">{{__('admin.description_ru')}} </label>
                                 <textarea class="form-control @error('description_ru') is-invalid @enderror" id="description{{__('admin.description_ru')}}" name='description_ru' autocomplete="off">
                                     {{old('description_ru')}}
                                 </textarea>
@@ -123,7 +134,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="description{{__('admin.education_kz')}}">{{__('admin.education_kz')}}</label>
+                                <label for="description{{__('admin.education_kz')}}">{{__('admin.education_kz')}} </label>
                                 <textarea class="form-control @error('education_kz') is-invalid @enderror" id="description{{__('admin.education_kz')}}" name='education_kz' autocomplete="off">
                                     {{old('education_kz')}}
                                 </textarea>
@@ -134,7 +145,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="description{{__('admin.education_ru')}}">{{__('admin.education_ru')}}</label>
+                                <label for="description{{__('admin.education_ru')}}">{{__('admin.education_ru')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <textarea class="form-control @error('education_ru') is-invalid @enderror" id="description{{__('admin.education_ru')}}" name='education_ru' autocomplete="off">
                                     {{old('education_ru')}}
                                 </textarea>
@@ -145,7 +156,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="description{{__('admin.education_en')}}">{{__('admin.education_en')}}</label>
+                                <label for="description{{__('admin.education_en')}}">{{__('admin.education_en')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <textarea class="form-control @error('education_en') is-invalid @enderror" id="description{{__('admin.education_en')}}" name='education_en' autocomplete="off">
                                     {{old('education_en')}}
                                 </textarea>
@@ -159,7 +170,7 @@
                             {{--                            Eventum--}}
 
                             <div class="form-group">
-                                <label for="eventum">{{__('admin.eventum')}}</label>
+                                <label for="eventum">{{__('admin.eventum')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input type="text" class="form-control  @error('eventum') is-invalid @enderror" id="eventum" name='eventum' autocomplete="off" placeholder="{{__('admin.eventum')}}" value="{{old('eventum')}}">
                                 @error('eventum')
                                 <div class="invalid-feedback">
@@ -170,7 +181,7 @@
                             {{--                            End of eventum--}}
                             {{--                            Start of contacts--}}
                             <div class="form-group">
-                                <label for="{{__('admin.phone')}}">{{__('admin.phone')}}</label>
+                                <label for="{{__('admin.phone')}}">{{__('admin.phone')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select class="phone" name="phone[]" style="font-size: 14px">
                                 </select>
                                 @error('phone')
@@ -181,7 +192,7 @@
 
                             </div>
                             <div class="form-group">
-                                <label for="{{__('admin.social_networks')}}">{{__('admin.social_networks')}}</label>
+                                <label for="{{__('admin.social_networks')}}">{{__('admin.social_networks')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select class="social_networks" name="social_networks[]" style="font-size: 14px">
                                 </select>
                                 @error('social_networks')
@@ -191,7 +202,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="{{__('admin.sites')}}">{{__('admin.sites')}}</label>
+                                <label for="{{__('admin.sites')}}">{{__('admin.sites')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select class="sites" name="sites[]" style="font-size: 14px">
                                 </select>
                                 @error('sites')
@@ -203,7 +214,7 @@
                             {{--                            End of contacts--}}
                             {{--                            Start of languages--}}
                             <div class="form-group">
-                                <label for="{{__('admin.languages')}}">{{__('admin.languages')}}</label>
+                                <label for="{{__('admin.languages')}}">{{__('admin.languages')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select class="languages" name="languages[]" style="font-size: 14px">
                                 </select>
                                 @error('languages')
@@ -217,7 +228,7 @@
                             {{--                            End of contacts--}}
                             {{--                            Start of the images--}}
                             <div class="form-group">
-                                <label for="description{{__('admin.image')}}">{{__('admin.image')}}</label>
+                                <label for="description{{__('admin.image')}}">{{__('admin.image')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input accept="image/png, image/jpeg" type="file" class="form-control @error('image') is-invalid @enderror" id="description{{__('admin.image')}}" name='image'>
                                 @error('image')
                                 <div class="invalid-feedback">
@@ -226,7 +237,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="{{__('admin.images')}}">{{__('admin.images')}}</label>
+                                <label for="{{__('admin.images')}}">{{__('admin.images')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <input accept="image/png, image/jpeg" type="file" class="form-control @error('images') is-invalid @enderror" id="{{__('admin.images')}}" multiple name='images[]'>
                                 @error('images')
                                 <div class="invalid-feedback">

@@ -93,10 +93,7 @@ class Shop extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function shopUsers()
-    {
-        return $this->hasMany('App\Models\ShopUser');
-    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -115,4 +112,11 @@ class Shop extends Model
     {
         return $this->hasMany(Workday::class, 'shop_id');
     }
+
+    public function savings()
+    {
+        return $this->hasMany(Saving::class, 'shop_id');
+    }
+
+
 }

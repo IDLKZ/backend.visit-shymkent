@@ -32,15 +32,11 @@ class OrganizatorRequest extends FormRequest
             'description_kz' => 'required',
             'description_ru' => 'required',
             'description_en' => 'required',
-            'education_kz' => 'required',
-            'education_ru' => 'required',
-            'education_en' => 'required',
-            'languages'=>"required|array"
         ];
 
         if ($this->getMethod() == 'POST') {
-            $rules += ['image' => 'required|image|max:10240'];
-            $rules += ['images.*' => 'required|image|max:10240'];
+            $rules += ['image' => 'sometimes|image|max:10240'];
+            $rules += ["images"=>"sometimes|array",'images.*' => 'sometimes|image|max:10240'];
         }
 
         if ($this->getMethod() == 'PUT') {

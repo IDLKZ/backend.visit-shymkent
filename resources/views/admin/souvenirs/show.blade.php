@@ -30,6 +30,66 @@
                                 </option>
 
                     </select>
+                    <div class="table-responsive">
+                        <table id="dataTableExample" class="table">
+                            <thead>
+                            <tr>
+                                <th>{{__("admin.image")}}</th>
+                                <th>{{__("admin.title")}}</th>
+                                <th>{{__("admin.alias")}}</th>
+                                <th>{{__("admin.action")}}</th>
+                            </tr>
+                            </thead>
+                            @if($souvenir->souvenirCategory)
+                                <tbody>
+                                        <tr>
+                                            <td><img src="{{$souvenir->souvenirCategory->getFile('image')}}" width="50"></td>
+                                            <td>{{$souvenir->souvenirCategory->title}}</td>
+                                            <td>{{$souvenir->souvenirCategory->alias}}</td>
+                                            <td>
+                                                @if($souvenir->souvenirCategory->status == 1)
+                                                    <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                                @elseif($souvenir->souvenirCategory->status == 0)
+                                                    <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                                @elseif($souvenir->souvenirCategory->status == -1)
+                                                    <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                                @endif
+                                            </td>
+                                            <td class="d-flex">
+                                                <div class="btn-group dropdown">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{__("admin.action")}}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="{{route("category-souvenir.show",$souvenir->souvenirCategory->id)}}">{{__("admin.info")}}</a>
+                                                        <a class="dropdown-item" href="{{route("category-souvenir.edit",$souvenir->souvenirCategory->id)}}">{{__("admin.change")}}</a>
+                                                        <form method="post" action="{{route("category-souvenir.destroy",$souvenir->souvenirCategory->id)}}">
+                                                            @csrf
+                                                            @method("delete")
+                                                            <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </td>
+
+                                        </tr>
+                                </tbody>
+                            @endif
+                        </table>
+                    </div>
+
+
+
                 </div>
 
                 <div class="form-group">
@@ -40,6 +100,69 @@
                             {{$souvenir->shop->title}}
                         </option>
                     </select>
+
+                    <div class="table-responsive">
+                        <table id="dataTableExample" class="table">
+                            <thead>
+                            <tr>
+                                <th>{{__("admin.id")}}</th>
+                                <th>{{__("admin.image")}}</th>
+                                <th>{{__("admin.role_id")}}</th>
+                                <th>{{__("admin.title")}}</th>
+                                <th>{{__("admin.status")}}</th>
+                                <th>{{__("admin.eventum")}}</th>
+                                <th>{{__("admin.action")}}</th>
+                            </tr>
+                            </thead>
+                            @if($souvenir->shop)
+                                <tbody>
+                                        <tr>
+                                            <td>{{$souvenir->shop->id}}</td>
+                                            <td><img src="{{$souvenir->shop->getFile('image')}}" width="50"></td>
+                                            <td>{{$souvenir->shop->role->title}}</td>
+                                            <td>{{$souvenir->shop->title}}</td>
+                                            <td>
+                                                @if($souvenir->shop->status == 1)
+                                                    <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                                @elseif($souvenir->shop->status == 0)
+                                                    <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                                @elseif($souvenir->shop->status == -1)
+                                                    <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                                @endif
+                                            </td>
+                                            <td>{{$souvenir->shop->eventum}}</td>
+
+                                            <td class="d-flex">
+                                                <div class="btn-group dropdown">
+                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        {{__("admin.action")}}
+                                                    </button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="{{route('shops.show', $souvenir->shop->id)}}">{{__("admin.info")}}</a>
+                                                        <a class="dropdown-item" href="{{route('shops.edit', $souvenir->shop->id)}}">{{__("admin.change")}}</a>
+                                                        <form action="{{route('shops.destroy', $souvenir->shop->id)}}" method="post">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            @endif
+                        </table>
+                    </div>
                 </div>
                 {{--                            Title starts--}}
                 <div class="form-group">
@@ -129,7 +252,7 @@
                                             {{__("admin.action")}}
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" id="gallery-edit" data-id="{{$gallery->id}}" data-image="{{$gallery->getFile("image")}}">{{__("admin.change")}}</a>
+                                            <a class="gallery-edit dropdown-item" data-id="{{$gallery->id}}" data-image="{{$gallery->getFile("image")}}">{{__("admin.change")}}</a>
                                             <form method="post" action="{{route("gallery.destroy",$gallery->id)}}">
                                                 @csrf
                                                 @method("delete")
@@ -237,7 +360,7 @@
         }
 
 
-        $("#gallery-edit").on("click",function (e){
+        $(".gallery-edit").on("click",function (e){
             e.preventDefault();
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");

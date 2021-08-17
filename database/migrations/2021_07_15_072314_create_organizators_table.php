@@ -23,11 +23,12 @@ class CreateOrganizatorsTable extends Migration
             $table->text("description_ru");
             $table->text("description_kz");
             $table->text("description_en");
-            $table->text("education_ru");
-            $table->text("education_kz");
-            $table->text("education_en");
-            $table->text("languages");
-            $table->string("image");
+            $table->text("education_ru")->nullable();
+            $table->text("education_kz")->nullable();
+            $table->text("education_en")->nullable();
+            $table->text("languages")->nullable();
+            $table->string("image")->nullable();
+            $table->string("alias");
             $table->string("eventum")->nullable();
             $table->json("phone")->nullable();
             $table->json("social_networks")->nullable();

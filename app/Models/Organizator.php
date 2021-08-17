@@ -88,4 +88,35 @@ class Organizator extends Model
     {
         return $this->hasMany(Gallery::class);
     }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    public function places()
+    {
+        return $this->hasMany(Place::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function savings()
+    {
+        return $this->hasMany(Saving::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+
+
+
+
+
 }

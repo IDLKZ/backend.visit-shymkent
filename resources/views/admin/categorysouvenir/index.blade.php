@@ -28,7 +28,6 @@
                                 <i data-feather="plus"></i>
                             </a>
                         </div>
-
                         <div class="table-responsive">
                             <table id="dataTableExample" class="table">
                                 <thead>

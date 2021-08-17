@@ -75,4 +75,13 @@ class Souvenir extends Model
     {
         return $this->hasMany(Gallery::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function savings(){
+        return $this->hasMany(Saving::class);
+    }
 }
