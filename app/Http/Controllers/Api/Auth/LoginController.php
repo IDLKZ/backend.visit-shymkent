@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Resources\User as UserResource;
+use App\Models\Organizator;
+use App\Models\Shop;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,7 +28,7 @@ class LoginController extends Controller
                 'token' => $token
             ],
             'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'expires_in' => auth('api')->factory()->getTTL() * 60*24
         ]);
 
 //        return (new UserResource($request->user()))->additional([
@@ -38,6 +41,60 @@ class LoginController extends Controller
 
     public function user(Request $request) {
         return new UserResource($request->user());
+    }
+
+    public function register(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+        ]);
+        $input = $request->all();
+        if ($input['role_id'] != 3){
+            $input['status'] = 0;
+        }
+        $input['password'] = bcrypt($request->get('password'));
+        $user = User::add($input);
+
+        $input['description_kz'] = '-';
+        $input['description_ru'] = '-';
+        $input['description_en'] = '-';
+
+        if ($input['role_id'] == 4 || $input['role_id'] == 7){
+            $input['title_kz'] = $request->get('name');
+            $input['title_ru'] = $request->get('name');
+            $input['title_en'] = $request->get('name');
+        }
+
+        if ($input['role_id'] == 4){
+            $input['status'] = 0;
+            $input['user_id'] = $user->id;
+            $input['phone'] = null;
+            $data = Organizator::add($input);
+        }
+        if ($input['role_id'] == 5){
+            $this->validate($request, ['title_kz' => 'required|max:255', 'title_ru' => 'required|max:255', 'title_en' => 'required|max:255']);
+            $input['status'] = 0;
+            $input['user_id'] = $user->id;
+            $input['phone'] = null;
+            $data = Organizator::add($input);
+        }
+        if ($input['role_id'] == 6){
+            $this->validate($request, ['title_kz' => 'required|max:255', 'title_ru' => 'required|max:255', 'title_en' => 'required|max:255']);
+            $input['status'] = 0;
+            $input['user_id'] = $user->id;
+            $input['phone'] = null;
+            $data = Shop::add($input);
+        }
+        if ($input['role_id'] == 7){
+            $input['status'] = 0;
+            $input['user_id'] = $user->id;
+            $input['phone'] = null;
+            $data = Shop::add($input);
+        }
+
+
     }
 
     public function logout()

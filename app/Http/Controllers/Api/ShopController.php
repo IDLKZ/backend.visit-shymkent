@@ -10,7 +10,6 @@ class ShopController extends Controller
 {
     public function shop($alias)
     {
-        $shops = Shop::with(['souvenirs', 'user'])->firstWhere('alias', $alias);
-        return response()->json($shops);
+
     }
 }

@@ -32,13 +32,16 @@ Route::get("/all-events",[EventController::class,"events"]);
 Route::get("/event/{alias}",[EventController::class,"event"]);
 Route::get('/routes', [RoutesController::class, 'routes']);
 Route::get('/route/{alias}', [RoutesController::class, 'route']);
-Route::get('/souvenirs', [SouvenirController::class, 'index']);
+Route::get('/souvenirs', [SouvenirController::class, 'souvenirs']);
+Route::get('/shops', [SouvenirController::class, 'shops']);
+Route::get('/craftmans', [SouvenirController::class, 'craftmans']);
 Route::get('/souvenir/{alias}', [SouvenirController::class, 'souvenir']);
 Route::get('/blogs', [BlogsController::class, 'index']);
 Route::get('/news', [NewsController::class, 'index']);
+Route::get('/new/{alias}', [NewsController::class, 'singleNew']);
 Route::get('/all-news', [NewsController::class, 'allNews']);
 Route::get('/places', [PlacesController::class, 'index']);
-Route::get('/shop/{alias}', [ShopController::class, 'shop']);
+Route::get('/shop/{alias}', [SouvenirController::class, 'shop']);
 Route::get('/single-place/{alias}', [PlacesController::class, 'singlePlace']);
 Route::get('/guides', [RoutesController::class, 'guides']);
 Route::get('/guide/{alias}', [RoutesController::class, 'guide']);
@@ -46,7 +49,7 @@ Route::get('/agencies', [RoutesController::class, 'agencies']);
 Route::get('/agency/{alias}', [RoutesController::class, 'agency']);
 
 
-
+Route::post('/register', [LoginController::class, 'register']);
 //CABINET
 Route::group([
 
@@ -60,11 +63,22 @@ Route::group([
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'cabinet'], function (){
+    Route::get('/user', [UserController::class, 'index']);
     Route::put('/update-info', [UserController::class, 'update']);
+    Route::put('/update-agency', [UserController::class, 'agency']);
+    Route::put('/update-guide', [UserController::class, 'guide']);
+    Route::put('/update-craftman', [UserController::class, 'craftman']);
+    Route::put('/update-craft', [UserController::class, 'craft']);
     Route::post('/update-photo', [UserController::class, 'updatePhoto']);
+    Route::post('/update-photo-company', [UserController::class, 'updatePhotoCompany']);
+    Route::post('/upload-gallery', [UserController::class, 'uploadGallery']);
 
     Route::get('/my-blogs', [BlogsController::class, 'myBlogs']);
     Route::post('/send-blog', [BlogsController::class, 'sendBlog']);
+    Route::get('/my-events', [EventController::class, 'myEvents']);
+    Route::post('/send-event', [EventController::class, 'sendEvent']);
+
+    Route::get('/savings', [UserController::class, 'savings']);
 
     Route::post('/add-save', [UserController::class, 'addSave']);
 });
