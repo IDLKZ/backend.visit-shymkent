@@ -11,6 +11,8 @@ use App\Models\EventType;
 use App\Models\Gallery;
 use App\Models\Organizator;
 use App\Models\Place;
+use App\Models\PlaceEvent;
+use App\Models\Setting;
 use App\Models\User;
 use App\Models\Weekday;
 
@@ -23,8 +25,9 @@ class EventsController extends Controller
      */
     public function index()
     {
-        $events = Event::paginate(15);
-        return view("admin.events.index",compact("events"));
+        $setting = Setting::find(6);
+        $events = Event::with(["organizator","eventType","categoriesEvents","galleries","ratings","reviews"])->whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.events.index",compact("events","setting"));
     }
 
     /**
@@ -37,7 +40,7 @@ class EventsController extends Controller
         $categories = CategoryEvents::all();
         $types = EventType::all();
         $organizators = Organizator::where("status",1)->with("user")->get();
-        $places = Place::where("status",1)->get();
+        $places = Place::all();
         return view("admin.events.create",compact("types","categories", 'organizators',"places"));
     }
 
@@ -57,9 +60,13 @@ class EventsController extends Controller
                 $gallery->uploadFile($file,"image");
             }
         }
-
         foreach ($request->category_id as $key => $category){
             $category = CategoryEvent::add(["category_id"=>$category,"event_id"=>$event->id]);
+        }
+        if($request->places){
+            foreach ($request->places as $place){
+                PlaceEvent::add(["event_id"=>$event->id,"place_id"=>$place]);
+            }
         }
         return redirect(route('events.index'));
     }
@@ -72,12 +79,13 @@ class EventsController extends Controller
      */
     public function show($id)
     {
-        $event = Event::find($id);
-        $categories = CategoryEvents::whereNotIn("id",$event->categoryEvent->pluck("category_id")->toArray())->get();
-        $types = EventType::all();
-        $weekdays = Weekday::all();
+        $event = Event::with(["organizator","eventType","categoriesEvents","galleries","ratings","reviews"])->find($id);
         if($event){
-            return view("admin.events.show",compact("event","types","weekdays","categories"));
+            $categories = CategoryEvents::whereNotIn("id",$event->categoryEvent->pluck("category_id")->toArray())->get();
+            $types = EventType::all();
+            $weekdays = Weekday::all();
+            $places = Place::whereNotIn("id",$event->places->pluck("id")->toArray())->get();
+            return view("admin.events.show",compact("event","types","weekdays","categories","places"));
         }
         else{
             return redirect(route('events.index'));
@@ -93,10 +101,15 @@ class EventsController extends Controller
     public function edit($id)
     {
         $event = Event::find($id);
-        $types = EventType::all();
-        $organizators = Organizator::where("status",1)->with("user")->get();
-        $places = Place::where("status",1)->get();
-        return view("admin.events.edit",compact("event","types", 'organizators',"places"));
+        if($event){
+            $types = EventType::all();
+            $organizators = Organizator::where("status",1)->with("user")->get();
+            $places = Place::where("status",1)->get();
+            return view("admin.events.edit",compact("event","types", 'organizators',"places"));
+        }
+        else{
+            return redirect()->route("events.index");
+        }
 
     }
 
@@ -110,8 +123,10 @@ class EventsController extends Controller
     public function update(EventRequest $request, $id)
     {
         $event = Event::find($id);
-        $event->edit($request->all(),'image');
-        $event->uploadFile($request['image'], 'image');
+        if($event){
+            $event->edit($request->all(),'image');
+            $event->uploadFile($request['image'], 'image');
+        }
         return redirect(route('events.index'));
     }
 

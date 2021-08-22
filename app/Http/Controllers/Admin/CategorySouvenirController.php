@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategorySouvenirRequest;
+use App\Models\Setting;
 use App\Models\SouvenirCategory;
 use Illuminate\Http\Request;
 
@@ -16,8 +17,9 @@ class CategorySouvenirController extends Controller
      */
     public function index()
     {
-        $categories = SouvenirCategory::paginate(15);
-        return view("admin.categorysouvenir.index",compact("categories"));
+        $setting = Setting::find(12);
+        $categories = SouvenirCategory::whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.categorysouvenir.index",compact("categories","setting"));
     }
 
     /**

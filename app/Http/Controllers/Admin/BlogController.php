@@ -9,6 +9,7 @@ use App\Models\Blog;
 use App\Models\CategoryNews;
 use App\Models\Gallery;
 use App\Models\News;
+use App\Models\Setting;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,8 +23,9 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $blogs = Blog::paginate(15);
-        return view("admin.blogs.index",compact("blogs"));
+        $setting = Setting::find(18);
+        $blogs = Blog::whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.blogs.index",compact("blogs","setting"));
     }
 
     /**

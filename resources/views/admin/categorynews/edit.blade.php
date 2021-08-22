@@ -76,11 +76,16 @@
                                     <option value="0" @if($category->status == 0) selected @endif>{{__("admin.not_status")}}</option>
                                     <option value="-1" @if($category->status == -1) selected @endif>{{__("admin.mod_status")}}</option>
                                 </select>
+                                @error('status')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
                             </div>
 
 
                             <button type="submit" class="btn btn-primary mr-2">{{__('admin.change')}}</button>
-                            <button class="btn btn-light">{{__('admin.cancel')}}</button>
+                            <a href="{{route("category-news.index")}}" class="btn btn-light">{{__('admin.cancel')}}</a>
                         </form>
                     </div>
                 </div>

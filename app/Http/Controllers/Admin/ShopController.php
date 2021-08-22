@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ShopRequest;
 use App\Models\Gallery;
+use App\Models\Setting;
 use App\Models\Shop;
 use App\Models\ShopUser;
 use App\Models\User;
@@ -21,8 +22,9 @@ class ShopController extends Controller
      */
     public function index()
     {
-        $shops = Shop::paginate(15);
-        return view("admin.shops.index",compact("shops"));
+        $setting = Setting::find(11);
+        $shops = Shop::whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.shops.index",compact("shops","setting"));
     }
 
     /**
@@ -32,7 +34,7 @@ class ShopController extends Controller
      */
     public function create()
     {
-        $users = User::whereNotIn('role_id', [1,2,3,4,5])->get();
+        $users = User::whereIn('role_id', [6,7])->whereNotIn("id",Shop::pluck("user_id")->toArray())->get();
         $roles = Role::whereIn('id', [6,7])->get();
         return view("admin.shops.create",compact("users","roles"));
     }
@@ -83,9 +85,13 @@ class ShopController extends Controller
     public function edit($id)
     {
         $shop = Shop::find($id);
-        $users = User::whereNotIn('role_id', [1,2,4,5])->get();
-        $roles = Role::whereIn('id', [6,7])->get();
-        return view("admin.shops.edit",compact("roles","shop","users"));
+        if($shop){
+            $users = User::whereIn('role_id', [6,7])->whereNotIn("id",Shop::pluck("user_id")->toArray())->get();
+            $roles = Role::whereIn('id', [6,7])->get();
+            return view("admin.shops.edit",compact("roles","shop","users"));
+        }
+        return redirect()->route("shops.index");
+
     }
 
     /**
@@ -98,8 +104,10 @@ class ShopController extends Controller
     public function update(ShopRequest $request, $id)
     {
         $shop = Shop::find($id);
-        $shop->edit($request->all(),'image');
-        $shop->uploadFile($request['image'], 'image');
+        if($shop){
+            $shop->edit($request->all(),'image');
+            $shop->uploadFile($request['image'], 'image');
+        }
         return redirect(route('shops.index'));
     }
 

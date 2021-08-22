@@ -135,6 +135,9 @@
                         <option value="-1" @if($blog->status == -1) selected @endif>{{__("admin.mod_status")}}</option>
                     </select>
                 </div>
+                <div class="d-flex justify-content-around">
+                    <a class="btn btn-warning" href="{{route("blogs.edit",$blog->id)}}">{{__("admin.change")}}</a>
+                </div>
             </div>
         </div>
 
@@ -275,7 +278,8 @@
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");
             $("#gallery").attr("src",image);
-            $('#changeGalleryForm').attr('action', 'http://backend.visit-shymkent/ru/admin/gallery/'+galery_id);
+          let url = "<?php echo route("gallery.index"); ?>" +"/"+ galery_id;
+		$('#changeGalleryForm').attr('action', url);
             jQuery.noConflict();
             $('#changeGallery').modal("show");
         });

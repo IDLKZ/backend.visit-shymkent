@@ -23,12 +23,20 @@
                             <h6 class="card-title">
                                 {{__("admin.routes")}}
                             </h6>
+                            <a class="search-button btn btn-success text-white" data-toggle="modal" data-target="#searchModal">
+                                {{__("admin.search")}}
+                                <i data-feather="search"></i>
+                            </a>
+                            <a class="edit-settings btn btn-success text-white" data-toggle="modal" data-target="#settingsModal">
+                                {{__("admin.settings")}}
+                                <i data-feather="database"></i>
+                            </a>
                             <a href="{{route('routes.create')}}" class="btn btn-success">
                                 {{__("admin.create")}}
                                 <i data-feather="plus"></i>
                             </a>
                         </div>
-
+                        @if($routes)
                         <div class="table-responsive">
                             <table id="dataTableExample" class="table">
                                 <thead>
@@ -45,7 +53,6 @@
                                     <th>{{__("admin.action")}}</th>
                                 </tr>
                                 </thead>
-                                @if($routes)
                                     <tbody>
 
                                     @if($routes->isNotEmpty())
@@ -117,9 +124,11 @@
 
 
                                     </tbody>
-                                @endif
+
                             </table>
+                            {{$routes->links()}}
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -127,8 +136,139 @@
 
     </div>
 
-    <!-- partial:../../partials/_footer.html -->
+    @include('layout.components.settings', $setting)
+    {{--    Search--}}
 
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{__("admin.search")}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="get" action="{{route("search-route")}}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="px-2">
+                        {{--                            Title starts--}}
+                        <div class="form-group">
+                            <label for="exampleInputUsername{{__('admin.title_kz')}}">{{__('admin.title_kz')}}</label>
+                            <input type="text" class="form-control  @error('title_kz') is-invalid @enderror" id="exampleInputUsername{{__('admin.title_kz')}}" name='title_kz' autocomplete="off" placeholder="{{__('admin.title_kz')}}" value="{{old('title_kz')}}">
+                            @error('title_kz')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputUsername{{__('admin.title_ru')}}">{{__('admin.title_ru')}}</label>
+                            <input type="text" class="form-control @error('title_ru') is-invalid @enderror" id="exampleInputUsername{{__('admin.title_ru')}}" name='title_ru' autocomplete="off" placeholder="{{__('admin.title_ru')}}" value="{{old('title_ru')}}">
+                            @error('title_ru')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputUsername{{__('admin.title_en')}}">{{__('admin.title_en')}}</label>
+                            <input type="text" class="form-control @error('title_en') is-invalid @enderror" id="exampleInputUsername{{__('admin.title_en')}}" name='title_en' autocomplete="off" placeholder="{{__('admin.title_en')}}" value="{{old('title_en')}}">
+                            @error('title_en')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        {{--                            Description start--}}
+                        <div class="form-group">
+                            <label for="description{{__('admin.description_kz')}}">{{__('admin.description_kz')}}</label>
+                            <textarea class="form-control @error('description_kz') is-invalid @enderror" id="description{{__('admin.description_kz')}}" name='description_kz' autocomplete="off">
+                                    {{old('description_kz')}}
+                                </textarea>
+                            @error('description_kz')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="description{{__('admin.description_ru')}}">{{__('admin.description_ru')}}</label>
+                            <textarea class="form-control @error('description_ru') is-invalid @enderror" id="description{{__('admin.description_ru')}}" name='description_ru' autocomplete="off">
+                                    {{old('description_ru')}}
+                                </textarea>
+                            @error('description_ru')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="description{{__('admin.description_en')}}">{{__('admin.description_en')}}</label>
+                            <textarea class="form-control @error('description_en') is-invalid @enderror" id="description{{__('admin.description_en')}}" name='description_en' autocomplete="off">
+                                    {{old('description_en')}}
+                                </textarea>
+                            @error('description_en')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="eventum">{{__('admin.eventum')}}  </label>
+                            <input type="text" class="form-control  @error('eventum') is-invalid @enderror" id="eventum" name='eventum' autocomplete="off" placeholder="{{__('admin.eventum')}}" value="{{old('eventum')}}">
+                            @error('eventum')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="distance">{{__('admin.distance')}}  </label>
+                            <input type="number" class="form-control  @error('distance') is-invalid @enderror" id="distance" name='distance' autocomplete="off" placeholder="{{__('admin.distance')}}" value="{{old('distance')}}">
+                            @error('distance')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="time">{{__('admin.time')}}  </label>
+                            <input type="number" class="form-control  @error('time') is-invalid @enderror" id="time" name='time' autocomplete="off" placeholder="{{__('admin.time')}}" value="{{old('time')}}">
+                            @error('time')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="eventum">{{__('admin.address')}}  </label>
+                            <input type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{old('address')}}">
+                            @error('address')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="description{{__('admin.status')}}">{{__('admin.status')}}</label>
+                            <select class="form-select" name="status">
+                                <option value="">{{__("admin.all")}}</option>
+                                <option value="1">{{__("admin.yes_status")}}</option>
+                                <option value="0">{{__("admin.not_status")}}</option>
+                                <option value="-1">{{__("admin.mod_status")}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("admin.cancel")}}</button>
+                        <button type="submit" class="btn btn-primary">{{__("admin.start_search")}}</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 @endsection
 
 

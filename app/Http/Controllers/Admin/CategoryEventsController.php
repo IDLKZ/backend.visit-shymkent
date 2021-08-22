@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventCategoryRequest;
 use App\Models\CategoryEvents;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class CategoryEventsController extends Controller
@@ -16,8 +17,9 @@ class CategoryEventsController extends Controller
      */
     public function index()
     {
-        $eventCategories = CategoryEvents::paginate(20);
-        return view("admin.eventcategories.index",compact("eventCategories"));
+        $setting = Setting::find(5);
+        $eventCategories = CategoryEvents::whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.eventcategories.index",compact("eventCategories","setting"));
 
     }
 
@@ -57,7 +59,9 @@ class CategoryEventsController extends Controller
         if($category){
             return view("admin.eventcategories.show",compact("category"));
         }
-        toastWarning(__("messages.404"));
+        else{
+            toastWarning(__("messages.404"));
+        }
         return redirect(route('category-events.index'));
 
     }
@@ -71,7 +75,13 @@ class CategoryEventsController extends Controller
     public function edit($id)
     {
         $category = CategoryEvents::find($id);
-        return view("admin.eventcategories.edit",compact("category"));
+        if($category){
+            return view("admin.eventcategories.edit",compact("category"));
+        }
+        else{
+            toastWarning(__("messages.404"));
+        }
+        return redirect(route('category-events.index'));
     }
 
     /**
@@ -88,7 +98,9 @@ class CategoryEventsController extends Controller
             $category->edit($request->all(),'image');
             $category->uploadFile($request['image'], 'image');
         }
-
+        else{
+            toastWarning(__("messages.404"));
+        }
         return redirect(route('category-events.index'));
 
     }

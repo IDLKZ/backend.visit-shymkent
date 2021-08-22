@@ -45,6 +45,8 @@ class FirstCommand extends Command
                 Artisan::call("db:seed",[ '--class' => 'Database\Seeders\EventTypeSeeder']);
                 Artisan::call("db:seed",[ '--class' => 'Database\Seeders\WeekdaySeeder']);
                 Artisan::call("db:seed",[ '--class' => 'Database\Seeders\UserSeeder']);
+                Artisan::call("db:seed",[ '--class' => 'Database\Seeders\SettingSeeder']);
+                Artisan::call("db:seed",[ '--class' => 'Database\Seeders\PlaceTypeSeeder']);
                 $this->info("Successfully migrated and seeded");
         }
 

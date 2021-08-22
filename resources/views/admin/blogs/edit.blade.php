@@ -35,7 +35,7 @@
                             @method("PUT")
                             <div class="form-group">
                                 <label for="categories_news">{{__('admin.tags')}}</label>
-                                <select class="w-100" name="tag_id">
+                                <select class="w-100 select-2" name="tag_id">
                                     @if($categories->isNotEmpty())
                                         @foreach($categories as $category)
                                             <option
@@ -56,7 +56,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.user_id')}}</label>
-                                <select class="w-100" id="author_id" name="author_id">
+                                <select class="w-100 select-2" id="author_id" name="author_id">
                                     @if($users->isNotEmpty())
                                         @foreach($users as $user)
                                             <option
@@ -171,7 +171,7 @@
                             </div>
 
                             <button type="submit" id="save" class="btn btn-primary mr-2">{{__('admin.change')}}</button>
-                            <button class="btn btn-light">{{__('admin.cancel')}}</button>
+                            <a href="{{route("blogs.index")}}" class="btn btn-light">{{__('admin.cancel')}}</a>
                         </form>
                     </div>
                 </div>
@@ -184,8 +184,7 @@
 @endsection
 
 @push("scripts")
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+
 
     <script>
         let classNames = ['description_ru','description_kz','description_en',

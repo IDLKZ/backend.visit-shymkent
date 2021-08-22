@@ -5,6 +5,7 @@ namespace App\Models;
 use App\FileUpload;
 use App\Recovery;
 use App\Role;
+use App\Searchable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,8 +14,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable, FileUpload;
-
+    use HasFactory, Notifiable, FileUpload, Searchable;
     /**
      * The attributes that are mass assignable.
      *

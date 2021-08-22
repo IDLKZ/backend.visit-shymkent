@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OrganizatorRequest;
 use App\Models\Gallery;
 use App\Models\Organizator;
+use App\Models\Setting;
 use App\Models\User;
 use App\Role;
 use Illuminate\Http\Request;
@@ -19,8 +20,9 @@ class OrganizatorController extends Controller
      */
     public function index()
     {
-        $organizators = Organizator::paginate(15);
-        return view("admin.organizators.index",compact("organizators"));
+        $setting = Setting::find(14);
+        $organizators = Organizator::whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.organizators.index",compact("organizators","setting"));
     }
 
     /**
@@ -31,7 +33,7 @@ class OrganizatorController extends Controller
     public function create()
     {
         $roles = Role::whereIn("id",[4,5])->get();
-        $users = User::whereIn('role_id',[4,5])->with("role")->get();
+        $users = User::whereIn('role_id',[4,5])->whereNotIn("id",Organizator::pluck("user_id")->toArray())->with("role")->get();
         return view("admin.organizators.create",compact("roles","users"));
 
     }
@@ -81,10 +83,13 @@ class OrganizatorController extends Controller
     public function edit($id)
     {
         $organizator = Organizator::find($id);
-        $roles = Role::whereIn("id",[4,5])->get();
-        $users = User::whereIn('role_id',[4,5])->with("role")->get();
+        if($organizator){
+            $roles = Role::whereIn("id",[4,5])->get();
+            $users = User::whereIn('role_id',[4,5])->whereNotIn("id",Organizator::pluck("user_id")->toArray())->with("role")->get();
+            return view("admin.organizators.edit",compact("roles","users","organizator"));
+        }
+        return redirect()->route("organizators.index");
 
-        return view("admin.organizators.edit",compact("roles","users","organizator"));
     }
 
     /**
@@ -97,9 +102,13 @@ class OrganizatorController extends Controller
     public function update(OrganizatorRequest $request, $id)
     {
         $organizaor = Organizator::find($id);
-        $organizaor->edit($request->all(),'image');
-        $organizaor->uploadFile($request['image'], 'image');
-        return redirect(route('organizators.index'));
+        if($organizaor){
+            $organizaor->edit($request->all(),'image');
+            $organizaor->uploadFile($request['image'], 'image');
+        }
+            return redirect()->route("organizators.index");
+
+
     }
 
     /**

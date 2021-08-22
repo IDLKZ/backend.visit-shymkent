@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\FileUpload;
+use App\Searchable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,6 +23,7 @@ class TypeOfRoute extends Model
     use FileUpload;
     use \App\Language;
     use Sluggable;
+    use Searchable;
     public function sluggable(): array
     {
         return [

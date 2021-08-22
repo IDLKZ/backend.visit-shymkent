@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\FileUpload;
 use App\Language;
+use App\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Slider extends Model
 {
+    use Searchable;
     /**
      * The "type" of the auto-incrementing ID.
      *

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryNewsRequest;
 use App\Models\CategoryEvents;
 use App\Models\CategoryNews;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,8 +19,9 @@ class CategoryNewsController extends Controller
      */
     public function index()
     {
-        $categories = CategoryNews::paginate(15);
-        return view("admin.categorynews.index",compact("categories"));
+        $setting = Setting::find(15);
+        $categories = CategoryNews::whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.categorynews.index",compact("categories","setting"));
     }
 
     /**
@@ -71,7 +73,10 @@ class CategoryNewsController extends Controller
     public function edit($id)
     {
         $category = CategoryNews::find($id);
-        return view("admin.categorynews.edit",compact("category"));
+        if($category){
+            return view("admin.categorynews.edit",compact("category"));
+        }
+        return redirect()->back();
     }
 
     /**
@@ -84,8 +89,11 @@ class CategoryNewsController extends Controller
     public function update(CategoryNewsRequest $request, $id)
     {
         $category = CategoryNews::find($id);
-        $category->edit($request->all(),'image');
-        $category->uploadFile($request['image'], 'image');
+        if($category){
+            $category->edit($request->all(),'image');
+            $category->uploadFile($request['image'], 'image');
+        }
+
         return redirect(route('category-news.index'));
     }
 

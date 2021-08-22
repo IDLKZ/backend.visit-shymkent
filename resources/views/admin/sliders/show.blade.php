@@ -23,10 +23,13 @@
                     {{$slider->button}}
                 </a>
             </div>
-
-
-
             </div>
+            <div class="col-md-12">
+                <div class="d-flex justify-content-around py-2">
+                    <a class="btn btn-warning" href="{{route("sliders.edit",$slider->id)}}">{{__("admin.change")}}</a>
+                </div>
+            </div>
+
         </div>
 
 

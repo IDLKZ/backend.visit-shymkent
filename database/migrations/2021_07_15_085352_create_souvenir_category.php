@@ -18,7 +18,7 @@ class CreateSouvenirCategory extends Migration
             $table->string("title_ru");
             $table->string("title_kz");
             $table->string("title_en");
-            $table->string("alias");
+            $table->string("alias",500);
             $table->string("image")->nullable();
             $table->integer("status");
             $table->timestamps();

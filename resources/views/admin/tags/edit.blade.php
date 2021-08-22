@@ -80,7 +80,7 @@
 
 
                             <button type="submit" class="btn btn-primary mr-2">{{__('admin.change')}}</button>
-                            <button class="btn btn-light">{{__('admin.cancel')}}</button>
+                            <a href="{{route("tags.index")}}" class="btn btn-light">{{__('admin.cancel')}}</a>
                         </form>
                     </div>
                 </div>

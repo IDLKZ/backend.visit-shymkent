@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\FileUpload;
+use App\Searchable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -41,6 +42,8 @@ class Event extends Model
     use Sluggable;
     use FileUpload;
     use \App\Language;
+    use Searchable;
+
     public function sluggable(): array
     {
         return [
@@ -65,15 +68,12 @@ class Event extends Model
     /**
      * @var array
      */
-    protected $fillable = ['organizator_id','place_id', 'type_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'phone', 'social_networks', 'sites', 'address', 'address_link', 'price', 'image', 'ratings', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['organizator_id', 'type_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'phone', 'social_networks', 'sites', 'address', 'address_link', 'price', 'image', 'ratings', 'status', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function place()
-    {
-        return $this->belongsTo(Place::class);
-    }
+
 
     public function organizator()
     {
@@ -136,8 +136,21 @@ class Event extends Model
     {
         return $this->hasMany(Workday::class);
     }
+    public function placeEvent()
+    {
+        return $this->hasMany(PlaceEvent::class,"event_id");
+    }
 
-
+    public function places(){
+        return $this->hasManyThrough(
+            Place::class,
+            PlaceEvent::class,
+            "event_id",
+            "id",
+            "id",
+            "place_id"
+        );
+    }
 
 
 }

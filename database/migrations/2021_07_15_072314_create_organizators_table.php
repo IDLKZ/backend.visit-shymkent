@@ -28,7 +28,7 @@ class CreateOrganizatorsTable extends Migration
             $table->text("education_en")->nullable();
             $table->text("languages")->nullable();
             $table->string("image")->nullable();
-            $table->string("alias");
+            $table->string("alias",500);
             $table->string("eventum")->nullable();
             $table->json("phone")->nullable();
             $table->json("social_networks")->nullable();

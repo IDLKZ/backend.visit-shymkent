@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use App\Models\TypeOfRoute;
 use Illuminate\Http\Request;
 use App\Http\Requests\TypeOfRouteRequest;
@@ -16,8 +17,9 @@ class TypesOfRouteController extends Controller
      */
     public function index()
     {
-        $categories = TypeOfRoute::paginate(15);
-        return view("admin.typesofroute.index",compact("categories"));
+        $setting = Setting::find(8);
+        $categories = TypeOfRoute::whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.typesofroute.index",compact("categories","setting"));
     }
 
     /**
@@ -52,7 +54,10 @@ class TypesOfRouteController extends Controller
     public function show($id)
     {
         $category = TypeOfRoute::with(["routesTypes.route"])->find($id);
-        return view("admin.typesofroute.show",compact("category"));
+        if($category){
+            return view("admin.typesofroute.show",compact("category"));
+        }
+        return  redirect()->route("route_types.index");
     }
 
     /**
@@ -64,7 +69,11 @@ class TypesOfRouteController extends Controller
     public function edit($id)
     {
         $category = TypeOfRoute::find($id);
-        return view("admin.typesofroute.edit",compact("category"));
+        if($category){
+            return view("admin.typesofroute.edit",compact("category"));
+        }
+        return  redirect()->route("route_types.index");
+
     }
 
     /**

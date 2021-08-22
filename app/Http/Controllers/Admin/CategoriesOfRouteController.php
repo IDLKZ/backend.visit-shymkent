@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\CategoryOfRoute;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryOfRouteRequest;
 
@@ -16,8 +17,9 @@ class CategoriesOfRouteController extends Controller
      */
     public function index()
     {
-        $categories = CategoryOfRoute::paginate(15);
-        return view("admin.categoriesofroute.index",compact("categories"));
+        $setting = Setting::find(7);
+        $categories = CategoryOfRoute::whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.categoriesofroute.index",compact("categories","setting"));
     }
 
     /**
@@ -53,7 +55,10 @@ class CategoriesOfRouteController extends Controller
     public function show($id)
     {
         $category = CategoryOfRoute::find($id);
-        return view("admin.categoriesofroute.show",compact("category"));
+        if($category){
+            return view("admin.categoriesofroute.show",compact("category"));
+        }
+        return redirect()->route("route_categories.index");
 
     }
 
@@ -66,7 +71,10 @@ class CategoriesOfRouteController extends Controller
     public function edit($id)
     {
         $category = CategoryOfRoute::find($id);
-        return view("admin.categoriesofroute.edit",compact("category"));
+        if($category){
+            return view("admin.categoriesofroute.edit",compact("category"));
+        }
+        return redirect()->route("route_categories.index");
     }
 
     /**

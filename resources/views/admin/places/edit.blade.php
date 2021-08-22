@@ -1,9 +1,5 @@
 @extends('layout.app')
 @push("styles")
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />    <!-- Make sure you put this AFTER Leaflet's CSS -->
-
 @endpush
 @section('content')
 
@@ -41,7 +37,7 @@
 
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.organizators')}}</label>
-                                <select class="w-100" id="organizator_id" name="organizator_id">
+                                <select class="w-100 select-2" id="organizator_id" name="organizator_id">
                                     <option value="">Не выбрано</option>
                                     @if($organizators->isNotEmpty())
                                         @foreach($organizators as $organizator)
@@ -313,11 +309,6 @@
 @endsection
 
 @push("scripts")
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
-
     <script>
         let classNames = ['description_ru','description_kz','description_en'];
         let selectNames = [".phone",".social_networks",".sites"];
@@ -354,13 +345,16 @@
         displayMarkers();
 
         function displayMarkers(){
-            if(points.length > 0){
-               for(let i = 0; i <points.length; i++){
-                   console.log(points[i].lat,points[i].lng);
-                   L.marker([points[i].lat,points[i].lng]).addTo(map);
-               }
-                map.setView([points[0].lat,points[0].lng], 14);
+            if(points){
+                if(points.length > 0){
+                    for(let i = 0; i <points.length; i++){
+                        console.log(points[i].lat,points[i].lng);
+                        L.marker([points[i].lat,points[i].lng]).addTo(map);
+                    }
+                    map.setView([points[0].lat,points[0].lng], 14);
+                }
             }
+
         }
 
 

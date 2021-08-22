@@ -34,8 +34,9 @@
                         <form id="event-form" class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('souvenirs.store')}}">
                             @csrf
                             <div class="form-group">
-                                <label for="event_type">{{__('admin.souvenir_category')}}</label>
+                                <label for="event_type">{{__('admin.souvenir_category')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select class="w-100" id="category_id" name="category_id">
+                                    <option value="">Не выбрано</option>
                                     @if($categories->isNotEmpty())
                                         @foreach($categories as $category)
                                             <option value="{{$category->id}}">
@@ -57,7 +58,7 @@
                                     @if($shops->isNotEmpty())
                                         @foreach($shops as $shop)
                                             <option value="{{$shop->id}}">
-                                                {{$shop->title}}
+                                                {{$shop->title . "(" .  $shop->role->title . ")"}}
                                             </option>
                                         @endforeach
                                     @endif
@@ -178,10 +179,6 @@
 
                             {{--End of the price--}}
 
-
-
-
-
                             <div class="form-group">
                                 <label for="description{{__('admin.status')}}">{{__('admin.status')}}</label>
                                 <select class="form-select" name="status">
@@ -192,7 +189,7 @@
                             </div>
 
                             <button type="submit" id="save" class="btn btn-primary mr-2">{{__('admin.save')}}</button>
-                            <button class="btn btn-light">{{__('admin.cancel')}}</button>
+                            <a href="{{route("souvenirs.index")}}" class="btn btn-light">{{__('admin.cancel')}}</a>
                         </form>
                     </div>
                 </div>
@@ -205,7 +202,6 @@
 @endsection
 
 @push("scripts")
-    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 
     <script>
         let classNames = ['description_ru','description_kz','description_en'];

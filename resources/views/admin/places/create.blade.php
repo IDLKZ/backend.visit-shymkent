@@ -1,8 +1,5 @@
 @extends('layout.app')
 @push("styles")
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />    <!-- Make sure you put this AFTER Leaflet's CSS -->
 
 @endpush
 @section('content')
@@ -36,6 +33,7 @@
                         </h6>
                         <form id="event-form" class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('places.store')}}">
                             @csrf
+                            <input hidden name="type_id" value="1">
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.places_category')}}</label>
                                 <select class="w-100" id="category_id" name="category_id[]">
@@ -54,8 +52,20 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="event_type">{{__('admin.events')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
+                                <select class="w-100 select-2" id="event_id" name="events[]">
+                                    @if($events->isNotEmpty())
+                                        @foreach($events as $event)
+                                            <option value="{{$event->id}}">
+                                                {{$event->title}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="event_type">{{__('admin.organizators')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
-                                <select class="w-100" id="organizator_id" name="organizator_id">
+                                <select class="w-100 select-2" id="organizator_id" name="organizator_id">
                                     <option value="">Не выбрано</option>
                                     @if($organizators->isNotEmpty())
                                         @foreach($organizators as $organizator)
@@ -303,7 +313,7 @@
 
 
                             <button type="submit" id="save" class="btn btn-primary mr-2">{{__('admin.save')}}</button>
-                            <button class="btn btn-light">{{__('admin.cancel')}}</button>
+                            <a href="{{route("places.index")}}" class="btn btn-light">{{__('admin.cancel')}}</a>
                         </form>
                     </div>
                 </div>
@@ -316,11 +326,6 @@
 @endsection
 
 @push("scripts")
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
-
     <script>
         let classNames = ['description_ru','description_kz','description_en'];
         let selectNames = [".phone",".social_networks",".sites"];
@@ -334,6 +339,9 @@
             });
         }
         $("#category_id").select2({
+            multiple:true
+        })
+        $("#event_id").select2({
             multiple:true
         })
 

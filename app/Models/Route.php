@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\FileUpload;
+use App\Searchable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,6 +30,7 @@ class Route extends Model
     use Sluggable;
     use FileUpload;
     use \App\Language;
+    use Searchable;
 
     public function sluggable(): array
     {
@@ -61,10 +63,7 @@ class Route extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function routePoints()
-    {
-        return $this->hasMany(RoutePoint::class);
-    }
+
     public function category()
     {
         return $this->belongsTo(CategoryOfRoute::class, 'category_id');
@@ -93,6 +92,11 @@ class Route extends Model
         return $this->hasMany(Saving::class, 'route_id');
     }
 
+    public function routePlace()
+    {
+        return $this->hasMany(RoutePlace::class, 'route_id');
+    }
+
     public function typesRoute()
     {
         return $this->hasManyThrough(
@@ -114,6 +118,18 @@ class Route extends Model
             "id",
             "id",
             "organizator_id"
+        );
+    }
+
+    public function places()
+    {
+        return $this->hasManyThrough(
+            Place::class,
+            RoutePlace::class,
+            "route_id",
+            "id",
+            "id",
+            "place_id"
         );
     }
 

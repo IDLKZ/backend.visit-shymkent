@@ -26,7 +26,7 @@
                     <select disabled class="w-100" id="category_id" name="category_id">
                                 <option
                                     selected>
-                                    {{$souvenir->souvenirCategory->title}}
+                                    {{$souvenir->souvenirCategory ? $souvenir->souvenirCategory->title : "-"}}
                                 </option>
 
                     </select>
@@ -87,9 +87,6 @@
                             @endif
                         </table>
                     </div>
-
-
-
                 </div>
 
                 <div class="form-group">
@@ -223,6 +220,9 @@
                         <option value="0" @if($souvenir->status == 0) selected @endif>{{__("admin.not_status")}}</option>
                         <option value="-1" @if($souvenir->status == -1) selected @endif>{{__("admin.mod_status")}}</option>
                     </select>
+                </div>
+                <div class="d-flex justify-content-around">
+                    <a class="btn btn-warning" href="{{route("souvenirs.edit",$souvenir->id)}}">{{__("admin.change")}}</a>
                 </div>
             </div>
         </div>
@@ -365,7 +365,8 @@
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");
             $("#gallery").attr("src",image);
-            $('#changeGalleryForm').attr('action', 'http://backend.visit-shymkent/ru/admin/gallery/'+galery_id);
+          let url = "<?php echo route("gallery.index"); ?>" +"/"+ galery_id;
+		$('#changeGalleryForm').attr('action', url);
             jQuery.noConflict();
             $('#changeGallery').modal("show");
         });

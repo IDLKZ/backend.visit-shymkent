@@ -6,7 +6,7 @@
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">{{__('admin.main')}}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{__('admin.event_categories')}}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{__('admin.places_category')}}</li>
             </ol>
         </nav>
 
@@ -32,7 +32,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.places_category')}}</label>
-                                <select class="w-100" id="parent_id" name="parent_id">
+                                <select class="w-100 select-2" id="parent_id" name="parent_id">
                                     <option value="0">Родительский элемент</option>
                                     {!! $option !!}
                                 </select>
@@ -90,6 +90,11 @@
                                         <option value="-1">{{__("admin.mod_status")}}</option>
                                     </select>
                                 </div>
+                            @error('status')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
 
 
 

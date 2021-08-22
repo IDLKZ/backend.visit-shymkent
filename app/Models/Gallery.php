@@ -87,10 +87,7 @@ class Gallery extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function routePoint()
-    {
-        return $this->belongsTo(RoutePoint::class, 'point_id');
-    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

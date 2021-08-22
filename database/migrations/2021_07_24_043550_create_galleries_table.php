@@ -18,7 +18,6 @@ class CreateGalleriesTable extends Migration
             $table->foreignId("place_id")->nullable()->references("id")->on("places")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("event_id")->nullable()->references("id")->on("events")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("route_id")->nullable()->references("id")->on("routes")->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId("point_id")->nullable()->references("id")->on("route_points")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("shop_id")->nullable()->references("id")->on("shops")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("souvenir_id")->nullable()->references("id")->on("souvenirs")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("organizator_id")->nullable()->references("id")->on("organizators")->cascadeOnDelete()->cascadeOnUpdate();

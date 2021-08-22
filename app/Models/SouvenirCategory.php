@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\FileUpload;
+use App\Searchable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,6 +24,7 @@ class SouvenirCategory extends Model
     use \App\Language;
     use FileUpload;
     use Sluggable;
+    use Searchable;
 
 
     public function sluggable(): array

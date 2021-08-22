@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PlaceCategoryRequest;
 use App\Models\CategoryPlace as CategoryPlaces;
+use App\Models\Setting;
 
 class CategoryPlace extends Controller
 {
@@ -15,9 +16,9 @@ class CategoryPlace extends Controller
      */
     public function index()
     {
-        $categoryPlaces = CategoryPlaces::paginate(15);
-
-        return view('admin.placecategories.index', compact('categoryPlaces'));
+        $setting = Setting::find(3);
+        $categoryPlaces = CategoryPlaces::whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view('admin.placecategories.index', compact('categoryPlaces',"setting"));
     }
 
     /**
@@ -29,9 +30,6 @@ class CategoryPlace extends Controller
     {
         $categories = CategoryPlaces::getTree();
         $option = CategoryPlaces::renderTemplate($categories);
-
-//        dd($categories);
-//        dd($option);
         return view('admin.placecategories.create', compact('categories', 'option'));
     }
 
@@ -56,8 +54,11 @@ class CategoryPlace extends Controller
      */
     public function show($id)
     {
-        $category = CategoryPlaces::find($id);
-        return view('admin.placecategories.show', compact('category'));
+        if($category = CategoryPlaces::find($id)){
+            return view('admin.placecategories.show', compact('category'));
+        }
+        return  redirect()->route("category-place.index");
+
     }
 
     /**
@@ -69,9 +70,13 @@ class CategoryPlace extends Controller
     public function edit($id)
     {
         $category = CategoryPlaces::find($id);
-        $categories = CategoryPlaces::getTree();
-        $option = CategoryPlaces::renderTemplate($categories, null, $category);
-        return view('admin.placecategories.edit', compact('category', 'option'));
+        if($category){
+            $categories = CategoryPlaces::getTree();
+            $option = CategoryPlaces::renderTemplate($categories, null, $category);
+            return view('admin.placecategories.edit', compact('category', 'option'));
+        }
+        return redirect()->route("category-place.index");
+
     }
 
     /**
@@ -84,8 +89,10 @@ class CategoryPlace extends Controller
     public function update(PlaceCategoryRequest $request, $id)
     {
         $category = CategoryPlaces::find($id);
-        $category->edit($request->all(),'image');
-        $category->uploadFile($request['image'], 'image');
+        if($category){
+            $category->edit($request->all(),'image');
+            $category->uploadFile($request['image'], 'image');
+        }
         return redirect(route('category-place.index'));
     }
 

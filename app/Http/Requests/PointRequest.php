@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class PointRequest extends FormRequest
 {
@@ -24,7 +25,6 @@ class PointRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'route_id'=>"required|exists:routes,id",
             'title_kz' => 'required|max:255',
             'title_ru' => 'required|max:255',
             'title_en' => 'required|max:255',
@@ -32,15 +32,16 @@ class PointRequest extends FormRequest
             'description_ru' => 'required',
             'description_en' => 'required',
             "price"=>"sometimes|nullable|max:255",
-            "number"=>"required|integer|min:0|max:1000",
+            "address"=>"sometimes|nullable|max:255",
+            "status"=>"required|integer",
         ];
 
-        if ($this->getMethod() == 'POST') {
-            $rules += ['image' => 'required|image|max:10240'];
-            $rules += ['images'=>"required|array",'images.*' => 'required|image|max:10240'];
+        if (Str::upper($this->getMethod()) == 'POST') {
+            $rules += ['image' => 'sometimes|image|max:10240'];
+            $rules += ['images'=>"sometimes|array",'images.*' => 'sometimes|image|max:10240'];
         }
 
-        if ($this->getMethod() == 'PUT') {
+        if (Str::lower($this->getMethod()) == 'put' || Str::lower($this->getMethod()) == 'patch') {
             $rules += ['image' => 'nullable|image|max:10240'];
         }
 

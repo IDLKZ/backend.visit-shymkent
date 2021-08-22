@@ -21,6 +21,10 @@
             </div>
             <div class="col-md-8">
                 <div class="form-group">
+                    <label for="exampleInputUsername{{__('admin.parent_id')}}">{{__('admin.parent_id')}}</label>
+                    <input disabled type="text" class="form-control  @error('parent_id') is-invalid @enderror" id="exampleInputUsername{{__('admin.parent_id')}}" name='parent_id' autocomplete="off" placeholder="{{__('admin.parent_id')}}" value="{{$category->parent_id ? $category->parent->title : "-"}}">
+                </div>
+                <div class="form-group">
                     <label for="exampleInputUsername{{__('admin.title_kz')}}">{{__('admin.title_kz')}}</label>
                     <input disabled type="text" class="form-control  @error('title_kz') is-invalid @enderror" id="exampleInputUsername{{__('admin.title_kz')}}" name='title_kz' autocomplete="off" placeholder="{{__('admin.title_kz')}}" value="{{$category->title_kz}}">
                 </div>

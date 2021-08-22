@@ -23,7 +23,7 @@ class CreateNewsTable extends Migration
             $table->text("description_ru");
             $table->text("description_en");
             $table->text("description_kz");
-            $table->string("alias");
+            $table->string("alias",500);
             $table->string("image")->nullable();
             $table->integer("status");
             $table->timestamps();

@@ -1,9 +1,5 @@
 @extends('layout.app')
 @push("styles")
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />    <!-- Make sure you put this AFTER Leaflet's CSS -->
-
 @endpush
 @section('content')
 
@@ -39,7 +35,7 @@
 
                             <div class="form-group">
                                 <label for="categories_news">{{__('admin.category_news')}}</label>
-                                <select class="w-100" name="category_id">
+                                <select class="w-100 select-2" name="category_id">
                                     @if($categories->isNotEmpty())
                                         @foreach($categories as $category)
                                             <option
@@ -60,7 +56,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.user_id')}}</label>
-                                <select class="w-100" id="author_id" name="author_id">
+                                <select class="w-100 select-2" id="author_id" name="author_id">
                                     @if($users->isNotEmpty())
                                         @foreach($users as $user)
                                             <option
@@ -168,14 +164,19 @@
                             <div class="form-group">
                                 <label for="description{{__('admin.status')}}">{{__('admin.status')}}</label>
                                 <select class="form-select" name="status">
-                                    <option value="1" @if($new->status == 1) selected @endif>{{__("admin.yes_status")}}</option>
-                                    <option value="0" @if($new->status == 0) selected @endif>{{__("admin.not_status")}}</option>
-                                    <option value="-1" @if($new->status == -1) selected @endif>{{__("admin.mod_status")}}</option>
+                                    <option value="1" @if($news->status == 1) selected @endif>{{__("admin.yes_status")}}</option>
+                                    <option value="0" @if($news->status == 0) selected @endif>{{__("admin.not_status")}}</option>
+                                    <option value="-1" @if($news->status == -1) selected @endif>{{__("admin.mod_status")}}</option>
                                 </select>
+                                @error('status')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
                             </div>
 
                             <button type="submit" id="save" class="btn btn-primary mr-2">{{__('admin.change')}}</button>
-                            <button class="btn btn-light">{{__('admin.cancel')}}</button>
+                            <a href="{{route("news.index")}}" class="btn btn-light">{{__('admin.cancel')}}</a>
                         </form>
                     </div>
                 </div>
@@ -188,8 +189,7 @@
 @endsection
 
 @push("scripts")
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+
 
     <script>
         let classNames = ['description_ru','description_kz','description_en',

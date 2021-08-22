@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SouvenirRequest;
 use App\Models\Gallery;
+use App\Models\Setting;
 use App\Models\Shop;
 use App\Models\Souvenir;
 use App\Models\SouvenirCategory;
@@ -19,8 +20,9 @@ class SouvenirController extends Controller
      */
     public function index()
     {
-        $souvenirs = Souvenir::paginate(15);
-        return view("admin.souvenirs.index",compact("souvenirs"));
+        $setting = Setting::find(13);
+        $souvenirs = Souvenir::whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.souvenirs.index",compact("souvenirs","setting"));
     }
 
     /**
@@ -81,9 +83,13 @@ class SouvenirController extends Controller
     public function edit($id)
     {
         $souvenir = Souvenir::find($id);
-        $categories = SouvenirCategory::all();
-        $shops = Shop::all();
-        return view("admin.souvenirs.edit",compact("categories","shops","souvenir"));
+        if($souvenir){
+            $categories = SouvenirCategory::all();
+            $shops = Shop::all();
+            return view("admin.souvenirs.edit",compact("categories","shops","souvenir"));
+        }
+        return redirect("souvenirs.index");
+
     }
 
     /**
@@ -96,8 +102,11 @@ class SouvenirController extends Controller
     public function update(SouvenirRequest $request, $id)
     {
         $souvenir = Souvenir::find($id);
-        $souvenir->edit($request->all(),'image');
-        $souvenir->uploadFile($request['image'], 'image');
+        if($souvenir){
+            $souvenir->edit($request->all(),'image');
+            $souvenir->uploadFile($request['image'], 'image');
+        }
+
         return redirect()->route("souvenirs.index");
 
     }

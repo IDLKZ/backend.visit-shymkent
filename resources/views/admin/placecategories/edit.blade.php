@@ -6,7 +6,7 @@
         <nav class="page-breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">{{__('admin.main')}}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{__('admin.event_categories')}}</li>
+                <li class="breadcrumb-item active" aria-current="page">{{__('admin.places_category')}}</li>
             </ol>
         </nav>
 
@@ -33,7 +33,7 @@
                             @method("put")
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.places_category')}}</label>
-                                <select class="w-100" id="parent_id" name="parent_id">
+                                <select class="w-100 select-2" id="parent_id" name="parent_id">
                                     <option value="0">Родительский элемент</option>
                                     {!! $option !!}
                                 </select>
@@ -97,7 +97,7 @@
 
 
                             <button type="submit" class="btn btn-primary mr-2">{{__('admin.change')}}</button>
-                            <button class="btn btn-light">{{__('admin.cancel')}}</button>
+                            <a href="{{route("category-place.index")}}" class="btn btn-light">{{__('admin.cancel')}}</a>
                         </form>
                     </div>
                 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class PlaceRequest extends FormRequest
 {
@@ -31,15 +32,24 @@ class PlaceRequest extends FormRequest
             'description_kz' => 'required',
             'description_ru' => 'required',
             'description_en' => 'required',
+            'eventum'=>"sometimes|max:255",
+            "audio_kz"=>"sometimes|nullable|url|max:255",
+            "audio_ru"=>"sometimes|nullable|url|max:255",
+            "audio_en"=>"sometimes|nullable|url|max:255",
+            "video_kz"=>"sometimes|nullable|url|max:255",
+            "video_ru"=>"sometimes|nullable|url|max:255",
+            "video_en"=>"sometimes|nullable|url|max:255",
+            "address"=>"sometimes|nullable|max:255",
+            'status'=>"required|integer",
         ];
 
-        if ($this->getMethod() == 'POST') {
+        if (Str::upper($this->getMethod()) == 'POST') {
             $rules += ["category_id"=>"required|array", "category_id.*"=>"required|exists:categoryplaces,id"];
             $rules += ['image' => 'sometimes|image|max:10240'];
             $rules += ['images.*' => 'sometimes|image|max:20480'];
         }
 
-        if ($this->getMethod() == 'PUT') {
+        if (Str::lower($this->getMethod()) == 'put' || Str::lower($this->getMethod()) == 'patch') {
             $rules += ['image' => 'nullable|image|max:20480'];
         }
 

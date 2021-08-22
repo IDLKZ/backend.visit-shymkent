@@ -190,6 +190,9 @@
                         <option value="-1" @if($shop->status == -1) selected @endif>{{__("admin.mod_status")}}</option>
                     </select>
                 </div>
+                <div class="d-flex justify-content-around">
+                    <a class="btn btn-warning" href="{{route("shops.edit",$shop->id)}}">{{__("admin.change")}}</a>
+                </div>
 
 
 
@@ -393,7 +396,7 @@
                                     <td>{{$souvenir->id}}</td>
                                     <td><img src="{{$souvenir->getFile('image')}}" width="50"></td>
                                     <td>{{$souvenir->title}}</td>
-                                    <td>{{$souvenir->souvenirCategory->title}}</td>
+                                    <td>{{$souvenir->souvenirCategory ? $souvenir->souvenirCategory->title : "-"}}</td>
                                     <td>{{$souvenir->shop->title}}</td>
                                     <td>
                                         @if($souvenir->status == 1)
@@ -713,7 +716,8 @@
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");
             $("#gallery").attr("src",image);
-            $('#changeGalleryForm').attr('action', 'http://backend.visit-shymkent/ru/admin/gallery/'+galery_id);
+            let url = "<?php echo route("gallery.index"); ?>" +"/"+ galery_id;
+		    $('#changeGalleryForm').attr('action', url);
             jQuery.noConflict();
             $('#changeGallery').modal("show");
         });

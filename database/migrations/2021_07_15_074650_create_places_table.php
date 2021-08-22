@@ -15,6 +15,7 @@ class CreatePlacesTable extends Migration
     {
         Schema::create('places', function (Blueprint $table) {
             $table->bigIncrements("id")->autoIncrement();
+            $table->foreignId("type_id")->references("id")->on("place_type")->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId("organizator_id")->nullable()->references("id")->on("organizators")->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("title_ru");
             $table->string("title_kz");
@@ -22,7 +23,7 @@ class CreatePlacesTable extends Migration
             $table->text("description_ru");
             $table->text("description_kz");
             $table->text("description_en");
-            $table->string("alias");
+            $table->string("alias",500);
             $table->string("eventum")->nullable();
             $table->json("phone")->nullable();
             $table->json("social_networks")->nullable();

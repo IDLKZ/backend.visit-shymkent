@@ -213,6 +213,10 @@
                         </select>
                     </div>
 
+                <div class="d-flex justify-content-around">
+                    <a class="btn btn-warning" href="{{route("organizators.edit",$organizator->id)}}">{{__("admin.change")}}</a>
+                </div>
+
 
             </div>
         </div>
@@ -232,6 +236,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @if($organizator->galleries)
                     @if($organizator->galleries->isNotEmpty())
                         @foreach($organizator->galleries as $gallery)
                             <tr>
@@ -259,7 +264,7 @@
                         @endforeach
 
                     @endif
-
+                    @endif
 
                     </tbody>
                 </table>
@@ -538,6 +543,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @if($organizator->ratings)
                     @if($organizator->ratings->isNotEmpty())
                         @foreach($organizator->ratings as $rating)
                             <tr>
@@ -572,7 +578,7 @@
                         @endforeach
 
                     @endif
-
+                    @endif($organizator->ratings)
 
                     </tbody>
                 </table>
@@ -707,7 +713,8 @@
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");
             $("#gallery").attr("src",image);
-            $('#changeGalleryForm').attr('action', 'http://backend.visit-shymkent/ru/admin/gallery/'+galery_id);
+          let url = "<?php echo route("gallery.index"); ?>" +"/"+ galery_id;
+		    $('#changeGalleryForm').attr('action', url);
             jQuery.noConflict();
             $('#changeGallery').modal("show");
         });

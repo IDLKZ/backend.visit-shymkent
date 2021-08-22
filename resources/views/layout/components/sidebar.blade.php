@@ -12,6 +12,13 @@
     </div>
     <div class="sidebar-body">
         <ul class="nav">
+            <li class="nav-item nav-category">{{__("admin.main")}}</li>
+            <li class="nav-item">
+                <a href="{{route("admin-home")}}" class="nav-link">
+                    <i class="link-icon" data-feather="home"></i>
+                    <span class="link-title">{{__("admin.main")}}</span>
+                </a>
+            </li>
             <li class="nav-item nav-category">{{__("admin.users")}}</li>
             <li class="nav-item">
                 <a href="{{route("admin-user.index")}}" class="nav-link">
@@ -19,6 +26,7 @@
                     <span class="link-title">{{__("admin.users")}}</span>
                 </a>
             </li>
+            <li class="nav-item nav-category">{{__("admin.sliders")}}</li>
             <li class="nav-item">
                 <a href="{{route("sliders.index")}}" class="nav-link">
                     <i class="link-icon" data-feather="image"></i>
@@ -79,6 +87,13 @@
                     <span class="link-title">{{__("admin.points")}}</span>
                 </a>
             </li>
+            <li class="nav-item nav-category">{{__("admin.organizators")}}</li>
+            <li class="nav-item">
+                <a href="{{route("organizators.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="users"></i>
+                    <span class="link-title">{{__("admin.organizators")}}</span>
+                </a>
+            </li>
             <li class="nav-item nav-category">{{__("admin.shops")}}</li>
             <li class="nav-item">
                 <a href="{{route("shops.index")}}" class="nav-link">
@@ -98,13 +113,6 @@
                     <span class="link-title">{{__("admin.souvenirs")}}</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="{{route("organizators.index")}}" class="nav-link">
-                    <i class="link-icon" data-feather="users"></i>
-                    <span class="link-title">{{__("admin.organizators")}}</span>
-                </a>
-            </li>
-
             <li class="nav-item nav-category">{{__("admin.news")}}</li>
             <li class="nav-item">
                 <a href="{{route("category-news.index")}}" class="nav-link">
@@ -120,7 +128,7 @@
             </li>
 
 
-            <li class="nav-item nav-category">{{__("admin.tags_blogs")}}</li>
+            <li class="nav-item nav-category">{{__("admin.tags")}}</li>
             <li class="nav-item">
                 <a href="{{route("tags.index")}}" class="nav-link">
                     <i class="link-icon" data-feather="file-text"></i>
@@ -133,6 +141,48 @@
                     <span class="link-title">{{__("admin.blogs")}}</span>
                 </a>
             </li>
+            <li class="nav-item nav-category">{{__("admin.reviews")}}</li>
+            <li class="nav-item">
+                <a href="{{route("reviews.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="message-circle"></i>
+                    <span class="link-title">{{__("admin.reviews")}}</span>
+                </a>
+            </li>
+            <li class="nav-item nav-category">{{__("admin.partners")}}</li>
+            <li class="nav-item">
+                <a href="{{route("partners.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="user-check"></i>
+                    <span class="link-title">{{__("admin.partners")}}</span>
+                </a>
+            </li>
+            <li class="nav-item nav-category">{{__("admin.contacts")}}</li>
+            <li class="nav-item">
+                <a href="{{route("phones.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="phone"></i>
+                    <span class="link-title">{{__("admin.phones")}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route("emails.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="framer"></i>
+                    <span class="link-title">{{__("admin.emails")}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route("socials.index")}}" class="nav-link">
+                    <i class="link-icon" data-feather="facebook"></i>
+                    <span class="link-title">{{__("admin.socials")}}</span>
+                </a>
+            </li>
+
+            <li class="nav-item nav-category">{{__("admin.backup")}}</li>
+            <li class="nav-item">
+                <a href="{{route("backup")}}" class="nav-link">
+                    <i class="link-icon" data-feather="database"></i>
+                    <span class="link-title">{{__("admin.backup")}}</span>
+                </a>
+            </li>
+
 
             <li class="nav-item nav-category">
                 <a href="{{route("logout")}}" class="nav-link">
@@ -158,26 +208,17 @@
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
                     <input type="radio" class="form-check-input" name="sidebarThemeSettings" id="sidebarLight" value="sidebar-light" checked>
-                    Light
+                    Светлая тема/Light theme
                 </label>
             </div>
             <div class="form-check form-check-inline">
                 <label class="form-check-label">
                     <input type="radio" class="form-check-input" name="sidebarThemeSettings" id="sidebarDark" value="sidebar-dark">
-                    Dark
+                    Темная тема/Dark theme
                 </label>
             </div>
         </div>
-        <div class="theme-wrapper">
-            <h6 class="text-muted mb-2">Light Theme:</h6>
-            <a class="theme-item active" href="../demo_1/dashboard-one.html">
-                <img src="../assets/images/screenshots/light.jpg" alt="light theme">
-            </a>
-            <h6 class="text-muted mb-2">Dark Theme:</h6>
-            <a class="theme-item" href="../demo_2/dashboard-one.html">
-                <img src="../assets/images/screenshots/dark.jpg" alt="light theme">
-            </a>
-        </div>
+
     </div>
 </nav>
 <!-- partial -->

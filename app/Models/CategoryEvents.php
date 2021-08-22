@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\FileUpload;
+use App\Searchable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,6 +25,7 @@ class CategoryEvents extends Model
     use Sluggable;
     use FileUpload;
     use \App\Language;
+    use Searchable;
 
     public function sluggable(): array
     {

@@ -1,9 +1,5 @@
 @extends('layout.app')
 @push("styles")
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />    <!-- Make sure you put this AFTER Leaflet's CSS -->
-
 @endpush
 @section('content')
 
@@ -38,7 +34,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.user_id')}}</label>
-                                <select class="w-100" id="user_id" name="user_id">
+                                <select class="w-100 select-2" id="user_id" name="user_id">
                                     @if($users->isNotEmpty())
                                         @foreach($users as $user)
                                             <option value="{{$user->id}}">
@@ -48,23 +44,6 @@
                                     @endif
                                 </select>
                                 @error('user_id')
-                                <div class="invalid-feedback">
-                                    {{$message}}
-                                </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="event_type">{{__('admin.role_id')}}</label>
-                                <select class="w-100" name="role_id">
-                                    @if($roles->isNotEmpty())
-                                        @foreach($roles as $role)
-                                            <option value="{{$role->id}}">
-                                                {{$role->title}}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                                @error('role_id')
                                 <div class="invalid-feedback">
                                     {{$message}}
                                 </div>
@@ -267,10 +246,15 @@
                                     <option value="0">{{__("admin.not_status")}}</option>
                                     <option value="-1">{{__("admin.mod_status")}}</option>
                                 </select>
+                                @error('status')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
                             </div>
 
                             <button type="submit" id="save" class="btn btn-primary mr-2">{{__('admin.save')}}</button>
-                            <button class="btn btn-light">{{__('admin.cancel')}}</button>
+                            <a href="{{route("organizators.index")}}" class="btn btn-light">{{__('admin.cancel')}}</a>
                         </form>
                     </div>
                 </div>
@@ -283,9 +267,6 @@
 @endsection
 
 @push("scripts")
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-
     <script>
         let classNames = ['description_ru','description_kz','description_en',
         "education_kz","education_ru","education_en"

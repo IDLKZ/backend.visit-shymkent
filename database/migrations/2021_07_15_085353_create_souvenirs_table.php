@@ -15,12 +15,12 @@ class CreateSouvenirsTable extends Migration
     {
         Schema::create('souvenirs', function (Blueprint $table) {
             $table->bigIncrements("id")->autoIncrement();
-            $table->foreignId("category_id")->references("id")->on("souvenir_category")->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId("category_id")->nullable()->references("id")->on("souvenir_category")->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId("shop_id")->references("id")->on("shops")->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("title_ru");
             $table->string("title_kz");
             $table->string("title_en");
-            $table->string("alias");
+            $table->string("alias",500);
             $table->text("description_ru");
             $table->text("description_kz");
             $table->text("description_en");

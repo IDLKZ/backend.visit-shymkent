@@ -19,7 +19,7 @@ class CreateRouteTypesTable extends Migration
             $table->string("title_kz");
             $table->string("title_en");
             $table->string("image")->nullable();
-            $table->string("alias");
+            $table->string("alias",500);
             $table->integer("status");
             $table->timestamps();
         });

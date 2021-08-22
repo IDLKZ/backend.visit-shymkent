@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->foreignId("role_id")->references("id")->on("roles")->cascadeOnDelete()->cascadeOnUpdate();
             $table->string("name");
             $table->string("email")->unique();
-            $table->string("phone")->unique();
+            $table->string("phone")->nullable()->unique();
             $table->string("password");
             $table->string("image")->nullable();
             $table->text("description")->nullable();

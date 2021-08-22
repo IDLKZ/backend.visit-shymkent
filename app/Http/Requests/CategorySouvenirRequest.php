@@ -28,6 +28,7 @@ class CategorySouvenirRequest extends FormRequest
             'title_ru' => 'required|max:255',
             'title_en' => 'required|max:255',
             'image' => 'sometimes|nullable|image|max:10240',
+            'status'=>'required|integer'
         ];
         return  $rules;
     }

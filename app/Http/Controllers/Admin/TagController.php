@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryNewsRequest;
 use App\Http\Requests\TagRequest;
 use App\Models\CategoryNews;
+use App\Models\Place;
+use App\Models\Setting;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
@@ -18,8 +20,9 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::paginate(15);
-        return view("admin.tags.index",compact("tags"));
+        $setting = Setting::find(17);
+        $tags = Tag::whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.tags.index",compact("tags","setting"));
     }
 
     /**
@@ -70,7 +73,10 @@ class TagController extends Controller
     public function edit($id)
     {
         $tag = Tag::find($id);
-        return view("admin.tags.edit",compact("tag"));
+        if($tag){
+            return view("admin.tags.edit",compact("tag"));
+        }
+        return redirect()->route("tags.index");
     }
 
     /**
@@ -83,8 +89,11 @@ class TagController extends Controller
     public function update(TagRequest $request, $id)
     {
         $tag = Tag::find($id);
-        $tag->edit($request->all(),'image');
-        $tag->uploadFile($request['image'], 'image');
+        if($tag){
+            $tag->edit($request->all(),'image');
+            $tag->uploadFile($request['image'], 'image');
+        }
+
         return redirect(route('tags.index'));
     }
 

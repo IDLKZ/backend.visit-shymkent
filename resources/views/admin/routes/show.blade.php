@@ -1,10 +1,5 @@
 @extends("layout.app")
 @push("styles")
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />    <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endpush
 @section("content")
     <!-- partial -->
@@ -207,9 +202,6 @@
                 @enderror
                 {{--                            End of the address--}}
 
-
-
-
                 <div class="form-group">
                     <label for="description{{__('admin.status')}}">{{__('admin.status')}}</label>
                     <select disabled class="form-select" name="status">
@@ -220,74 +212,71 @@
                 </div>
             </div>
         </div>
-{{--        Points--}}
-        @if($route->routePoints)
-            @if($route->routePoints->isNotEmpty())
-                    <div class="row bg-white py-5">
-                        <h2>{{__("admin.points")}}</h2>
-                    </div>
-                <div class="table-responsive">
-                    <table id="dataTableExample" class="table">
-                        <thead>
-                        <tr>
-                            <th>{{__("admin.id")}}</th>
-                            <th>{{__("admin.image")}}</th>
-                            <th>{{__("admin.routes")}}</th>
-                            <th>{{__("admin.title")}}</th>
-                            <th>{{__("admin.price")}}</th>
-                            <th>{{__("admin.number")}}</th>
-                            <th>{{__("admin.status")}}</th>
-                            <th>{{__("admin.action")}}</th>
-                        </tr>
-                        </thead>
-                            <tbody>
-                                @foreach($route->routePoints as $point)
-                                    <tr>
-                                        <td>{{$point->id}}</td>
-                                        <td><img src="{{$point->getFile('image')}}" width="50"></td>
-                                        <td>{{$point->route->title}}</td>
-                                        <td>{{$point->title}}</td>
-                                        <td>{{$point->price}}</td>
-                                        <td>{{$point->number}}</td>
-                                        <td>
-                                            @if($point->status == 1)
-                                                <span class="badge bg-success text-white">
-                                                            {{__("admin.yes_status")}}
-                                                        </span>
 
-                                            @elseif($point->status == 0)
-                                                <span class="badge bg-danger text-white">
-                                                            {{__("admin.not_status")}}
-                                                        </span>
-                                            @elseif($point->status == -1)
-                                                <span class="badge bg-warning text-white">
-                                                            {{__("admin.mod_status")}}
-                                                        </span>
-                                            @endif
-                                        </td>
-                                        <td class="d-flex">
-                                            <div class="btn-group dropdown">
-                                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    {{__("admin.action")}}
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="{{route('points.show', $point->id)}}">{{__("admin.info")}}</a>
-                                                    <a class="dropdown-item" href="{{route('points.edit', $point->id)}}">{{__("admin.change")}}</a>
-                                                    <form action="{{route('points.destroy', $point->id)}}" method="post">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                    </table>
-                </div>
-                @endif
-        @endif
+
+{{--        Places--}}
+        <div class="row bg-white py-5 px-4">
+            <h2>{{__("admin.places")}}/{{__("admin.points")}}</h2>
+            <div class="col-md-12 text-right">
+                <button class="btn btn-success" data-toggle="modal" data-target="#createRoutePlace">{{__("admin.create")}}</button>
+            </div>
+            <div class="table-responsive">
+                <table id="dataTableExample" class="table">
+                    <thead>
+                    <tr>
+                        <th>{{__("admin.routes")}}</th>
+                        <th>{{__("admin.places")}}/{{__("admin.points")}}</th>
+                        <th>{{__("admin.number")}}</th>
+                        <th>{{__("admin.action")}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @if($route->routePlace->isNotEmpty())
+                        @foreach($route->routePlace as $place)
+                            <tr>
+                                <td>{{$route->title}}</td>
+                                <td>{{$place->place->title . " (" . $place->place->type->title . ")"}}</td>
+                                <td>{{$place->number}}</td>
+                                <td class="d-flex">
+                                    <div class="btn-group dropdown">
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{__("admin.action")}}
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item"
+                                            @if($place->place->type_id == 1)
+                                                href="{{route("places.show",$place->place->id)}}"
+                                                @else
+                                               href="{{route("points.show",$place->place->id)}}"
+                                               @endif
+                                               target="_blank"
+                                            >{{__("admin.info")}}</a>
+                                            <a class="routePlace-edit dropdown-item" data-id="{{$place->id}}" data-number="{{$place->number}}" data-place="{{$place->place->id}}">{{__("admin.change")}}</a>
+                                            <form method="post" action="{{route("route_place.destroy",$place->id)}}">
+                                                @csrf
+                                                @method("delete")
+                                                <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
+                                </td>
+
+                            </tr>
+                        @endforeach
+
+                    @endif
+
+
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        </div>
 
 
 
@@ -762,14 +751,117 @@
             </div>
         </div>
     </div>
+    {{--    Route and Place--}}
+    <div class="modal fade" id="createRoutePlace" tabindex="-1" role="dialog" aria-labelledby="createRoutePlace" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить типы точек или мест</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="{{route("route_place.store")}}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" value="{{$route->id}}" name="route_id">
+                        <div class="form-group">
+                            <label for="place_id">{{__('admin.points')}}/{{__("admin.places")}}</label>
+                            <select class="w-100 select-2" id="place_id" name="place_id" style="width: 100%">
+                                @if($places->isNotEmpty())
+                                    @foreach($places as $place)
+                                        <option value="{{$place->id}}">
+                                            {{$place->title . "(" . $place->type->title . ")"}}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('place_id')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="route_type">{{__('admin.number')}}</label>
+                            <input type="number" name="number" min="1" max="100" style="width: 100%">
+                            @error('number')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("admin.cancel")}}</button>
+                        <button type="submit" class="btn btn-primary">{{__("admin.create")}}</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    {{--    Change Route and Place--}}
+    <div class="modal fade" id="changeRoutePlace" tabindex="-1" role="dialog" aria-labelledby="changeRoutePlace" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Добавить типы точек или мест</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="edit-routePlace" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method("put")
+                    <input type="hidden" value="{{$route->id}}" name="route_id">
+
+                    <div class="modal-body">
+                        @if($places->isNotEmpty())
+                        <div class="form-group">
+                            <label for="place_id">{{__('admin.points')}}/{{__("admin.places")}}</label>
+                            <select class="w-100 select-2" id="place_id" name="place_id" style="width: 100%">
+                                    @foreach($places as $place)
+                                        <option value="{{$place->id}}">
+                                            {{$place->title . "(" . $place->type->title . ")"}}
+                                        </option>
+                                    @endforeach
+                            </select>
+                            @error('place_id')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                            </div>
+                        @else
+                            <div class="form-group">
+                                <input id="routePlace" type="text" hidden name="place_id" style="width: 100%">
+                            </div>
+                        @endif
+                        <div class="form-group">
+                            <label for="routeNumber">{{__('admin.number')}}</label>
+                            <input id="routeNumber" type="number" name="number" min="1" max="100" style="width: 100%">
+                            @error('number')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("admin.cancel")}}</button>
+                        <button type="submit" class="btn btn-primary">{{__("admin.change")}}</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 
 
 @endsection
 @push("scripts")
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
+
     <script>
         let classNames = ['description_ru','description_kz','description_en'];
         for (let i = 0; i<classNames.length;i++){
@@ -795,12 +887,15 @@
         map.pm.setLang('ru');
         displayMarkers();
         function displayMarkers(){
-            if(points.length > 0){
-                for(let i = 0; i <points.length; i++){
-                    L.marker([points[i].lat,points[i].lng]).addTo(map);
+            if(points){
+                if(points.length > 0){
+                    for(let i = 0; i <points.length; i++){
+                        L.marker([points[i].lat,points[i].lng]).addTo(map);
+                    }
+                    map.setView([points[0].lat,points[0].lng], 14);
                 }
-                map.setView([points[0].lat,points[0].lng], 14);
             }
+
         }
 
         $(".gallery-edit").on("click",function (e){
@@ -808,10 +903,25 @@
             let galery_id = $(this).attr("data-id");
             let image = $(this).attr("data-image");
             $("#gallery").attr("src",image);
-            $('#changeGalleryForm').attr('action', 'http://backend.visit-shymkent/ru/admin/gallery/'+galery_id);
+            let url = "<?php echo route("gallery.index"); ?>" +"/"+ galery_id;
+		    $('#changeGalleryForm').attr('action', url);
             jQuery.noConflict();
             $('#changeGallery').modal("show");
         });
+
+        $(".routePlace-edit").on("click",function (e){
+            e.preventDefault();
+            let id = $(this).attr("data-id");
+            let number = $(this).attr("data-number");
+            let place = $(this).attr("data-place");
+            $("#routeNumber").attr("value",number);
+            $("#routePlace").attr("value",place);
+            let url = "<?php echo route("route_place.index"); ?>" +"/"+ id;
+            $('#edit-routePlace').attr('action', url);
+            jQuery.noConflict();
+            $("#changeRoutePlace").modal("show");
+        });
+
 
 
     </script>

@@ -34,7 +34,7 @@
                                 <label>
                                     {{__("admin.role_id")}}
                                 </label>
-                                <select class="js-example-basic-single w-100 select2-hidden-accessible" data-width="100%" data-select2-id="1" tabindex="-1" aria-hidden="true" name="role_id">
+                                <select class="js-example-basic-single w-100 select-2" data-width="100%" data-select2-id="1" tabindex="-1" aria-hidden="true" name="role_id">
                                     @if($roles->isNotEmpty())
                                         @foreach($roles as $role)
                                             @if($user->role_id == $role->id)
@@ -113,15 +113,24 @@
                             <div class="form-group">
                                 <label for="status">{{__('admin.status')}}</label>
                                 <input id="status" @if($user->status)checked @endif type="checkbox"  data-toggle="toggle" data-on="{{__("admin.yes_status")}}" data-off="{{__("admin.not_status")}}" data-onstyle="success" data-offstyle="danger" name="status">
-
+                                @error('status')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="verified">{{__('admin.verified')}}</label>
                                 <input id="verified" @if($user->verified)checked @endif type="checkbox"  data-toggle="toggle" data-on="{{__("admin.verified")}}" data-off="{{__("admin.not_verified")}}" data-onstyle="success" data-offstyle="danger" name="verified">
+                                @error('verified')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
                             </div>
 
                             <button type="submit" class="btn btn-primary mr-2">{{__('admin.change')}}</button>
-                            <button class="btn btn-light">{{__('admin.cancel')}}</button>
+                            <a href="{{route("admin-user.index")}}" class="btn btn-light">{{__('admin.cancel')}}</a>
                         </form>
                     </div>
                 </div>

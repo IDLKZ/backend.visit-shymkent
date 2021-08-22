@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\FileUpload;
+use App\Searchable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $title_en
  * @property string $image
  * @property string $alias
+ * @property int $status
  * @property string $created_at
  * @property string $updated_at
  * @property Route[] $routes
@@ -22,6 +24,7 @@ class CategoryOfRoute extends Model
     use FileUpload;
     use \App\Language;
     use Sluggable;
+    use Searchable;
     public function sluggable(): array
     {
         return [
@@ -47,7 +50,7 @@ class CategoryOfRoute extends Model
     /**
      * @var array
      */
-    protected $fillable = ['title_ru', 'title_kz', 'title_en', 'image', 'alias','status', 'created_at', 'updated_at'];
+    protected $fillable = ['title_ru', 'title_kz', 'title_en', 'image', 'alias', 'status', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

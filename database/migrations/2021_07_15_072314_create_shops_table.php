@@ -23,7 +23,7 @@ class CreateShopsTable extends Migration
             $table->text("description_ru");
             $table->text("description_kz");
             $table->text("description_en");
-            $table->string("alias");
+            $table->string("alias",500);
             $table->string("image")->nullable();
             $table->string("eventum")->nullable();
             $table->json("phone")->nullable();

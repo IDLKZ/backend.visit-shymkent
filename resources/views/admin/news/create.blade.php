@@ -34,7 +34,7 @@
 
                             <div class="form-group">
                                 <label for="categories_news">{{__('admin.category_news')}}</label>
-                                <select class="w-100" name="category_id">
+                                <select class="w-100 select-2" name="category_id">
                                     @if($categories->isNotEmpty())
                                         @foreach($categories as $category)
                                             <option value="{{$category->id}}">
@@ -51,7 +51,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.user_id')}}</label>
-                                <select class="w-100" id="author_id" name="author_id">
+                                <select class="w-100 select-2" id="author_id" name="author_id">
                                     @if($users->isNotEmpty())
                                         @foreach($users as $user)
                                             <option value="{{$user->id}}">
@@ -167,10 +167,15 @@
                                     <option value="0">{{__("admin.not_status")}}</option>
                                     <option value="-1">{{__("admin.mod_status")}}</option>
                                 </select>
+                                @error('status')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
                             </div>
 
                             <button type="submit" id="save" class="btn btn-primary mr-2">{{__('admin.save')}}</button>
-                            <button class="btn btn-light">{{__('admin.cancel')}}</button>
+                            <a href="{{route("news.index")}}" class="btn btn-light">{{__('admin.cancel')}}</a>
                         </form>
                     </div>
                 </div>
@@ -183,8 +188,6 @@
 @endsection
 
 @push("scripts")
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 
     <script>
         let classNames = ['description_ru','description_kz','description_en',

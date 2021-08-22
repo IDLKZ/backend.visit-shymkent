@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PointRequest;
+use App\Models\CategoryPlace as CategoryPlaces;
 use App\Models\Gallery;
+use App\Models\Organizator;
+use App\Models\Place;
 use App\Models\Route;
 use App\Models\RoutePoint;
+use App\Models\Setting;
 use App\Models\Weekday;
 use Illuminate\Http\Request;
 
@@ -19,8 +23,9 @@ class RoutePointController extends Controller
      */
     public function index()
     {
-        $points = RoutePoint::paginate(15);
-        return  view("admin.points.index",compact("points"));
+        $setting = Setting::find(10);
+        $places = Place::with(["organizator","categoriesPlaces","category"])->whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->where("type_id",2)->paginate($setting->pagination);
+        return view('admin.points.index', compact('places',"setting"));
     }
 
     /**
@@ -30,8 +35,8 @@ class RoutePointController extends Controller
      */
     public function create()
     {
-        $routes = Route::all();
-        return  view("admin.points.create",compact("routes"));
+        $organizators = Organizator::with("role")->get();
+        return view('admin.points.create', compact( 'organizators'));
 
     }
 
@@ -43,11 +48,11 @@ class RoutePointController extends Controller
      */
     public function store(PointRequest $request)
     {
-        $point = RoutePoint::add($request->all());
-        $point->uploadFile($request['image'], 'image');
+        $place = Place::add($request->all());
+        $place->uploadFile($request['image'], 'image');
         if ($request->images){
             foreach ($request->images as $file){
-                $gallery = Gallery::add(["point_id"=>$point->id]);
+                $gallery = Gallery::add(["place_id"=>$place->id]);
                 $gallery->uploadFile($file,"image");
             }
         }
@@ -62,12 +67,14 @@ class RoutePointController extends Controller
      */
     public function show($id)
     {
-        if($point = RoutePoint::find($id)){
+        $place = Place::firstWhere(["id"=>$id,"type_id"=>2]);
+        if($place){
             $weekdays = Weekday::all();
-            return view("admin.points.show",compact("point","weekdays"));
+            $place->load(["organizator","galleries","workdays","ratings","reviews"]);
+            return view("admin.points.show",compact("place","weekdays"));
         }
         else{
-            return  redirect()->back();
+            return redirect(route('points.index'));
         }
     }
 
@@ -79,9 +86,13 @@ class RoutePointController extends Controller
      */
     public function edit($id)
     {
-        $routes = Route::all();
-        $point = RoutePoint::find($id);
-        return view("admin.points.edit",compact("point","routes"));
+
+        $place = Place::firstWhere(["id"=>$id,"type_id"=>2]);
+        if($place){
+            $organizators = Organizator::where("status","=","1")->with("role")->get();
+            return view('admin.points.edit', compact('place', 'organizators'));
+        }
+        return redirect(route('points.index'));
     }
 
     /**
@@ -93,9 +104,12 @@ class RoutePointController extends Controller
      */
     public function update(PointRequest $request, $id)
     {
-        $point = RoutePoint::find($id);
-        $point->edit($request->all(),'image');
-        $point->uploadFile($request['image'], 'image');
+        $place = Place::firstWhere(["id"=>$id,"type_id"=>2]);
+        if($place){
+            $place->edit($request->all(),'image');
+            $place->uploadFile($request['image'], 'image');
+            return redirect(route('points.index'));
+        }
         return redirect(route('points.index'));
     }
 
@@ -107,7 +121,7 @@ class RoutePointController extends Controller
      */
     public function destroy($id)
     {
-        RoutePoint::destroy($id);
+        Place::destroy($id);
         return redirect()->route("points.index");
     }
 }

@@ -91,10 +91,9 @@ trait FileUpload
     {
         if($this->$path == null)
         {
-            return '/img/no-image.png';
+            return '/images/no-image.png';
         }
         return '/uploads/' . $this->$path;
-
     }
 
 

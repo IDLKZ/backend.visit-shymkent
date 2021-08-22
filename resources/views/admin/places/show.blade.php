@@ -1,10 +1,5 @@
 @extends("layout.app")
 @push("styles")
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />    <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endpush
 @section("content")
     <!-- partial -->
@@ -26,7 +21,7 @@
                 <img src="{{$place->getFile('image')}}" width="100%">
             </div>
             <div class="col-md-8">
-                {{--                            Title starts--}}
+                {{--                            Organizator starts--}}
                 @if($place->organizator)
                 <div class="form-group">
                     <label for="organizators">{{__('admin.organizators')}}</label>
@@ -90,6 +85,7 @@
                     </div>
                 </div>
                 @endif
+{{--                End Organizator--}}
                 <div class="form-group">
                     <label for="exampleInputUsername{{__('admin.title_kz')}}">{{__('admin.title_kz')}}</label>
                     <input disabled type="text" class="form-control  @error('title_kz') is-invalid @enderror" id="exampleInputUsername{{__('admin.title_kz')}}" name='title_kz' autocomplete="off" placeholder="{{__('admin.title_kz')}}" value="{{$place->title_kz}}">
@@ -125,14 +121,14 @@
 
                 </div>
                 {{--                    Description end--}}
-                {{--                            placeum--}}
+                {{--                            eventum--}}
 
                 <div class="form-group">
-                    <label for="placeum">{{__('admin.placeum')}}</label>
-                    <input disabled type="text" class="form-control  @error('placeum') is-invalid @enderror" id="placeum" name='placeum' autocomplete="off" placeholder="{{__('admin.placeum')}}" value="{{$place->placeum}}">
+                    <label for="eventum">{{__('admin.eventum')}}</label>
+                    <input disabled type="text" class="form-control  @error('eventum') is-invalid @enderror" id="eventum" name='eventum' autocomplete="off" placeholder="{{__('admin.eventum')}}" value="{{$place->eventum}}">
 
                 </div>
-                {{--                            End of placeum--}}
+                {{--                            End of eventum--}}
                 {{--                            Start of contacts--}}
                 <div class="form-group border px-2 py-2">
                     <label for="{{__('admin.phone')}}">{{__('admin.phone')}}</label>
@@ -167,14 +163,14 @@
 
                 {{--            Start of the price--}}
                 <div class="form-group">
-                    <label for="placeum">{{__('admin.price')}}</label>
+                    <label for="eventum">{{__('admin.price')}}</label>
                     <input disabled type="text" class="form-control  @error('price') is-invalid @enderror" id="price" name='price' autocomplete="off" placeholder="{{__('admin.price')}}" value="{{$place->price}}">
                 </div>
 
                 {{--End of the price--}}
                 {{--                            Start Address--}}
                 <div class="form-group">
-                    <label for="placeum">{{__('admin.address')}}</label>
+                    <label for="eventum">{{__('admin.address')}}</label>
                     <input disabled type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{$place->address}}">
                 </div>
 
@@ -207,10 +203,7 @@
                 <div id="map" style="height: 400px">
 
                 </div>
-
-
                 {{--                            End of the address--}}
-
                 <div class="form-group">
                     <label for="description{{__('admin.status')}}">{{__('admin.status')}}</label>
                     <select disabled class="form-select" name="status">
@@ -218,6 +211,11 @@
                         <option value="0" @if($place->status == 0) selected @endif>{{__("admin.not_status")}}</option>
                         <option value="-1" @if($place->status == -1) selected @endif>{{__("admin.mod_status")}}</option>
                     </select>
+                </div>
+
+
+                <div class="d-flex justify-content-around">
+                    <a class="btn btn-warning" href="{{route("places.edit",$place->id)}}">{{__("admin.change")}}</a>
                 </div>
             </div>
         </div>
@@ -271,6 +269,158 @@
             </div>
         </div>
         {{--        End Categories--}}
+        {{--        Routes--}}
+        <div class="row bg-white py-5 px-4">
+            <h2>{{__("admin.routes")}}</h2>
+            @if($place->routes)
+                <div class="table-responsive">
+                    <table id="dataTableExample" class="table">
+                        <thead>
+                        <tr>
+                            <th>{{__("admin.id")}}</th>
+                            <th>{{__("admin.image")}}</th>
+                            <th>{{__("admin.title")}}</th>
+                            <th>{{__("admin.route_categories")}}</th>
+                            <th>{{__("admin.route_types")}}</th>
+                            <th>{{__("admin.organizators")}}</th>
+                            <th>{{__("admin.distance")}}</th>
+                            <th>{{__("admin.time")}}</th>
+                            <th>{{__("admin.status")}}</th>
+                            <th>{{__("admin.action")}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @if($place->routes->isNotEmpty())
+                            @foreach($place->routes as $route)
+                                <tr>
+                                    <td>{{$route->id}}</td>
+                                    <td><img src="{{$route->getFile('image')}}" width="50"></td>
+                                    <td>{{$route->title}}</td>
+                                    <td>{{$route->category->title}}</td>
+                                    <td>
+                                        @if($route->types)
+                                            @if($route->types->isNotEmpty())
+                                                <ul>
+                                                    @foreach($route->types as $type)
+                                                        <li>{{$type->routeType->title}}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($route->organizatorsRoute)
+                                            @if($route->organizatorsRoute->isNotEmpty())
+                                                <ul>
+                                                    @foreach($route->organizatorsRoute as $organizator)
+                                                        <li>{{$organizator->organizator->title . "(" .$organizator->organizator->role->title . ")"}}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        @endif
+                                    </td>
+                                    <td>{{$route->distance}}</td>
+                                    <td>{{$route->time}}</td>
+                                    <td>
+                                        @if($route->status == 1)
+                                            <span class="badge bg-success text-white">
+                                                            {{__("admin.yes_status")}}
+                                                        </span>
+
+                                        @elseif($route->status == 0)
+                                            <span class="badge bg-danger text-white">
+                                                            {{__("admin.not_status")}}
+                                                        </span>
+                                        @elseif($route->status == -1)
+                                            <span class="badge bg-warning text-white">
+                                                            {{__("admin.mod_status")}}
+                                                        </span>
+                                        @endif
+                                    </td>
+                                    <td class="d-flex">
+                                        <div class="btn-group dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{__("admin.action")}}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{route('routes.show', $route->id)}}">{{__("admin.info")}}</a>
+                                                <a class="dropdown-item" href="{{route('routes.edit', $route->id)}}">{{__("admin.change")}}</a>
+                                                <form action="{{route('routes.destroy', $route->id)}}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+            @endif
+
+
+
+        </div>
+        {{--        Events--}}
+        <div class="row bg-white py-5 px-4">
+            <h2>{{__("admin.events")}}</h2>
+            <div class="col-md-12 text-right">
+                <button class="btn btn-success" data-toggle="modal" data-target="#createEvent">{{__("admin.create")}}</button>
+            </div>
+            @if($place->placeEvent)
+                <div class="table-responsive">
+                    <table id="dataTableExample" class="table">
+                        <thead>
+                        <tr>
+                            <th>{{__("admin.id")}}</th>
+                            <th>{{__("admin.places")}}</th>
+                            <th>{{__("admin.events")}}</th>
+                            <th>{{__("admin.action")}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if($place->placeEvent->isNotEmpty())
+                            @foreach($place->placeEvent as $item)
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$place->title}}</td>
+                                    <td>{{$item->event->title}}</td>
+                                    <td class="d-flex">
+                                        <div class="btn-group dropdown">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {{__("admin.action")}}
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{route('events.show', $item->event->id)}}">{{__("admin.info")}}</a>
+                                                <form action="{{route('place-event.destroy',  $item->id)}}" method="post">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+            @endif
+
+
+
+        </div>
         {{--            Galleries --}}
         <div class="row bg-white py-5 px-4">
             <h2>{{__("admin.galleries")}}</h2>
@@ -440,91 +590,7 @@
                 </table>
             </div>
         </div>
-        {{--        Events--}}
-        <div class="row bg-white py-5 px-4">
-            <h2>{{__("admin.events")}}</h2>
-            <div class="col-md-12 text-right">
-                <button class="btn btn-success" data-toggle="modal" data-target="#createRating">{{__("admin.events")}}</button>
-            </div>
-            <div class="table-responsive">
-                <table id="dataTableExample" class="table">
-                    <thead>
-                    <tr>
-                        <th>{{__("admin.id")}}</th>
-                        <th>{{__("admin.image")}}</th>
-                        <th>{{__("admin.title")}}</th>
-                        <th>{{__("admin.organizators")}}</th>
-                        <th>{{__("admin.places")}}</th>
-                        <th>{{__("admin.event_categories")}}</th>
-                        <th>{{__("admin.status")}}</th>
-                        <th>{{__("admin.eventum")}}</th>
-                        <th>{{__("admin.action")}}</th>
-                    </tr>
-                    </thead>
-                    @if($place->events)
-                        <tbody>
 
-                        @if($place->events->isNotEmpty())
-                            @foreach($place->events as $event)
-                                <tr>
-                                    <td>{{$event->id}}</td>
-                                    <td><img src="{{$event->getFile('image')}}" width="50"></td>
-                                    <td>{{$event->title}}</td>
-                                    <td>{{$event->organizator ? $event->organizator->title : "-"}}</td>
-                                    <td>{{$event->place ? $event->place->title : "-"}}</td>
-                                    <td>
-                                        @if($event->category->isNotEmpty())
-                                            @foreach($event->category as $category)
-                                                <p>{{$category->title}}</p>
-                                            @endforeach
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if($event->status == 1)
-                                            <span class="badge bg-success text-white">
-                                                            {{__("admin.yes_status")}}
-                                                        </span>
-
-                                        @elseif($event->status == 0)
-                                            <span class="badge bg-danger text-white">
-                                                            {{__("admin.not_status")}}
-                                                        </span>
-                                        @elseif($event->status == -1)
-                                            <span class="badge bg-warning text-white">
-                                                            {{__("admin.mod_status")}}
-                                                        </span>
-                                        @endif
-                                    </td>
-                                    <td>{{$event->eventum}}</td>
-                                    <td class="d-flex">
-                                        <div class="btn-group dropdown">
-                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {{__("admin.action")}}
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('events.show', $event->id)}}">{{__("admin.info")}}</a>
-                                                <a class="dropdown-item" href="{{route('events.edit', $event->id)}}">{{__("admin.change")}}</a>
-                                                <form action="{{route('events.destroy', $event->id)}}" method="post">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="dropdown-item">{{__("admin.delete")}}</button>
-                                                </form>
-                                            </div>
-                                        </div>
-
-
-
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
-
-
-                        </tbody>
-                    @endif
-                </table>
-            </div>
-        </div>
     </div>
 
 {{--    Modal Gallery--}}
@@ -626,7 +692,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="placeum">{{__('admin.date_start')}}</label>
+                            <label for="eventum">{{__('admin.date_start')}}</label>
                             <input  type="text" class="form-control  @error('date_start') is-invalid @enderror" id="date_start" name='date_start' autocomplete="off" value="{{old('date_start')}}">
                             @error('date_start')
                             <div class="invalid-feedback">
@@ -635,7 +701,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="placeum">{{__('admin.date_end')}}</label>
+                            <label for="eventum">{{__('admin.date_end')}}</label>
                             <input  type="text" class="form-control  @error('date_end') is-invalid @enderror" id="date_end" name='date_end' autocomplete="off" value="{{old('date_end')}}">
                             @error('date_end')
                             <div class="invalid-feedback">
@@ -644,7 +710,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="placeum">{{__('admin.time_start')}}</label>
+                            <label for="eventum">{{__('admin.time_start')}}</label>
                             <input type="text" class="form-control  @error('time_start') is-invalid @enderror" id="time_start" name='time_start' autocomplete="off" value="{{old('time_start')}}">
                             @error('time_start')
                             <div class="invalid-feedback">
@@ -653,7 +719,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="placeum">{{__('admin.time_end')}}</label>
+                            <label for="eventum">{{__('admin.time_end')}}</label>
                             <input type="text" class="form-control  @error('time_end') is-invalid @enderror" id="time_end" name='time_end' autocomplete="off" value="{{old('time_end')}}">
                             @error('time_end')
                             <div class="invalid-feedback">
@@ -688,7 +754,7 @@
                         <input type="hidden" value="{{$place->id}}" name="place_id">
                         <div class="form-group">
                             <label>{{__('admin.places_category')}}</label>
-                            <select name="category_id">
+                            <select class="select-2" name="category_id">
                                 @if($categories->isNotEmpty())
                                     @foreach($categories as $category)
                                         <option value="{{$category->id}}">
@@ -756,16 +822,50 @@
             </div>
         </div>
     </div>
+    {{--Create Event --}}
+    <div class="modal fade" id="createEvent" tabindex="-1" role="dialog" aria-labelledby="createEvent" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Создать рейтинг</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" action="{{route("place-event.store")}}">
+                    @csrf
+                    <div class="modal-body">
+                        <input type="hidden" value="{{$place->id}}" name="place_id">
+                        <div class="form-group">
+                            <label for="event_type">{{__('admin.events')}}</label>
+                            <select class="w-100" name="event_id" style="width: 100%">
+                                @if($events->isNotEmpty())
+                                    @foreach($events as $event)
+                                        <option value="{{$event->id}}">
+                                            {{$event->title}}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            @error('event_id')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__("admin.cancel")}}</button>
+                        <button type="submit" class="btn btn-primary">{{__("admin.create")}}</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 @endsection
 @push("scripts")
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ru.min.js" integrity="sha512-tPXUMumrKam4J6sFLWF/06wvl+Qyn27gMfmynldU730ZwqYkhT2dFUmttn2PuVoVRgzvzDicZ/KgOhWD+KAYQQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         let classNames = ['description_ru','description_kz','description_en'];
         let selectNames = [".phone",".social_networks",".sites"];
@@ -801,12 +901,15 @@
         map.pm.setLang('ru');
         displayMarkers();
         function displayMarkers(){
-            if(points.length > 0){
-                for(let i = 0; i <points.length; i++){
-                    L.marker([points[i].lat,points[i].lng]).addTo(map);
+            if(points){
+                if(points.length > 0){
+                    for(let i = 0; i <points.length; i++){
+                        L.marker([points[i].lat,points[i].lng]).addTo(map);
+                    }
+                    map.setView([points[0].lat,points[0].lng], 14);
                 }
-                map.setView([points[0].lat,points[0].lng], 14);
             }
+
         }
 
         $(".gallery-edit").on("click",function (e){
@@ -814,7 +917,8 @@
            let galery_id = $(this).attr("data-id");
            let image = $(this).attr("data-image");
            $("#gallery").attr("src",image);
-            $('#changeGalleryForm').attr('action', 'http://backend.visit-shymkent/ru/admin/gallery/'+galery_id);
+          let url = "<?php echo route("gallery.index"); ?>" +"/"+ galery_id;
+		    $('#changeGalleryForm').attr('action', url);
             jQuery.noConflict();
             $('#changeGallery').modal("show");
         });

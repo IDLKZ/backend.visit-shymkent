@@ -3,3 +3,17 @@
     color: white;
     padding: 10px 15px;
 }
+.select2-selection__rendered{
+    line-height: 15px!important;
+}
+
+nav> ul.pagination{
+    display: flex!important;
+    justify-content: center;
+}
+.pagination{
+    padding: 20px 0 20px 0;
+}
+.checked-star {
+    color: orange;
+}

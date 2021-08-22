@@ -9,6 +9,7 @@ use App\Models\News;
 use App\Models\Organizator;
 use App\Models\Review;
 use App\Models\Saving;
+use App\Models\Setting;
 use App\Models\Shop;
 use App\Models\Slider;
 use App\Models\User;
@@ -25,8 +26,10 @@ class AdminUserController extends Controller
      */
     public function index()
     {
-        $users = User::with(["role"])->paginate(50);
-        return view("admin.user.index",compact("users"));
+        $roles = Role::all();
+        $setting = Setting::find(1);
+        $users = User::whereIn("status",$setting->status)->whereIn("verified",$setting->verified)->with(["role"])->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.user.index",compact("users","setting","roles"));
     }
 
     /**
@@ -80,7 +83,13 @@ class AdminUserController extends Controller
     {
         $roles = Role::all();
         $user = User::find($id);
-        return view("admin.user.edit",compact("roles","user"));
+        if($user){
+            return view("admin.user.edit",compact("roles","user"));
+        }
+        else{
+            return redirect()->route("admin-user.index");
+        }
+
     }
 
     /**
@@ -93,8 +102,11 @@ class AdminUserController extends Controller
     public function update(UserRequest $request, $id)
     {
         $user = User::find($id);
-        $user->edit($request->all(),'image');
-        $user->uploadFile($request['image'], 'image');
+        if($user){
+            $input = $request->get("password") != null ? $request->all() : $request->except("password");
+            $user->edit($input,'image');
+            $user->uploadFile($request['image'], 'image');
+        }
         return redirect(route('admin-user.index'));
     }
 

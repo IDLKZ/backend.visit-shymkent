@@ -1,7 +1,6 @@
 @extends('layout.app')
 @push("styles")
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.css" />
+
 @endpush
 @section('content')
 
@@ -39,7 +38,7 @@
                             {{--                    Категория, Типы и Организаторы--}}
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.route_categories')}}</label>
-                                <select class="w-100" id="category_id" name="category_id">
+                                <select class="w-100 select-2" id="category_id" name="category_id">
                                     @if($categories->isNotEmpty())
                                         @foreach($categories as $category)
                                             <option
@@ -200,7 +199,7 @@
                             </div>
 
                             <button type="submit" id="save" class="btn btn-primary mr-2">{{__('admin.change')}}</button>
-                            <button class="btn btn-light">{{__('admin.cancel')}}</button>
+                            <a href="{{route("routes.index")}}" class="btn btn-light">{{__('admin.cancel')}}</a>
                         </form>
                     </div>
                 </div>
@@ -213,9 +212,7 @@
 @endsection
 
 @push("scripts")
-    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/@geoman-io/leaflet-geoman-free@latest/dist/leaflet-geoman.min.js"></script>
+
     <script>
         let classNames = ['description_ru','description_kz','description_en'];
         for (let i = 0; i<classNames.length;i++){
@@ -243,13 +240,15 @@
         displayMarkers();
 
         function displayMarkers(){
-            if(points.length > 0){
-                for(let i = 0; i <points.length; i++){
-                    console.log(points[i].lat,points[i].lng);
-                    L.marker([points[i].lat,points[i].lng]).addTo(map);
+            if(points){
+                if(points.length > 0){
+                    for(let i = 0; i <points.length; i++){
+                        L.marker([points[i].lat,points[i].lng]).addTo(map);
+                    }
+                    map.setView([points[0].lat,points[0].lng], 14);
                 }
-                map.setView([points[0].lat,points[0].lng], 14);
             }
+
         }
         let coordinates = [];
         $("#save").on("click",function (e) {

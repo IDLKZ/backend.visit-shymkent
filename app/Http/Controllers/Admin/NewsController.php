@@ -7,6 +7,7 @@ use App\Http\Requests\NewsRequest;
 use App\Models\CategoryNews;
 use App\Models\Gallery;
 use App\Models\News;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -19,8 +20,9 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::paginate(15);
-        return view("admin.news.index",compact("news"));
+        $setting = Setting::find(16);
+        $news = News::whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        return view("admin.news.index",compact("news","setting"));
     }
 
     /**
@@ -81,9 +83,13 @@ class NewsController extends Controller
     public function edit($id)
     {
         $news = News::find($id);
-        $users = User::all();
-        $categories = CategoryNews::all();
-        return view("admin.news.edit",compact("users","categories","news"));
+        if($news){
+            $users = User::all();
+            $categories = CategoryNews::all();
+            return view("admin.news.edit",compact("users","categories","news"));
+        }
+        return redirect(route("news.index"));
+
     }
 
     /**
@@ -96,8 +102,11 @@ class NewsController extends Controller
     public function update(NewsRequest $request, $id)
     {
         $news = News::find($id);
-        $news->edit($request->all(),'image');
-        $news->uploadFile($request['image'], 'image');
+        if($news){
+            $news->edit($request->all(),'image');
+            $news->uploadFile($request['image'], 'image');
+        }
+
         return redirect(route('news.index'));
     }
 

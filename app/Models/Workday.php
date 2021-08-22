@@ -56,10 +56,6 @@ class Workday extends Model
     {
         return $this->belongsTo(Shop::class);
     }
-    public function point()
-    {
-        return $this->belongsTo(RoutePoint::class);
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

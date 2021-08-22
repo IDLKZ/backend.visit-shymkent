@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\FileUpload;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -32,6 +33,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Review extends Model
 {
+
+    use FileUpload;
+
     /**
      * The "type" of the auto-incrementing ID.
      *
@@ -73,7 +77,7 @@ class Review extends Model
      */
     public function organizator()
     {
-        return $this->belongsTo(Organizator::class);
+        return $this->belongsTo(Organizator::class,"organizator_id");
     }
 
     /**

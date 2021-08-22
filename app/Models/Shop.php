@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\FileUpload;
 use App\Role;
+use App\Searchable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -40,7 +41,7 @@ class Shop extends Model
     use Sluggable;
     use \App\Language;
     use FileUpload;
-
+    use Searchable;
     public function sluggable(): array
     {
         return [

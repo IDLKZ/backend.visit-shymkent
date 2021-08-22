@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\FileUpload;
+use App\Searchable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,6 +45,7 @@ class Place extends Model
     use Sluggable;
     use FileUpload;
     use \App\Language;
+    use Searchable;
     public function sluggable(): array
     {
         return [
@@ -68,7 +70,7 @@ class Place extends Model
     /**
      * @var array
      */
-    protected $fillable = ['organizator_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'phone', 'social_networks', 'sites', 'address', 'address_link', 'price', 'image', 'video_ru', 'video_kz', 'video_en', 'audio_ru', 'audio_kz', 'audio_en', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['type_id','organizator_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'phone', 'social_networks', 'sites', 'address', 'address_link', 'price', 'image', 'video_ru', 'video_kz', 'video_en', 'audio_ru', 'audio_kz', 'audio_en', 'status', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -105,10 +107,7 @@ class Place extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function events()
-    {
-        return $this->hasMany(Event::class, 'place_id');
-    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -139,7 +138,40 @@ class Place extends Model
     {
         return $this->hasMany(Review::class, 'place_id');
     }
+    public function type()
+    {
+        return $this->belongsTo(PlaceType::class, 'type_id');
+    }
 
+    public function routePlace(){
+        return $this->hasMany(RoutePlace::class, 'place_id');
+    }
 
+    public function placeEvent(){
+        return $this->hasMany(PlaceEvent::class,'place_id');
+    }
+
+    public function routes()
+    {
+        return $this->hasManyThrough(
+            Route::class,
+            RoutePlace::class,
+            "place_id",
+            "id",
+            "id",
+            "route_id"
+        );
+    }
+
+    public function events(){
+        return $this->hasManyThrough(
+            Event::class,
+            PlaceEvent::class,
+            "place_id",
+            "id",
+            "id",
+            "event_id"
+        );
+    }
 
 }
