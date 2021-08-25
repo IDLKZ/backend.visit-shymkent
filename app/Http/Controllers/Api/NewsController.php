@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\CategoryNews;
 use App\Models\News;
+use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -15,16 +17,30 @@ class NewsController extends Controller
         return response()->json($news);
     }
 
-    public function allNews()
+    public function allNews(Request $request)
     {
-        $news = News::with('user', 'categorynews')->where('status', 1)->paginate(8);
+        $news = News::with('user', 'categorynews')->where('status', 1)->orderBy("created_at","DESC")->paginate(1);
         $categories = CategoryNews::all();
         return response()->json([$news,$categories]);
     }
 
     public function singleNew($alias)
     {
-        $new = News::with('savings', 'user')->firstWhere('alias', $alias);
-        return response()->json($new);
+        $new = News::with('savings', 'user')->where('alias', $alias)->firstOrFail();
+        $reviews = $new->reviews()->where("status",1)->with("user")->paginate(20);
+        return response()->json([$new,$reviews]);
+    }
+
+    public function testUpload(Request $request){
+        $this->validate($request,["image"=>"required|image|max:10240"]);
+        $user = User::find(11);
+        $user->uploadFile($request->image,'image');
+        return response()->json($user->image);
+    }
+
+    public function moreNews(){
+        $news = News::where('status', 1)->count() > 2 ? News::with('user', 'categorynews')->orderBy("created_at","DESC")->take(3) : News::with('user', 'categorynews')->orderBy("created_at","DESC")->get();
+        return response()->json($news);
+
     }
 }

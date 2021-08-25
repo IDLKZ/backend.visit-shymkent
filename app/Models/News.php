@@ -50,7 +50,7 @@ class News extends Model
     }
 
     protected $casts = [
-        'created_at' => 'datetime:d.m.Y'
+        'created_at' => 'datetime:d.m.Y H:m'
     ];
 
     protected $keyType = 'integer';

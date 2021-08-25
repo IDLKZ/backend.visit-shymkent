@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SouvenirController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +48,7 @@ Route::get('/guides', [RoutesController::class, 'guides']);
 Route::get('/guide/{alias}', [RoutesController::class, 'guide']);
 Route::get('/agencies', [RoutesController::class, 'agencies']);
 Route::get('/agency/{alias}', [RoutesController::class, 'agency']);
-
+Route::get("/moreNews",[NewsController::class,"moreNews"]);
 
 Route::post('/register', [LoginController::class, 'register']);
 //CABINET
@@ -81,5 +82,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'cabinet'], function (){
     Route::get('/savings', [UserController::class, 'savings']);
 
     Route::post('/add-save', [UserController::class, 'addSave']);
+
+    Route::apiResource("reviews",ReviewController::class);
+
+
 });
 

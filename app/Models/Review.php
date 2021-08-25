@@ -48,6 +48,9 @@ class Review extends Model
      */
     protected $fillable = ['user_id', 'place_id', 'event_id', 'route_id', 'blog_id', 'news_id', 'shop_id', 'organizator_id', 'souvenir_id', 'rating', 'review', 'status', 'created_at', 'updated_at'];
 
+    protected $casts = [
+        'created_at' => 'datetime:d.m.Y H:m'
+    ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

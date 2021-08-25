@@ -44,6 +44,5 @@ class ReviewRequest extends FormRequest
             ];
         }
         return $rules;
-
     }
 }
