@@ -76,11 +76,14 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'cabinet'], function (){
 
     Route::get('/my-blogs', [BlogsController::class, 'myBlogs']);
     Route::post('/send-blog', [BlogsController::class, 'sendBlog']);
+
     Route::get('/my-events', [EventController::class, 'myEvents']);
     Route::post('/send-event', [EventController::class, 'sendEvent']);
 
-    Route::get('/savings', [UserController::class, 'savings']);
+    Route::get('/my-souvenirs', [ShopController::class, 'mySouvenirs']);
+    Route::post('/send-souvenir', [ShopController::class, 'sendSouvenir']);
 
+    Route::get('/savings', [UserController::class, 'savings']);
     Route::post('/add-save', [UserController::class, 'addSave']);
 
     Route::apiResource("reviews",ReviewController::class);

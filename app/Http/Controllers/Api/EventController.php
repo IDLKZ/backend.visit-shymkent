@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\Organizator;
 use App\Models\Place;
+use App\Models\User;
 use App\Models\Workday;
 use Illuminate\Http\Request;
 
@@ -30,11 +31,11 @@ class EventController extends Controller
 
     public function myEvents()
     {
-        $event1 = Event::with('workdays.weekday')->where(['status' => 1, 'organizator_id' => auth('api')->id()])->paginate(10);
-        $event2 = Event::with('workdays.weekday')->where(['status' => 0, 'organizator_id' => auth('api')->id()])->paginate(10);
+        $user = Organizator::where('user_id', auth('api')->id())->first();
+        $event1 = Event::with('workdays.weekday')->where(['status' => 1, 'organizator_id' => $user->id])->paginate(10);
+        $event2 = Event::with('workdays.weekday')->where(['status' => 0, 'organizator_id' => $user->id])->paginate(10);
         $places = Place::all();
-        $organizator = Organizator::where('user_id', auth('api')->id())->first();
-        return response()->json([$event1, $event2, $places, $organizator]);
+        return response()->json([$event1, $event2, $places, $user]);
     }
 
     public function sendEvent(Request $request)

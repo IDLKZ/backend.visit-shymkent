@@ -24,25 +24,25 @@ class RoutesController extends Controller
 
     public function agencies()
     {
-        $agents = Organizator::with('routes.routePoints')->where('role_id', 5)->paginate(10);
+        $agents = Organizator::with('routes')->where('role_id', 5)->paginate(10);
         return response()->json($agents);
     }
 
     public function route($alias)
     {
-        $route = Route::with(['galleries', 'routePoints', 'routePoints.galleries', 'savings', 'organizators'])->firstWhere("alias",$alias);
+        $route = Route::with(['galleries', 'places.galleries', 'routePlace.place', 'savings', 'organizators'])->firstWhere("alias",$alias);
         return response()->json($route);
     }
 
     public function guide($alias)
     {
-        $guide = Organizator::with('user', 'savings', 'routes', 'routes.category', 'routes.typesRoute', 'routes.routePoints')->firstWhere('alias', $alias);
+        $guide = Organizator::with('user', 'savings', 'routes', 'routes.category', 'routes.typesRoute', 'routes.places')->firstWhere('alias', $alias);
         return response()->json($guide);
     }
 
     public function agency($alias)
     {
-        $agency = Organizator::with('user', 'savings', 'routes', 'routes.category', 'routes.typesRoute', 'routes.routePoints')->firstWhere('alias', $alias);
+        $agency = Organizator::with('user', 'savings', 'routes', 'routes.category', 'routes.typesRoute', 'routes.places')->firstWhere('alias', $alias);
         return response()->json($agency);
     }
 }
