@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\BlogsController;
 use App\Http\Controllers\Api\CategoryOfThePlaceController;
 use App\Http\Controllers\Api\EventController;
+use App\Http\Controllers\Api\FooterController;
 use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PlacesController;
 use App\Http\Controllers\Api\RoutesController;
@@ -56,6 +57,9 @@ Route::get('/agencies', [RoutesController::class, 'agencies']);
 Route::get('/agency/{alias}', [RoutesController::class, 'agency']);
 Route::get("/moreNews",[NewsController::class,"moreNews"]);
 Route::get("/tags",[TagController::class,"index"]);
+
+
+Route::get("/footer",[FooterController::class,"index"]);
 
 Route::post('/register', [LoginController::class, 'register']);
 //CABINET

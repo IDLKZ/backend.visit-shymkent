@@ -37,7 +37,7 @@ class PhoneController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,["phone"=>"required|integer"]);
+        $this->validate($request,["phone"=>"required"]);
         Phone::add($request->all());
         return redirect()->back();
     }
