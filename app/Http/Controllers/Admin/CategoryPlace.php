@@ -28,7 +28,8 @@ class CategoryPlace extends Controller
      */
     public function create()
     {
-        $categories = CategoryPlaces::getTree();
+//        $categories = CategoryPlaces::getTree();
+        $categories = CategoryPlaces::where("parent_id",null)->get();
         $option = CategoryPlaces::renderTemplate($categories);
         return view('admin.placecategories.create', compact('categories', 'option'));
     }
@@ -71,7 +72,8 @@ class CategoryPlace extends Controller
     {
         $category = CategoryPlaces::find($id);
         if($category){
-            $categories = CategoryPlaces::getTree();
+//            $categories = CategoryPlaces::getTree();
+            $categories = CategoryPlaces::where("parent_id",null)->get();
             $option = CategoryPlaces::renderTemplate($categories, null, $category);
             return view('admin.placecategories.edit', compact('category', 'option'));
         }

@@ -19,15 +19,16 @@ class NewsController extends Controller
 
     public function allNews(Request $request)
     {
-        $news = News::with('user', 'categorynews')->where('status', 1)->orderBy("created_at","DESC")->paginate(1);
+        $news = News::search([['status',"in",1], ["category_id","in",$request->get("category_id")]])->with('user', 'categorynews')->orderBy("created_at","DESC")->paginate(12);
         $categories = CategoryNews::all();
-        return response()->json([$news,$categories]);
+        $hotNews = News::search([['status',"in",1], ["category_id","in",$request->get("category_id")]])->with('user', 'categorynews')->orderBy("created_at","DESC")->first();
+        return response()->json([$news,$categories,$hotNews]);
     }
 
     public function singleNew($alias)
     {
         $new = News::with('savings', 'user')->where('alias', $alias)->firstOrFail();
-        $reviews = $new->reviews()->where("status",1)->with("user")->paginate(20);
+        $reviews = $new->reviews()->where("status",1)->orderBy("created_at","DESC")->with("user")->paginate(20);
         return response()->json([$new,$reviews]);
     }
 

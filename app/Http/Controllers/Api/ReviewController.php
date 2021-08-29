@@ -47,13 +47,13 @@ class ReviewController extends Controller
     {
         $this->validate($request,[ 'user_id'=>"required|sometimes|exists:users,id", 'rating'=>"sometimes|nullable|numeric|min:0|max:5", 'place_id'=>"sometimes|nullable|exists:places,id", 'event_id'=>"sometimes|nullable|exists:events,id", 'route_id'=>"sometimes|nullable|exists:routes,id", 'shop_id'=>"sometimes|nullable|exists:shops,id", 'souvenir_id'=>"sometimes|nullable|exists:souvenirs,id", 'organizator_id'=>"sometimes|nullable|exists:organizators,id", 'news_id'=>"sometimes|nullable|exists:news,id", 'blog_id'=>"sometimes|nullable|exists:blogs,id", "review"=>"required"]);
         if($user = User::find($request->get("user_id"))){
-            if($user->reviews()->where(["news_id"=>$request->get("news_id"),"status"=>0])->count()>5){
+            if($user->reviews()->where(["status"=>0])->count()>10){
                 return response("Превышение запросов",429);
             }
         }
         $review = new Review();
         $input = $request->all();
-        $input["status"] = 0;
+        $input["status"] = -1;
         $review->add($input);
         return response()->json($user->reviews()->where(["news_id"=>$request->get("news_id"),"status"=>0])->count()>5);
     }

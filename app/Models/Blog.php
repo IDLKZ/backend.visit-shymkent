@@ -35,7 +35,7 @@ class Blog extends Model
     use Searchable;
 
     protected $casts = [
-        'created_at' => 'datetime:d-m-Y'
+        'created_at' => 'datetime:d-m-Y H:m'
     ];
 
     public function sluggable(): array

@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\SouvenirController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,8 @@ Route::get('/shops', [SouvenirController::class, 'shops']);
 Route::get('/craftmans', [SouvenirController::class, 'craftmans']);
 Route::get('/souvenir/{alias}', [SouvenirController::class, 'souvenir']);
 Route::get('/blogs', [BlogsController::class, 'index']);
+Route::get('/singleBlog/{alias}', [BlogsController::class, 'singleBlog']);
+Route::get("/author-blogs",[BlogsController::class,"authors"]);
 Route::get('/news', [NewsController::class, 'index']);
 Route::get('/new/{alias}', [NewsController::class, 'singleNew']);
 Route::get('/all-news', [NewsController::class, 'allNews']);
@@ -49,6 +52,7 @@ Route::get('/guide/{alias}', [RoutesController::class, 'guide']);
 Route::get('/agencies', [RoutesController::class, 'agencies']);
 Route::get('/agency/{alias}', [RoutesController::class, 'agency']);
 Route::get("/moreNews",[NewsController::class,"moreNews"]);
+Route::get("/tags",[TagController::class,"index"]);
 
 Route::post('/register', [LoginController::class, 'register']);
 //CABINET
