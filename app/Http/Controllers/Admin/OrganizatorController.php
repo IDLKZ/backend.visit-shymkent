@@ -66,7 +66,7 @@ class OrganizatorController extends Controller
     public function show($id)
     {
         if($organizator = Organizator::find($id)){
-
+            $organizator->load("ratings");
             return view("admin.organizators.show",compact("organizator"));
         }
         else{

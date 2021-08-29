@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 class EventController extends Controller
 {
     public function index(){
-        $events = Event::where("status",1)->count() >= 4  ? Event::where("status",1)->take(4) : Event::where("status",1)->get();
+        $events = Event::where("status",1)->count() >= 4  ? Event::where("status",1)->take(4)->get() : Event::where("status",1)->get();
         $events->load(["workdays","workdays.weekday"]);
         return response()->json($events);
     }

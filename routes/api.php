@@ -39,6 +39,7 @@ Route::get('/routes', [RoutesController::class, 'routes']);
 Route::get('/all-routes', [RoutesController::class, 'allRoutes']);
 Route::get('/route/{alias}', [RoutesController::class, 'route']);
 Route::get('/souvenirs', [SouvenirController::class, 'souvenirs']);
+Route::get('/all-souvenirs', [SouvenirController::class, 'allSouvenirs']);
 Route::get('/shops', [SouvenirController::class, 'shops']);
 Route::get('/craftmans', [SouvenirController::class, 'craftmans']);
 Route::get('/souvenir/{alias}', [SouvenirController::class, 'souvenir']);
