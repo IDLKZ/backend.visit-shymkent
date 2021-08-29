@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\FileUpload;
+use App\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class RouteAndType extends Model
 {
+    use Searchable;
     use FileUpload;
     /**
      * The table associated with the model.

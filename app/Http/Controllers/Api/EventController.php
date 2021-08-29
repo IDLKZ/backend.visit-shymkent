@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\CategoryEvent;
+use App\Models\CategoryEvents;
 use App\Models\Event;
 use App\Models\Organizator;
 use App\Models\Place;
@@ -19,7 +21,16 @@ class EventController extends Controller
     }
 
     public function events(Request  $request){
-        $events = Event::where("status",1)->orderBy("created_at","DESC")->paginate(8);
+        $events_id = $request->get("category_id") > 0 ? CategoryEvent::where("category_id",$request->get("category_id"))->pluck("event_id")->toArray() : CategoryEvent::pluck("event_id")->toArray();
+        if($request->get("date_start"))
+        {
+            $events = Event::whereIn("id",$events_id)->where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%");})->orderBy("created_at","DESC")->paginate(12);
+        }
+        else{
+            $events = Event::whereIn("id",$events_id)->where("status",1)->orderBy("created_at","DESC")->paginate(12);
+        }
+
+
         $events->load(["workdays","workdays.weekday"]);
         return response()->json($events);
     }
@@ -62,5 +73,10 @@ class EventController extends Controller
         $w['date_start'] = $input['date'];
         $w['time_start'] = $input['time'];
         Workday::add($w);
+    }
+
+    public function categories(){
+        $categories = CategoryEvents::where("status",1)->get();
+        return response()->json($categories);
     }
 }
