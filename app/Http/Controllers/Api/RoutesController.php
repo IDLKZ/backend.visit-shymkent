@@ -16,7 +16,7 @@ class RoutesController extends Controller
 {
     public function routes()
     {
-        $routes = Route::where("status",1)->count() >= 4  ? Route::where("status",1)->take(4) : Route::where("status",1)->get();
+        $routes = Route::where("status",1)->count() >= 4  ? Route::where("status",1)->take(4)->get() : Route::where("status",1)->get();
         return response()->json($routes);
     }
 
@@ -30,7 +30,7 @@ class RoutesController extends Controller
             ->whereIn("id",$types)
             ->whereBetween('time',$time)
             ->orderBy("created_at","desc")->paginate(12);
-
+        $routes->load('places');
         return response()->json($routes);
 
     }

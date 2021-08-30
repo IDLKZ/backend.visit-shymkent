@@ -23,7 +23,7 @@ class BlogsController extends Controller
     }
 
     public function singleBlog($alias){
-        $blog = Blog::where("status",1)->with("user","tag")->firstWhere("alias",$alias);
+        $blog = Blog::where("status",1)->with("user","tag",'savings')->firstWhere("alias",$alias);
         $blogs = Blog::where("status",1)->count() >2 ? Blog::where("status",1)->orderBy("created_at","desc")->with("user","tag")->take(3)->get() : Blog::where("status",1)->orderBy("created_at","desc")->with("user","tag")->get();
         $reviews = $blog->reviews()->where("status",1)->orderBy("created_at","DESC")->with("user")->paginate(20);
         return response()->json([$blog,$blogs,$reviews]);
