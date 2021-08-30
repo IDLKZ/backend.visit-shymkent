@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\FooterController;
 use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PlacesController;
 use App\Http\Controllers\Api\RoutesController;
+use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\ShopController;
 use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SouvenirController;
@@ -58,6 +59,7 @@ Route::get('/agencies', [RoutesController::class, 'agencies']);
 Route::get('/agency/{alias}', [RoutesController::class, 'agency']);
 Route::get("/moreNews",[NewsController::class,"moreNews"]);
 Route::get("/tags",[TagController::class,"index"]);
+Route::get("/search/{q?}",[SearchController::class,"index"]);
 
 
 Route::get("/footer",[FooterController::class,"index"]);
