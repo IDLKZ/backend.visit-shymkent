@@ -55,13 +55,13 @@ class RoutesController extends Controller
 
     public function guide($alias)
     {
-        $guide = Organizator::with('user', 'savings', 'routes', 'routes.category', 'routes.typesRoute', 'routes.places')->firstWhere('alias', $alias);
+        $guide = Organizator::with('user', 'savings', 'routes', 'routes.category', 'routes.typesRoute', 'routes.places','reviews.user','ratings')->firstWhere('alias', $alias);
         return response()->json($guide);
     }
 
     public function agency($alias)
     {
-        $agency = Organizator::with('user', 'savings', 'routes', 'routes.category', 'routes.typesRoute', 'routes.places')->firstWhere('alias', $alias);
+        $agency = Organizator::with('user', 'savings', 'routes', 'routes.category', 'routes.typesRoute', 'routes.places','reviews.user','ratings')->firstWhere('alias', $alias);
         return response()->json($agency);
     }
 

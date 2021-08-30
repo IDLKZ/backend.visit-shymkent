@@ -476,8 +476,8 @@
                                         @if($route->organizatorsRoute)
                                             @if($route->organizatorsRoute->isNotEmpty())
                                                 <ul>
-                                                    @foreach($route->organizatorsRoute as $organizator)
-                                                        <li>{{$organizator->organizator->title . "(" .$organizator->organizator->role->title . ")"}}</li>
+                                                    @foreach($route->organizatorsRoute as $item)
+                                                        <li>{{$item->organizator->title . "(" .$item->organizator->role->title . ")"}}</li>
                                                     @endforeach
                                                 </ul>
                                             @endif
@@ -576,16 +576,14 @@
 
                             </tr>
                         @endforeach
-
                     @endif
-                    @endif($organizator->ratings)
+                    @endif
 
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
     {{--    Modal Gallery--}}
     <div class="modal fade" id="changeGallery" tabindex="-1" role="dialog" aria-labelledby="changeGallery" aria-hidden="true">
         <div class="modal-dialog" role="document">
