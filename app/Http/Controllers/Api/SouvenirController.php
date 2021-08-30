@@ -44,7 +44,7 @@ class SouvenirController extends Controller
     public function shop($alias)
     {
         $souvenirs = Souvenir::with('shop')->where("status",1)->count() >= 4  ? Souvenir::where("status",1)->take(4)->get() : Souvenir::where("status",1)->paginate(8);
-        $shops = Shop::with(['souvenirs', 'user', 'savings'])->firstWhere('alias', $alias);
+        $shops = Shop::with(['souvenirs', 'user', 'savings','ratings','workdays','workdays.weekday'])->firstWhere('alias', $alias);
         return response()->json($shops);
     }
 
@@ -54,9 +54,16 @@ class SouvenirController extends Controller
         return response()->json($craftmans);
     }
 
+    public function getRandomCraftman(Request $request){
+         $count = $request->get("count") ? $request->get("count") : 2;
+        $craftmans = Shop::where(['status' => 1])->
+        inRandomOrder()->withCount("souvenirs")->limit($count)->get();
+        return response()->json($craftmans);
+    }
+
     public function craft($alias)
     {
-        $craftman = Shop::with(['souvenirs', 'user', 'savings'])->firstWhere('alias', $alias);
+        $craftman = Shop::with(['souvenirs', 'user', 'savings','ratings','workdays','workdays.weekday'])->firstWhere('alias', $alias);
         return response()->json($craftman);
     }
 }
