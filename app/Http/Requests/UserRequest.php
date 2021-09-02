@@ -34,7 +34,7 @@ class UserRequest extends FormRequest
             $rules += [
                 'email' => 'required|email|unique:users,email|max:255',
                 'phone' => 'sometimes|nullable|unique:users,phone|max:255',
-                'password'=>'required|min:4|max:255',
+                'password'=>'required|min:6|max:255',
             ];
         }
         if (Str::lower($this->getMethod()) == 'put' || Str::lower($this->getMethod()) == 'patch') {

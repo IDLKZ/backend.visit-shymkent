@@ -8,8 +8,11 @@ use App\Http\Resources\User as UserResource;
 use App\Models\Organizator;
 use App\Models\Shop;
 use App\Models\User;
+use App\Recovery;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -96,6 +99,60 @@ class LoginController extends Controller
 
 
     }
+
+    public function recover(Request $request){
+        $this->validate($request,["email"=>"required|email"]);
+        if($user = User::firstWhere("email",$request->get("email"))){
+            $firstRecover = Recovery::firstWhere(["user_id"=>$user->id,"type"=>2]);
+            $firstRecover ? $firstRecover->delete() : null;
+            $recover = new Recovery();
+            $recover->fill(["user_id"=>$user->id,"type"=>2,"code"=>Str::random(16),"expiration_date"=>Carbon::now()->addDay()])->save();
+        }
+        return true;
+    }
+
+    public function resetPassword(Request $request){
+        $this->validate($request,["email"=>"required|email","password"=>"required|min:6|max:255","same_password"=>"same:password|min:6|max:255","code"=>"required"]);
+        if($user = User::firstWhere("email",$request->get("email"))){
+            $firstRecover = Recovery::firstWhere(["user_id"=>$user->id,"type"=>2,"code"=>$request->get("code")]);
+            if ($firstRecover){
+                if($firstRecover->expiration_date > Carbon::now()){
+                    $firstRecover->delete();
+                    $user->password = bcrypt($request->get("password"));
+                    $user->save();
+                    return true;
+                }
+                else{
+                    return response()->json([
+                        'errors' => [
+                            'expired' => ['Ключ устарел, отправьте заново']
+                        ]
+                    ], 422);
+                }
+            }
+            else{
+                return response()->json([
+                    'errors' => [
+                        'expired' => ['Ключ или почта недействительны']
+                    ]
+                ], 422);
+            }
+        }
+        else{
+            return response()->json([
+                'errors' => [
+                    'expired' => ['Ключ или почта недействительны']
+                ]
+            ], 422);
+        }
+
+
+
+
+    }
+
+
+
 
     public function logout()
     {
