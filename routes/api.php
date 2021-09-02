@@ -63,6 +63,8 @@ Route::get("/moreNews",[NewsController::class,"moreNews"]);
 Route::get("/tags",[TagController::class,"index"]);
 Route::get("/search/{q?}",[SearchController::class,"index"]);
 
+Route::post("/recover",[LoginController::class,"recover"]);
+Route::post("/resetPassword",[LoginController::class,"resetPassword"]);
 
 Route::get("/footer",[FooterController::class,"index"]);
 
@@ -77,6 +79,7 @@ Route::group([
     Route::post('/login', [LoginController::class, 'login'])->withoutMiddleware(['auth:api']);
     Route::get('/user', [LoginController::class, 'user']);
     Route::post('/logout', [LoginController::class, 'logout']);
+
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'cabinet'], function (){
