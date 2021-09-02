@@ -37,17 +37,35 @@ class BlogsController extends Controller
     {
         $blogs = Blog::with('tag')->where(['status' => 1, 'author_id' => auth('api')->id()])->paginate(10);
         $tags = Tag::all();
-        $blogs2 = Blog::with('tag')->where(['status' => 0, 'author_id' => auth('api')->id()])->paginate(10);
+        $blogs2 = Blog::with('tag')->where(['status' => -1, 'author_id' => auth('api')->id()])->paginate(10);
         return response()->json([$blogs, $tags, $blogs2]);
     }
 
     public function sendBlog(BlogRequest $request)
     {
         $input = $request->all();
-        $input['status'] = 0;
+        $input['status'] = -1;
         $blog = Blog::add($input);
         $blog->uploadFile($input['image'], 'image');
         return true;
+    }
+
+    public function editBlog($id)
+    {
+        $blog = Blog::find($id);
+        if ($blog->status == -1){
+            return response()->json($blog);
+        }
+        return response(['error' => 'ERROR'], 404);
+    }
+
+    public function updateBlog(BlogRequest $request)
+    {
+        $input = $request->all();
+        $input['status'] = -1;
+        $blog = Blog::find($input['id']);
+        $blog->edit($input, 'image');
+        $blog->uploadFile($input['image'], 'image');
     }
 
     public function authors(Request $request){
@@ -60,4 +78,11 @@ class BlogsController extends Controller
 
     }
 
+    public function delete($id)
+    {
+        $blog = Blog::find($id);
+        if (!$blog->status){
+            $blog->delete();
+        }
+    }
 }

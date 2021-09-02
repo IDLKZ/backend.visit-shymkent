@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class BlogRequest extends FormRequest
 {
@@ -23,7 +24,7 @@ class BlogRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'tag_id'=>"required|exists:tags,id",
             'author_id'=>"required|exists:users,id",
             'title_kz' => 'required|max:255',
@@ -31,8 +32,17 @@ class BlogRequest extends FormRequest
             'title_en' => 'required|max:255',
             'description_kz' => 'required',
             'description_ru' => 'required',
-            'description_en' => 'required',
-            'image' => 'required|image|max:10240'
+            'description_en' => 'required'
         ];
+
+        if (Str::upper($this->getMethod()) == 'POST') {
+            $rules += ['image' => 'required|image|max:10240'];
+        }
+
+        if (Str::lower($this->getMethod()) == 'put' || Str::lower($this->getMethod()) == 'patch') {
+            $rules += ['image' => 'nullable|image|max:20480'];
+        }
+
+        return $rules;
     }
 }

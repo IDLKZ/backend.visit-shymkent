@@ -92,6 +92,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'cabinet'], function (){
 
     Route::get('/my-blogs', [BlogsController::class, 'myBlogs']);
     Route::post('/send-blog', [BlogsController::class, 'sendBlog']);
+    Route::get('/edit-blog/{id}', [BlogsController::class, 'editBlog']);
+    Route::put('/update-blog', [BlogsController::class, 'updateBlog']);
+    Route::get('/delete-blog/{id}', [BlogsController::class, 'delete']);
 
     Route::get('/my-events', [EventController::class, 'myEvents']);
     Route::post('/send-event', [EventController::class, 'sendEvent']);

@@ -36,7 +36,7 @@ class EventController extends Controller
     }
 
     public function event($alias){
-        $event = Event::with(['galleries',"workdays","workdays.weekday", 'savings'])->firstWhere("alias",$alias);
+        $event = Event::where(['status' => 1, 'alias' => $alias])->with(['galleries',"workdays","workdays.weekday", 'savings'])->firstOrFail();
         return response()->json($event);
     }
 
@@ -44,7 +44,7 @@ class EventController extends Controller
     {
         $user = Organizator::where('user_id', auth('api')->id())->first();
         $event1 = Event::with('workdays.weekday')->where(['status' => 1, 'organizator_id' => $user->id])->paginate(10);
-        $event2 = Event::with('workdays.weekday')->where(['status' => 0, 'organizator_id' => $user->id])->paginate(10);
+        $event2 = Event::with('workdays.weekday')->where(['status' => -1, 'organizator_id' => $user->id])->paginate(10);
         $places = Place::all();
         return response()->json([$event1, $event2, $places, $user]);
     }
