@@ -26,7 +26,7 @@ class PartnerRequest extends FormRequest
     {
         $rules  = [
             "title"=>"required|max:255",
-            "alias"=>"sometimes|url|max:255",
+            "alias"=>"nullable|url|max:255",
         ];
 
         if (Str::upper($this->getMethod()) == 'POST') {
