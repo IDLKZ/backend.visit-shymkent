@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\AdminModerator;
 use App\Http\Middleware\JWT;
+use App\Http\Middleware\LocaleMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -78,6 +79,8 @@ class Kernel extends HttpKernel
         "admin"=>Admin::class,
         "admin_moderator"=>AdminModerator::class,
 
-        'jwt' => JWT::class
+        'jwt' => JWT::class,
+
+        'locale'=>LocaleMiddleware::class
     ];
 }
