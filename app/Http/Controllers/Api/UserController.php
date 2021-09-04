@@ -126,7 +126,7 @@ class UserController extends Controller
 
     public function savings()
     {
-        $savings = Saving::with(['blog', 'organizator.user', 'organizator.routes', 'souvenir', 'shop.souvenirs', 'route.places', 'place.category', 'event.workdays'])->where('user_id', auth('api')->id())->paginate(36);
+        $savings = Saving::with(['blog.tag', 'blog.user', 'organizator.user', 'organizator.routes', 'souvenir', 'shop.souvenirs', 'route.places', 'place.category', 'event.workdays'])->where('user_id', auth('api')->id())->paginate(36);
         return response()->json($savings);
     }
 
