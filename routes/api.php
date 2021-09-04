@@ -101,6 +101,9 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'cabinet'], function (){
 
     Route::get('/my-events', [EventController::class, 'myEvents']);
     Route::post('/send-event', [EventController::class, 'sendEvent']);
+    Route::get('/edit-event/{id}', [EventController::class, 'editEvent']);
+    Route::put('/update-event', [EventController::class, 'updateEvent']);
+    Route::get('/delete-event/{id}', [EventController::class, 'delete']);
 
     Route::get('/my-souvenirs', [ShopController::class, 'mySouvenirs']);
     Route::post('/send-souvenir', [ShopController::class, 'sendSouvenir']);

@@ -43,10 +43,47 @@ class EventController extends Controller
     public function myEvents()
     {
         $user = Organizator::where('user_id', auth('api')->id())->first();
-        $event1 = Event::with('workdays.weekday')->where(['status' => 1, 'organizator_id' => $user->id])->paginate(10);
-        $event2 = Event::with('workdays.weekday')->where(['status' => -1, 'organizator_id' => $user->id])->paginate(10);
+        $event1 = Event::with('workdays.weekday')->where(['status' => 1, 'organizator_id' => $user->id])->latest()->paginate(10);
+        $event2 = Event::with('workdays.weekday')->where(['status' => -1, 'organizator_id' => $user->id])->latest()->paginate(10);
         $places = Place::all();
         return response()->json([$event1, $event2, $places, $user]);
+    }
+
+    public function editEvent($id)
+    {
+        $event = Event::find($id);
+        $event->load('workdays.weekday');
+        if ($event->status == -1){
+            return response()->json($event);
+        }
+        return response(['error' => 'ERROR'], 404);
+    }
+
+    public function updateEvent(Request $request)
+    {
+        $this->validate($request, [
+            'title_kz' => 'required|max:255',
+            'title_ru' => 'required|max:255',
+            'title_en' => 'required|max:255',
+            'place_id' => 'required|exists:places,id',
+            'description_kz' => 'required',
+            'description_ru' => 'required',
+            'description_en' => 'required',
+            'image' => 'nullable|image'
+        ]);
+        $input = $request->all();
+        $input['status'] = -1;
+        $event = Event::find($input['id']);
+        $event->edit($input, 'image');
+        $event->uploadFile($input['image'], 'image');
+    }
+
+    public function delete($id)
+    {
+        $event = Event::find($id);
+        if ($event->status == -1){
+            $event->delete();
+        }
     }
 
     public function sendEvent(Request $request)
@@ -62,7 +99,7 @@ class EventController extends Controller
            'image' => 'nullable|image'
         ]);
         $input = $request->all();
-        $input['status'] = 0;
+        $input['status'] = -1;
         $input['type_id'] = 1;
         $event = Event::add($input);
         if ($input['image']){

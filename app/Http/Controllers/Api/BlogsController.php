@@ -81,7 +81,7 @@ class BlogsController extends Controller
     public function delete($id)
     {
         $blog = Blog::find($id);
-        if (!$blog->status){
+        if ($blog->status == -1){
             $blog->delete();
         }
     }
