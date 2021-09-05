@@ -15,10 +15,10 @@
                     <div class="form-group">
                         <label>{{__('admin.status')}}</label>
                         <select class="form-select" name="status">
-                            <option value="3" >{{__("admin.all")}}</option>
-                            <option value="1">{{__("admin.yes_status")}}</option>
-                            <option value="0">{{__("admin.not_status")}}</option>
-                            <option value="-1">{{__("admin.mod_status")}}</option>
+                            <option value="3" @if(count($setting->status) == 3)selected @endif>{{__("admin.all")}}</option>
+                            <option value="1" @if(in_array(1,$setting->status) && count($setting->status) == 1)selected @endif>{{__("admin.yes_status")}}</option>
+                            <option value="0" @if(in_array(0,$setting->status) && count($setting->status) == 1)selected @endif>{{__("admin.not_status")}}</option>
+                            <option value="-1" @if(in_array(-1,$setting->status) && count($setting->status) == 1) selected @endif>{{__("admin.mod_status")}}</option>
                         </select>
                         @error('status')
                         <div class="invalid-feedback">
@@ -31,9 +31,22 @@
                         <div class="form-group">
                             <label>{{__('admin.verified')}}</label>
                             <select class="form-select" name="verified">
-                                <option value="3">{{__("admin.all")}}</option>
-                                <option  value="1">{{__("admin.yes_status")}}</option>
-                                <option value="0">{{__("admin.not_verified")}}</option>
+                                <option value="3"
+                                @if(count($setting->verified) == 3)
+                                    selected
+                                    @endif
+                                >{{__("admin.all")}}
+                                </option>
+                                <option
+                                    @if(in_array(1,$setting->verified) && count($setting->verified) == 1)
+                                    selected
+                                    @endif
+                                    value="1">{{__("admin.yes_status")}}</option>
+                                <option value="0"
+                                        @if(in_array(0,$setting->verified) && count($setting->verified) == 1)
+                                        selected
+                                    @endif
+                                >{{__("admin.not_verified")}}</option>
                             </select>
                             @error('verified')
                             <div class="invalid-feedback">

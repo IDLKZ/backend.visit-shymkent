@@ -29,6 +29,7 @@ class AdminUserController extends Controller
         $roles = Role::all();
         $setting = Setting::find(1);
         $users = User::whereIn("status",$setting->status)->whereIn("verified",$setting->verified)->with(["role"])->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+
         return view("admin.user.index",compact("users","setting","roles"));
     }
 

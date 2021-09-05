@@ -35,7 +35,13 @@
                                 <label for="event_type">{{__('admin.places_category')}}</label>
                                 <select class="w-100 select-2" id="parent_id" name="parent_id">
                                     <option value="0">Родительский элемент</option>
-                                    {!! $option !!}
+                                    @foreach($categories as $categoryItem)
+                                        <option
+                                            @if($category->parent_id == $categoryItem->id)
+                                                selected
+                                            @endif
+                                            value="{{$categoryItem->id}}">{{$categoryItem->title}}</option>
+                                    @endforeach
                                 </select>
                                 @error('parent_id')
                                 <div class="invalid-feedback">

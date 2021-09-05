@@ -75,7 +75,7 @@ class CategoryPlace extends Controller
 //            $categories = CategoryPlaces::getTree();
             $categories = CategoryPlaces::where("parent_id",null)->get();
             $option = CategoryPlaces::renderTemplate($categories, null, $category);
-            return view('admin.placecategories.edit', compact('category', 'option'));
+            return view('admin.placecategories.edit', compact('category', 'categories'));
         }
         return redirect()->route("category-place.index");
 

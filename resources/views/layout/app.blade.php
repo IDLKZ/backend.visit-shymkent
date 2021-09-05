@@ -68,6 +68,8 @@
             $(".select-2").select2();
             $('table').DataTable({
                 paging: false,
+                ordering: false
+
             });
         }
         catch (e){
