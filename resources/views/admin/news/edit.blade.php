@@ -32,7 +32,7 @@
                         </h6>
                         <form id="event-form" class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('news.update',$news->id)}}">
                             @csrf
-
+                            @method("put")
                             <div class="form-group">
                                 <label for="categories_news">{{__('admin.category_news')}}</label>
                                 <select class="w-100 select-2" name="category_id">
@@ -217,9 +217,7 @@
                 tags:true
             });
         }
-        $("#created_at").datetimepicker({
-            format:'Y-m-d H:i'
-        });
+
 
     </script>
 @endpush
