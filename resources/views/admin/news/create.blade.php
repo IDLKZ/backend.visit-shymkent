@@ -66,7 +66,16 @@
                                 </div>
                                 @enderror
                             </div>
-
+                            {{--                            Title starts--}}
+                            <div class="form-group">
+                                <label for="exampleInputUsername{{__('admin.created_at')}}">Дата публикации</label>
+                                <input type="text" class="form-control  @error('created_at') is-invalid @enderror" id="created_at" name='created_at' autocomplete="off" placeholder="Дата публикации" value="{{old('created_at')}}">
+                                @error('created_at')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
                             {{--                            Title starts--}}
                             <div class="form-group">
                                 <label for="exampleInputUsername{{__('admin.title_kz')}}">{{__('admin.title_kz')}}</label>
@@ -206,6 +215,10 @@
                 tags:true
             });
         }
+
+        $("#created_at").datetimepicker({
+            format:'Y-m-d H:i'
+        });
 
     </script>
 @endpush

@@ -78,6 +78,15 @@
 
                             {{--                            Title starts--}}
                             <div class="form-group">
+                                <label for="exampleInputUsername{{__('admin.created_at')}}">Дата публикации</label>
+                                <input type="text" class="form-control  @error('created_at') is-invalid @enderror" id="created_at" name='created_at' autocomplete="off" placeholder="Дата публикации" value="{{$news->created_at}}">
+                                @error('created_at')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="exampleInputUsername{{__('admin.title_kz')}}">{{__('admin.title_kz')}}</label>
                                 <input type="text" class="form-control  @error('title_kz') is-invalid @enderror" id="exampleInputUsername{{__('admin.title_kz')}}" name='title_kz' autocomplete="off" placeholder="{{__('admin.title_kz')}}" value="{{$news->title_kz}}">
                                 @error('title_kz')
@@ -208,6 +217,9 @@
                 tags:true
             });
         }
+        $("#created_at").datetimepicker({
+            format:'Y-m-d H:i'
+        });
 
     </script>
 @endpush
