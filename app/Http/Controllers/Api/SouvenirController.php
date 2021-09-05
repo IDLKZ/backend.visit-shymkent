@@ -30,7 +30,7 @@ class SouvenirController extends Controller
     public function souvenir($alias)
     {
         $souvenir = Souvenir::with(['galleries', 'shop.user', 'savings'])->firstWhere('alias', $alias);
-        $souvenirs = Souvenir::with('shop')->where("status",1)->count() >= 4  ? Souvenir::where("status",1)->take(4)->get() : Souvenir::where("status",1)->get();
+        $souvenirs = Souvenir::with('shop')->where('alias', '!=', $alias)->where("status",1)->count() >= 4  ? Souvenir::where("status",1)->where('alias', '!=', $alias)->take(4)->get() : Souvenir::where("status",1)->where('alias', '!=', $alias)->get();
         $souvenirs->load(['galleries', 'shop.user', 'savings']);
         return response()->json([$souvenir,$souvenirs]);
     }
