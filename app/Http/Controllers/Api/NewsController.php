@@ -40,7 +40,7 @@ class NewsController extends Controller
     }
 
     public function moreNews(){
-        $news = News::where('status', 1)->count() > 2 ? News::with('user', 'categorynews')->orderBy("created_at","DESC")->take(3) : News::with('user', 'categorynews')->orderBy("created_at","DESC")->get();
+        $news = News::where('status', 1)->count() > 2 ? News::with('user', 'categorynews')->orderBy("created_at","DESC")->take(3)->get() : News::with('user', 'categorynews')->orderBy("created_at","DESC")->get();
         return response()->json($news);
 
     }
