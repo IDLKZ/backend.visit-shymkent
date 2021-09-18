@@ -24,7 +24,7 @@ class EventController extends Controller
         $events_id = $request->get("category_id") > 0 ? CategoryEvent::where("category_id",$request->get("category_id"))->pluck("event_id")->toArray() : CategoryEvent::pluck("event_id")->toArray();
         if($request->get("date_start"))
         {
-            $events = Event::whereIn("id",$events_id)->where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%");})->orderBy("created_at","DESC")->paginate(12);
+            $events = Event::whereIn("id",$events_id)->where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%")->orWhere("weekday_id",1);})->orderBy("created_at","DESC")->paginate(12);
         }
         else{
             $events = Event::whereIn("id",$events_id)->where("status",1)->orderBy("created_at","DESC")->paginate(12);
@@ -43,10 +43,20 @@ class EventController extends Controller
     public function myEvents()
     {
         $user = Organizator::where('user_id', auth('api')->id())->first();
-        $event1 = Event::with('workdays.weekday')->where(['status' => 1, 'organizator_id' => $user->id])->latest()->paginate(10);
-        $event2 = Event::with('workdays.weekday')->where(['status' => -1, 'organizator_id' => $user->id])->latest()->paginate(10);
-        $places = Place::all();
+        if($user){
+            $event1 = Event::with('workdays.weekday')->where(['status' => 1, 'organizator_id' => $user->id])->latest()->paginate(10);
+            $event2 = Event::with('workdays.weekday')->where(['status' => 1, 'organizator_id' => $user->id])->latest()->paginate(10);
+            $places = Place::all();
+        }
+        else{
+            $event1 = Event::with('workdays.weekday')->where(['status' => 1, 'by_user' => auth('api')->id()])->latest()->paginate(10);
+            $event2 = Event::with('workdays.weekday')->where(['status' => -1, 'by_user' => auth('api')->id()])->latest()->paginate(10);
+            $places = Place::all();
+        }
+
+
         return response()->json([$event1, $event2, $places, $user]);
+
     }
 
     public function editEvent($id)
@@ -98,7 +108,12 @@ class EventController extends Controller
            'description_en' => 'required',
            'image' => 'nullable|image'
         ]);
+
+
+
+
         $input = $request->all();
+        $input["by_user"] = $request->get("organizator_id") ? null : auth("api")->id();
         $input['status'] = -1;
         $input['type_id'] = 1;
         $event = Event::add($input);

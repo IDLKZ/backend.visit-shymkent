@@ -158,3 +158,4 @@ Route::group(
 
 Route::post('ckeditor/upload', [AdminController::class,"upload"])->name('ckeditor.upload');
 
+Route::get("/test",[AdminController::class,"test"]);

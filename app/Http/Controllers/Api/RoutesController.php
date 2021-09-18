@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\CategoryOfRoute;
 use App\Models\Organizator;
+use App\Models\Place;
 use App\Models\Route;
 use App\Models\RouteAndOrganizator;
 use App\Models\RouteAndType;
@@ -88,6 +89,7 @@ class RoutesController extends Controller
         }
         $types = TypeOfRoute::where("status",1)->get();
         $categories = CategoryOfRoute::where("status",1)->get();
-        return response()->json([$user, $routes, $moderation, $types, $categories]);
+        $places = Place::where("status",1)->get();
+        return response()->json([$user, $routes, $moderation, $types, $categories,$places]);
     }
 }
