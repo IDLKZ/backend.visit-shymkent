@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CategoryOfRoute;
 use App\Models\Organizator;
 use App\Models\Route;
+use App\Models\RouteAndOrganizator;
 use App\Models\RouteAndType;
 use App\Models\RoutesType;
 use App\Models\TypeOfRoute;
@@ -69,5 +70,24 @@ class RoutesController extends Controller
         $types = TypeOfRoute::where("status",1)->get();
         $categories = CategoryOfRoute::where("status",1)->get();
         return response()->json([$types,$categories]);
+    }
+
+    public function myRoutes()
+    {
+        $user = Organizator::where('user_id', auth('api')->id())->first();
+        $data = RouteAndOrganizator::with('route')->where(['organizator_id' => $user->id])->latest()->paginate(10);
+        $routes = [];
+        $moderation = [];
+        foreach ($data as $k => $item) {
+            if ($item->route->status == 1){
+                $routes[$k] = $item->route;
+            }
+            if ($item->route->status == -1){
+                $moderation[$k] = $item->route;
+            }
+        }
+        $types = TypeOfRoute::where("status",1)->get();
+        $categories = CategoryOfRoute::where("status",1)->get();
+        return response()->json([$user, $routes, $moderation, $types, $categories]);
     }
 }
