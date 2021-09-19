@@ -92,4 +92,43 @@ class RoutesController extends Controller
         $places = Place::where("status",1)->get();
         return response()->json([$user, $routes, $moderation, $types, $categories,$places]);
     }
+
+
+    public function createRoute(Request $request){
+        $this->validate($request,
+        [
+            'category_id'=>'required|exists:route_categories,id',
+            'title_kz' => 'required|max:255',
+            'title_ru' => 'required|max:255',
+            'title_en' => 'required|max:255',
+            'description_kz' => 'required',
+            'description_ru' => 'required',
+            'description_en' => 'required',
+            'image' => 'nullable|image',
+        ]
+        );
+        $input = $request->all();
+        $input['status'] = -1;
+        $route = Route::add($input);
+        if ($input['image']){
+            $route->uploadFile($request['image'], 'image');
+        }
+        if($organizator = Organizator::where('user_id',auth('api')->id())->first()){
+            RouteAndOrganizator::add(["route_id"=>$route->id,"organizator_id"=>$organizator->id]);
+        }
+    }
+
+    public function deleteRoute($id){
+        $organizator = Organizator::where("user_id",auth("api")->id())->pluck('id')->toArray();
+        $routeOrg = RouteAndOrganizator::whereIn("organizator_id",$organizator)->where("route_id",$id)->first();
+        if($routeOrg){
+            if(RouteAndOrganizator::where("route_id",$id)->count() <=1){
+                $route = Route::destroy($id);
+            }
+            $routeOrg->destroy();
+        }
+
+    }
+
+
 }

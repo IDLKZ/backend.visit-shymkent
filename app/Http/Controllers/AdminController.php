@@ -15,48 +15,53 @@ class AdminController extends Controller
 
     public function test(){
         $places = Place::all();
-//        foreach ($places as $place){
-//            if($place->phone == true){
-//                if(strpos($place->phone,",")!==false){
-//                    $array = explode(',',trim($place->phone));
-//                }
-//                else if(strpos($place->phone,";")!==false){
-//                    $array = explode(';',trim($place->phone));
-//                }
-//                else if(strpos($place->phone,"+7")!==false){
-//                    $array = explode(' +7 ',trim($place->phone));
-//                }
-//                else if(strpos($place->phone,"8 7")!==false){
-//                    $array = explode(' 8   7  ',trim($place->phone));
-//                }
-//                else if(strpos($place->phone,"8(7")!==false){
-//                    $array =explode(' 8   (7)   ',trim($place->phone));
-//                }
-//                else if(strpos($place->phone,"7(7")!==false){
-//                    $array =explode(' 7(7)   ',trim($place->phone));
-//                }
-//                else{
-//                    $array = explode(' ', $place->phone);
-//                }
-//
-//                foreach ($array as $key => $item){
-//                    if($item){
-//                        $array[$key] = trim($item);
-//                    }
-//                }
-//                dump($array);
-//                $place->phone = $array;
-//                $place->save();
-//
-//            }
-//
-//
-//
-//
-//
-//        }
         foreach ($places as $place){
-            $place->sites = [$place->sites];
+            if($place->phone == true){
+                if(strpos($place->phone,",")!==false){
+                    $array = explode(',',trim($place->phone));
+                }
+                else if(strpos($place->phone,";")!==false){
+                    $array = explode(';',trim($place->phone));
+                }
+                else if(strpos($place->phone,"+7")!==false){
+                    $array = explode(' +7 ',trim($place->phone));
+                }
+                else if(strpos($place->phone,"8 7")!==false){
+                    $array = explode(' 8   7  ',trim($place->phone));
+                }
+                else if(strpos($place->phone,"8(7")!==false){
+                    $array =explode(' 8   (7)   ',trim($place->phone));
+                }
+                else if(strpos($place->phone,"7(7")!==false){
+                    $array =explode(' 7(7)   ',trim($place->phone));
+                }
+                else{
+                    $array = explode(' ', $place->phone);
+                }
+
+                foreach ($array as $key => $item){
+                    if($item){
+                        $array[$key] = trim($item);
+                    }
+                }
+                $place->phone = $array;
+                $place->save();
+
+            }
+
+
+
+
+
+        }
+        foreach ($places as $place){
+            if($place->sites !== null && $place->sites !== "-"){
+                $place->sites = [$place->sites];
+            }
+            else{
+                $place->sites = null;
+            }
+
             $place->save();
         }
         dd("end");
