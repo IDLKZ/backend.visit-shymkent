@@ -45,6 +45,7 @@
                                     <th>{{__("admin.image")}}</th>
                                     <th>{{__("admin.title")}}</th>
                                     <th>{{__("admin.organizators")}}</th>
+                                    <th>{{__("admin.by_user")}}</th>
                                     <th>{{__("admin.places")}}</th>
                                     <th>{{__("admin.event_categories")}}</th>
                                     <th>{{__("admin.status")}}</th>
@@ -62,6 +63,7 @@
                                                 <td><img src="{{$event->getFile('image')}}" width="50"></td>
                                                 <td>{{$event->title}}</td>
                                                 <td>{{$event->organizator ? $event->organizator->title : "-"}}</td>
+                                                <td>{{$event->by_user ? $event->byUser->name : "-"}}</td>
                                                 <td>{{$event->place ? $event->place->title : "-"}}</td>
                                                 <td>
                                                 @if($event->category->isNotEmpty())

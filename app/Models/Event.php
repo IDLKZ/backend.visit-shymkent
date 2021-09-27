@@ -68,7 +68,7 @@ class Event extends Model
     /**
      * @var array
      */
-    protected $fillable = ['organizator_id', 'type_id', 'place_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'phone', 'social_networks', 'sites', 'address', 'address_link', 'price', 'image', 'ratings', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['organizator_id', 'type_id', 'place_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'phone', 'social_networks', 'sites', 'address', 'address_link', 'price', 'image', 'ratings', 'status', 'created_at', 'updated_at','by_user'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -139,6 +139,10 @@ class Event extends Model
     public function placeEvent()
     {
         return $this->hasMany(PlaceEvent::class,"event_id");
+    }
+
+    public function byUser(){
+        return $this->belongsTo(User::class,"by_user");
     }
 
     public function places(){

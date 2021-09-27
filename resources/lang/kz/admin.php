@@ -94,6 +94,8 @@ return[
 "price" =>"құны",
 "event_type" =>"оқиға түрі",
 "not_required"=>"*қосымша өріс",
+    "by_user"=>"Ұсынылды",
+
 
 // Routes
 "route_categories" =>"маршруттар санаты",

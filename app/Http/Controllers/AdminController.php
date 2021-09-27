@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Place;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
@@ -11,6 +12,64 @@ use function Symfony\Component\Translation\t;
 
 class AdminController extends Controller
 {
+
+    public function test(){
+        $places = Place::all();
+        foreach ($places as $place){
+            if($place->phone == true){
+                if(strpos($place->phone,",")!==false){
+                    $array = explode(',',trim($place->phone));
+                }
+                else if(strpos($place->phone,";")!==false){
+                    $array = explode(';',trim($place->phone));
+                }
+                else if(strpos($place->phone,"+7")!==false){
+                    $array = explode(' +7 ',trim($place->phone));
+                }
+                else if(strpos($place->phone,"8 7")!==false){
+                    $array = explode(' 8   7  ',trim($place->phone));
+                }
+                else if(strpos($place->phone,"8(7")!==false){
+                    $array =explode(' 8   (7)   ',trim($place->phone));
+                }
+                else if(strpos($place->phone,"7(7")!==false){
+                    $array =explode(' 7(7)   ',trim($place->phone));
+                }
+                else{
+                    $array = explode(' ', $place->phone);
+                }
+
+                foreach ($array as $key => $item){
+                    if($item){
+                        $array[$key] = trim($item);
+                    }
+                }
+                $place->phone = $array;
+                $place->save();
+
+            }
+
+
+
+
+
+        }
+        foreach ($places as $place){
+            if($place->sites !== null && $place->sites !== "-"){
+                $place->sites = [$place->sites];
+            }
+            else{
+                $place->sites = null;
+            }
+
+            $place->save();
+        }
+        dd("end");
+
+
+    }
+
+
     public function index(){
         return view("admin.index");
     }

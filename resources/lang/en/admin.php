@@ -150,6 +150,7 @@ return[
 "search"=>"Search",
 "start_search" => "Start search",
 "parent_id" => "Parent category",
+    "by_user"=>"Suggested by",
 
 
 

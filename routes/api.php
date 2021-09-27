@@ -107,6 +107,8 @@ Route::group(["middleware"=>"locale"],function (){
         Route::get('/delete-event/{id}', [EventController::class, 'delete']);
 
         Route::get('/my-routes', [RoutesController::class, 'myRoutes']);
+        Route::post("/create-route",[RoutesController::class,"createRoute"]);
+        Route::get("/delete-route/{id}",[RoutesController::class,"deleteRoute"]);
 
         Route::get('/my-souvenirs', [ShopController::class, 'mySouvenirs']);
         Route::post('/send-souvenir', [ShopController::class, 'sendSouvenir']);
