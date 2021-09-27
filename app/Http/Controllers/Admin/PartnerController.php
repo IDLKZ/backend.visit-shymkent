@@ -86,7 +86,9 @@ class PartnerController extends Controller
     {
         if($partner = Partner::find($id)){
           $partner->edit($request->all(),"image");
-          $partner->upload($request["image"],"image");
+          if ($request['image']){
+              $partner->upload($request["image"],"image");
+          }
         }
         return redirect()->route("partners.index");
     }
