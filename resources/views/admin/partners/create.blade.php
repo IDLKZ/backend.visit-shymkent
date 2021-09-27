@@ -42,7 +42,7 @@
 
                             <div class="form-group">
                                 <label for="title">{{__('admin.alias')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
-                                <input type="text" class="form-control @error('alias') is-invalid @enderror" id="{{__('admin.alias')}}" name='alias' autocomplete="off" placeholder="{{__('admin.alias')}}" value="{{old('alias')}}">
+                                <input type="url" class="form-control @error('alias') is-invalid @enderror" id="{{__('admin.alias')}}" name='alias' autocomplete="off" placeholder="{{__('admin.alias')}}" value="{{old('alias')}}">
                                 @error('alias')
                                 <div class="invalid-feedback">
                                     {{$message}}
