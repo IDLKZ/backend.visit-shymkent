@@ -184,7 +184,7 @@
 
                             <div class="form-group">
                                 <label for="{{__('admin.email')}}">{{__('admin.email')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
-                                <input type="email" class="form-control  @error('email') is-invalid @enderror" id="eventum" name='email' autocomplete="off" placeholder="{{__('admin.email')}}" value="{{old('email')}}">
+                                <input type="email" class="form-control  @error('email') is-invalid @enderror" id="eventum" name='email' autocomplete="off" placeholder="{{__('admin.email')}}" value="{{$place->email}}">
                                 @error('email')
                                 <div class="invalid-feedback">
                                     {{$message}}
