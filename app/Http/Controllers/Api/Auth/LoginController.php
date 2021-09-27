@@ -12,6 +12,7 @@ use App\Recovery;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
 class LoginController extends Controller
@@ -48,10 +49,11 @@ class LoginController extends Controller
 
     public function register(Request $request)
     {
+        App::setLocale($request['locale']);
         $this->validate($request, [
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
+            'password' => 'required|confirmed|min:6',
         ]);
         $input = $request->all();
         if ($input['role_id'] != 3){
