@@ -41,6 +41,8 @@ class PlaceRequest extends FormRequest
             "video_en"=>"sometimes|nullable|url|max:255",
             "address"=>"sometimes|nullable|max:255",
             'status'=>"required|integer",
+            'sites.*' => 'sometimes|nullable|url',
+            'social_networks.*' => 'sometimes|nullable|url'
         ];
 
         if (Str::upper($this->getMethod()) == 'POST') {
