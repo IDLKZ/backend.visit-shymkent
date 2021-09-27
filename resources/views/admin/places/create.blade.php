@@ -189,6 +189,15 @@
                                 </div>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <label for="{{__('admin.email')}}">{{__('admin.email')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
+                                <input type="email" class="form-control  @error('email') is-invalid @enderror" id="eventum" name='email' autocomplete="off" placeholder="{{__('admin.email')}}" value="{{old('email')}}">
+                                @error('email')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
 {{--                            End of contacts--}}
 {{--                            Start of the images--}}
                             <div class="form-group">

@@ -70,7 +70,7 @@ class Place extends Model
     /**
      * @var array
      */
-    protected $fillable = ['type_id','organizator_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'phone', 'social_networks', 'sites', 'address', 'address_link', 'price', 'image', 'video_ru', 'video_kz', 'video_en', 'audio_ru', 'audio_kz', 'audio_en', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['type_id','organizator_id', 'title_ru', 'title_kz', 'title_en', 'description_ru', 'description_kz', 'description_en', 'alias', 'eventum', 'phone', 'social_networks', 'sites', 'email', 'address', 'address_link', 'price', 'image', 'video_ru', 'video_kz', 'video_en', 'audio_ru', 'audio_kz', 'audio_en', 'status', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

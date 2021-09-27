@@ -28,6 +28,7 @@ class CreatePlacesTable extends Migration
             $table->json("phone")->nullable();
             $table->json("social_networks")->nullable();
             $table->json("sites")->nullable();
+            $table->string("email")->nullable();
             $table->string("address")->nullable();
             $table->longText("address_link")->nullable();
             $table->string("price")->nullable();
