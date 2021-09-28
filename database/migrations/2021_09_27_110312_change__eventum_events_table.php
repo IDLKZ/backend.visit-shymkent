@@ -14,7 +14,8 @@ class ChangeEventumEventsTable extends Migration
     public function up()
     {
         Schema::table('eventum_events', function (Blueprint $table) {
-            $table->foreignId("event_id")->references("event_id")->on("events")->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string("event_id");
+//            $table->foreignId("event_id")->references("event_id")->on("events")->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 
