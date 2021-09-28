@@ -19,6 +19,19 @@
                     <div class="card-body">
                         <h6 class="card-title">
                             {{__("admin.change")}}
+                            @if($event->event_id)
+                                <br>
+                                <a class="search-button btn btn-success text-white" href="{{route("checkEvent",["eventId"=>$event->event_id])}}">
+                                    Проверить обновления
+                                </a>
+                                <br>
+                                Версия от {{$event->eventumEvent->current_updated}}
+                                @if($event->eventumEvent->status == 0)
+                                    <span class="badge badge-danger">Ждет обновления!</span>
+                                @elseif($event->eventumEvent->status == 1)
+                                    <span class="badge badge-success">Обновлен!</span>
+                                @endif
+                            @endif
                         </h6>
 
                         <form id="event-form" class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('events.update',$event->id)}}">

@@ -42,6 +42,7 @@
                                 <thead>
                                 <tr>
                                     <th>{{__("admin.id")}}</th>
+                                    <th>EventId</th>
                                     <th>{{__("admin.image")}}</th>
                                     <th>{{__("admin.title")}}</th>
                                     <th>{{__("admin.organizators")}}</th>
@@ -60,8 +61,19 @@
                                         @foreach($events as $event)
                                             <tr>
                                                 <td>{{$event->id}}</td>
+                                                <td>{{$event->event_id}}</td>
                                                 <td><img src="{{$event->getFile('image')}}" width="50"></td>
-                                                <td>{{$event->title}}</td>
+                                                <td>{{$event->title}}
+                                                    @if($event->event_id) <span class="badge badge-info">Eventum</span>
+                                                    @if($event->eventumEvent->status == 0)
+                                                        <span class="badge badge-danger">Доступно обновление</span>
+                                                    @elseif($event->eventumEvent->status == 1)
+                                                        <span class="badge badge-success">Обновлен</span>
+                                                    @endif
+                                                    @endif
+
+
+                                                </td>
                                                 <td>{{$event->organizator ? $event->organizator->title : "-"}}</td>
                                                 <td>{{$event->by_user ? $event->byUser->name : "-"}}</td>
                                                 <td>{{$event->place ? $event->place->title : "-"}}</td>

@@ -15,6 +15,7 @@ use App\Models\PlaceEvent;
 use App\Models\Setting;
 use App\Models\User;
 use App\Models\Weekday;
+use Carbon\Carbon;
 
 class EventsController extends Controller
 {
@@ -126,6 +127,10 @@ class EventsController extends Controller
         if($event){
             $event->edit($request->all(),'image');
             $event->uploadFile($request['image'], 'image');
+            if($event->eventumEvent){
+                $status = $request->get("status") == 1 ? 1 : 0;
+                $event->eventumEvent->update(["status"=>$status,"last_updated"=>Carbon::now()]);
+            }
         }
         return redirect(route('events.index'));
     }
@@ -138,6 +143,8 @@ class EventsController extends Controller
      */
     public function destroy($id)
     {
+        $event = Event::find($id);
+        $event->eventumEvent->delete();
         Event::destroy($id);
         return redirect()->route("events.index");
     }
