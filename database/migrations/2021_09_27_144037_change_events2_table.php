@@ -13,9 +13,9 @@ class ChangeEvents2Table extends Migration
      */
     public function up()
     {
-//        Schema::table('events', function (Blueprint $table) {
-//            $table->string("event_id")->nullable();
-//        });
+        Schema::table('events', function (Blueprint $table) {
+            $table->string("event_id")->nullable();
+        });
     }
 
     /**
