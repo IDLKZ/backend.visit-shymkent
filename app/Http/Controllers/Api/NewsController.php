@@ -27,7 +27,7 @@ class NewsController extends Controller
 
     public function singleNew($alias)
     {
-        $new = News::with('savings', 'user')->where('alias', $alias)->firstOrFail();
+        $new = News::with('savings', 'user',"galleries")->where('alias', $alias)->firstOrFail();
         $reviews = $new->reviews()->where("status",1)->orderBy("created_at","DESC")->with("user")->paginate(20);
         return response()->json([$new,$reviews]);
     }

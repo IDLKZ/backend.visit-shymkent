@@ -21,13 +21,20 @@ class EventController extends Controller
     }
 
     public function events(Request  $request){
-        $events_id = $request->get("category_id") > 0 ? CategoryEvent::where("category_id",$request->get("category_id"))->pluck("event_id")->toArray() : CategoryEvent::pluck("event_id")->toArray();
+        $events_id = $request->get("category_id") > 0 ? CategoryEvent::where("category_id",$request->get("category_id"))->pluck("event_id")->toArray() : null;
         if($request->get("date_start"))
         {
-            $events = Event::whereIn("id",$events_id)->where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%")->orWhere("weekday_id",1);})->orderBy("created_at","DESC")->paginate(12);
+                $events = $events_id !== null ?
+                    Event::whereIn("id",$events_id)->where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%")->orWhere("weekday_id",1);})->orderBy("created_at","DESC")->paginate(12)
+                :
+                    Event::where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%")->orWhere("weekday_id",1);})->orderBy("created_at","DESC")->paginate(12)
+                ;
         }
         else{
-            $events = Event::whereIn("id",$events_id)->where("status",1)->orderBy("created_at","DESC")->paginate(12);
+            $events = $events_id !== null ?
+                Event::whereIn("id",$events_id)->where("status",1)->orderBy("created_at","DESC")->paginate(12)
+                :
+                Event::where("status",1)->orderBy("created_at","DESC")->paginate(12);
         }
 
 
