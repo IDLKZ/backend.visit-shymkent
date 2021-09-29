@@ -46,9 +46,7 @@ class EventUploader extends Command
         catch (\Exception $exception){
             $updatedTo = $now = Carbon::now()->format("Y-m-d") . "T" . Carbon::now()->format("H:i:s");
             $crons = Cron::latest()->first();
-            if($crons){
-                $updatedFrom = $crons->updateTo;
-            }
+                $updatedFrom = $crons ? $crons->updateTo : null;
             $cron = Cron::add(['updateFrom'=>$updatedFrom, 'updateTo'=>$updatedTo, 'totalCount'=>0]);
 
             $this->error("Nothing To Update");
