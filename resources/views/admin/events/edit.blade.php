@@ -177,7 +177,7 @@
 
                             <div class="form-group">
                                 <label for="eventum">{{__('admin.eventum')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
-                                <input type="text" class="form-control  @error('eventum') is-invalid @enderror" id="eventum" name='eventum' autocomplete="off" placeholder="{{__('admin.eventum')}}" value="{{$event->eventum}}">
+                                <input type="text" class="form-control  @error('eventum') is-invalid @enderror" id="eventum" name='eventum' autocomplete="off" placeholder="{{__('admin.eventum')}}" value="{{$event->eventum != null ?$event->eventum : $event->event_id}}">
                                 @error('eventum')
                                 <div class="invalid-feedback">
                                     {{$message}}
