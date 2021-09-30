@@ -23,6 +23,10 @@
                             <h6 class="card-title">
                                 {{__("admin.events")}}
                             </h6>
+                            <a href="{{route('crono-event')}}" class="btn btn-success">
+                                {{__("admin.events")}}(Eventum)
+                                <i data-feather="cloud"></i>
+                            </a>
                             <a class="search-button btn btn-success text-white" data-toggle="modal" data-target="#searchModal">
                                 {{__("admin.search")}}
                                 <i data-feather="search"></i>

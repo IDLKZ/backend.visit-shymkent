@@ -61,13 +61,7 @@
                     <span class="link-title">{{__("admin.events")}}</span>
                 </a>
             </li>
-            <li class="nav-item nav-category">С EVENTUM</li>
-            <li class="nav-item">
-                <a href="{{route("crono-event")}}" class="nav-link">
-                    <i class="link-icon" data-feather="calendar"></i>
-                    <span class="link-title">{{__("admin.events")}}(Eventum)</span>
-                </a>
-            </li>
+
 
 {{--Routes--}}
             <li class="nav-item nav-category">{{__("admin.routes_points")}}</li>
