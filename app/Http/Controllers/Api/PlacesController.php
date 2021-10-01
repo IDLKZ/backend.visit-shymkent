@@ -29,7 +29,8 @@ class PlacesController extends Controller
     public function singlePlace($alias)
     {
         $place = Place::with('category', 'galleries', 'ratings', 'workdays', 'workdays.weekday', 'user', 'events', 'events.workdays', 'events.workdays.weekday', 'savings')->where('alias', $alias)->first();
-        return response()->json($place);
+        $reviews = $place->reviews()->where("status",1)->orderBy("created_at","DESC")->with("user")->paginate(20);
+        return response()->json([$place,$reviews]);
     }
 
     public function getDefinePlace(Request $request){
