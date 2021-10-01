@@ -23,10 +23,6 @@
                             <h6 class="card-title">
                                 {{__("admin.events")}}
                             </h6>
-                            <a href="{{route('crono-event')}}" class="btn btn-success">
-                                {{__("admin.events")}}(Eventum)
-                                <i data-feather="cloud"></i>
-                            </a>
                             <a class="search-button btn btn-success text-white" data-toggle="modal" data-target="#searchModal">
                                 {{__("admin.search")}}
                                 <i data-feather="search"></i>
@@ -35,29 +31,26 @@
                                 {{__("admin.settings")}}
                                 <i data-feather="database"></i>
                             </a>
-                            <a href="{{route('events.create')}}" class="btn btn-success">
-                                {{__("admin.create")}}
-                                <i data-feather="plus"></i>
+                            <a href="{{route('getAllEvents')}}" class="btn btn-success">
+                                Синхронизация
+                                <i class="fas fa-refresh"></i>
                             </a>
                         </div>
                         @if($events)
-                        <div class="table-responsive">
-                            <table id="dataTableExample" class="table">
-                                <thead>
-                                <tr>
-                                    <th>{{__("admin.id")}}</th>
-                                    <th>EventId</th>
-                                    <th>{{__("admin.image")}}</th>
-                                    <th>{{__("admin.title")}}</th>
-                                    <th>{{__("admin.organizators")}}</th>
-                                    <th>{{__("admin.by_user")}}</th>
-                                    <th>{{__("admin.places")}}</th>
-                                    <th>{{__("admin.event_categories")}}</th>
-                                    <th>{{__("admin.status")}}</th>
-                                    <th>{{__("admin.eventum")}}</th>
-                                    <th>{{__("admin.action")}}</th>
-                                </tr>
-                                </thead>
+                            <div class="table-responsive">
+                                <table id="dataTableExample" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>{{__("admin.id")}}</th>
+                                        <th>EventId</th>
+                                        <th>{{__("admin.image")}}</th>
+                                        <th>{{__("admin.title")}}</th>
+                                        <th>{{__("admin.status")}}</th>
+                                        <th>{{__("admin.places")}}</th>
+                                        <th>{{__("admin.eventum")}}</th>
+                                        <th>{{__("admin.action")}}</th>
+                                    </tr>
+                                    </thead>
 
                                     <tbody>
 
@@ -67,27 +60,7 @@
                                                 <td>{{$event->id}}</td>
                                                 <td>{{$event->event_id}}</td>
                                                 <td><img src="{{$event->getFile('image')}}" width="50"></td>
-                                                <td>{{$event->title}}
-                                                    @if($event->event_id) <span class="badge badge-info">Eventum</span>
-                                                    @if($event->eventumEvent->status == 0)
-                                                        <span class="badge badge-danger">Доступно обновление</span>
-                                                    @elseif($event->eventumEvent->status == 1)
-                                                        <span class="badge badge-success">Обновлен</span>
-                                                    @endif
-                                                    @endif
-
-
-                                                </td>
-                                                <td>{{$event->organizator ? $event->organizator->title : "-"}}</td>
-                                                <td>{{$event->by_user ? $event->byUser->name : "-"}}</td>
-                                                <td>{{$event->place ? $event->place->title : "-"}}</td>
-                                                <td>
-                                                @if($event->category->isNotEmpty())
-                                                    @foreach($event->category as $category)
-                                                    <p>{{$category->title}}</p>
-                                                    @endforeach
-                                                @endif
-                                                </td>
+                                                <td>{{$event->title}}</td>
                                                 <td>
                                                     @if($event->status == 1)
                                                         <span class="badge bg-success text-white">
@@ -104,6 +77,7 @@
                                                         </span>
                                                     @endif
                                                 </td>
+                                                <td>{{$event->place ? $event->place->title : "-"}}</td>
                                                 <td>{{$event->eventum}}</td>
                                                 <td class="d-flex">
                                                     <div class="btn-group dropdown">
@@ -131,9 +105,9 @@
 
                                     </tbody>
 
-                            </table>
-                            {{$events->links()}}
-                        </div>
+                                </table>
+                                {{$events->links()}}
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -143,7 +117,6 @@
     </div>
 
     @include('layout.components.settings', $setting)
-    {{--    Search--}}
 
     <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -154,10 +127,19 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="get" action="{{route("search-event")}}" enctype="multipart/form-data">
+                <form method="get" action="{{route("search-eventum")}}" enctype="multipart/form-data">
                     @csrf
                     <div class="px-2">
                         {{--                            Title starts--}}
+                        <div class="form-group">
+                            <label for="exampleInputUsername{{__('admin.event_id')}}">Event_id</label>
+                            <input type="text" class="form-control  @error('event_id') is-invalid @enderror" id="exampleInputUsername{{__('admin.event_id')}}" name='event_id' autocomplete="off" placeholder="Event_id" value="{{old('event_id')}}">
+                            @error('event_id')
+                            <div class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                            @enderror
+                        </div>
                         <div class="form-group">
                             <label for="exampleInputUsername{{__('admin.title_kz')}}">{{__('admin.title_kz')}}</label>
                             <input type="text" class="form-control  @error('title_kz') is-invalid @enderror" id="exampleInputUsername{{__('admin.title_kz')}}" name='title_kz' autocomplete="off" placeholder="{{__('admin.title_kz')}}" value="{{old('title_kz')}}">
@@ -283,7 +265,9 @@
             </div>
         </div>
     </div>
+
 @endsection
+
 
 
 

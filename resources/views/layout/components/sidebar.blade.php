@@ -61,6 +61,8 @@
                     <span class="link-title">{{__("admin.events")}}</span>
                 </a>
             </li>
+
+
 {{--Routes--}}
             <li class="nav-item nav-category">{{__("admin.routes_points")}}</li>
             <li class="nav-item">

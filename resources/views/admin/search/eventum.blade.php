@@ -19,15 +19,6 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center my-5">
-                            <h6 class="card-title">
-                                {{__("admin.events")}}
-                            </h6>
-                            <a href="{{route('events.create')}}" class="btn btn-success">
-                                {{__("admin.create")}}
-                                <i data-feather="plus"></i>
-                            </a>
-                        </div>
                         @if($events)
                             <div class="table-responsive">
                                 <table id="dataTableExample" class="table">
@@ -37,10 +28,8 @@
                                         <th>EventId</th>
                                         <th>{{__("admin.image")}}</th>
                                         <th>{{__("admin.title")}}</th>
-                                        <th>{{__("admin.organizators")}}</th>
-                                        <th>{{__("admin.places")}}</th>
-                                        <th>{{__("admin.event_categories")}}</th>
                                         <th>{{__("admin.status")}}</th>
+                                        <th>{{__("admin.places")}}</th>
                                         <th>{{__("admin.eventum")}}</th>
                                         <th>{{__("admin.action")}}</th>
                                     </tr>
@@ -54,26 +43,7 @@
                                                 <td>{{$event->id}}</td>
                                                 <td>{{$event->event_id}}</td>
                                                 <td><img src="{{$event->getFile('image')}}" width="50"></td>
-                                                <td>{{$event->title}}
-                                                    @if($event->event_id) <span class="badge badge-info">Eventum</span>
-                                                    @if($event->eventumEvent->status == 0)
-                                                        <span class="badge badge-danger">Доступно обновление</span>
-                                                    @elseif($event->eventumEvent->status == 1)
-                                                        <span class="badge badge-success">Обновлен</span>
-                                                    @endif
-                                                    @endif
-
-
-                                                </td>
-                                                <td>{{$event->organizator ? $event->organizator->title : "-"}}</td>
-                                                <td>{{$event->place ? $event->place->title : "-"}}</td>
-                                                <td>
-                                                    @if($event->category->isNotEmpty())
-                                                        @foreach($event->category as $category)
-                                                            <p>{{$category->title}}</p>
-                                                        @endforeach
-                                                    @endif
-                                                </td>
+                                                <td>{{$event->title}}</td>
                                                 <td>
                                                     @if($event->status == 1)
                                                         <span class="badge bg-success text-white">
@@ -90,6 +60,7 @@
                                                         </span>
                                                     @endif
                                                 </td>
+                                                <td>{{$event->place ? $event->place->title : "-"}}</td>
                                                 <td>{{$event->eventum}}</td>
                                                 <td class="d-flex">
                                                     <div class="btn-group dropdown">
@@ -127,6 +98,8 @@
         </div>
 
     </div>
+
+
 
 @endsection
 

@@ -37,6 +37,7 @@ use App\Http\Controllers\Admin\SocialController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\RoutePlaceController;
 use App\Http\Controllers\Admin\PlaceEventController;
+use App\Http\Controllers\Admin\CronController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -135,6 +136,7 @@ Route::group(
             Route::get("/search-place",[SearchController::class,"place"])->name("search-place");
             Route::get("/search-category-events",[SearchController::class,"categoryEvent"])->name("search-category-events");
             Route::get("/search-event",[SearchController::class,"event"])->name("search-event");
+            Route::get("/search-eventum",[SearchController::class,"eventum"])->name("search-eventum");
             Route::get("/search-route-categories",[SearchController::class,"routeCategories"])->name("search-route-categories");
             Route::get("/search-route-types",[SearchController::class,"routeTypes"])->name("search-route-types");
             Route::get("/search-route",[SearchController::class,"route"])->name("search-route");
@@ -148,6 +150,14 @@ Route::group(
             Route::get("/search-tag",[SearchController::class,"tag"])->name("search-tag");
             Route::get("/search-blog",[SearchController::class,"blog"])->name("search-blog");
 
+
+            //DATA FROM EVENTUM
+            Route::get("/crono-event",[CronController::class,"events"])->name("crono-event");
+            Route::get("/getAllEvents",[CronController::class,"getAllEvents"])->name("getAllEvents");
+            Route::get("/checkEvent/{eventId}",[CronController::class,"checkEvent"])->name("checkEvent");
+
+
+
             Route::group(['middleware' => 'admin'], function (){
 
             });
@@ -158,4 +168,4 @@ Route::group(
 
 Route::post('ckeditor/upload', [AdminController::class,"upload"])->name('ckeditor.upload');
 
-//Route::get("/test",[AdminController::class,"test"]);
+Route::get("/test",[AdminController::class,"test"]);

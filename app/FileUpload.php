@@ -93,7 +93,13 @@ trait FileUpload
         {
             return '/images/no-image.png';
         }
-        return '/uploads/' . $this->$path;
+        elseif (strpos($this.$path,"eventum.one")){
+            return $this->image;
+        }
+        else{
+            return '/uploads/' . $this->$path;
+        }
+
     }
 
 

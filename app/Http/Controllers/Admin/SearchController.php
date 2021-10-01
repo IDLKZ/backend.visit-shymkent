@@ -128,6 +128,25 @@ class SearchController extends Controller
         return view("admin.search.event",compact("events"));
     }
 
+    public function eventum(Request $request){
+        $events = Event::search([
+            ["title_ru","like",$request->get("title_ru")],
+            ["title_kz","like",$request->get("title_kz")],
+            ["title_en","like",$request->get("title_en")],
+            ["description_ru","like",$request->get("description_ru")],
+            ["description_kz","like",$request->get("description_kz")],
+            ["description_en","like",$request->get("description_en")],
+            ["price","like",$request->get("price")],
+            ["address","like",$request->get("address")],
+            ["eventum","like",$request->get("eventum")],
+            ["event_id","like",$request->get("event_id")],
+            ["alias","like",$request->get("alias")],
+            ["status","in",$request->get("status")]
+        ])->paginate($request->get("pagination"));
+        $events->appends(request()->query());
+        return view("admin.search.eventum",compact("events"));
+    }
+
     public function routeCategories(Request $request){
         $categories = CategoryOfRoute::search([
             ["title_ru","like",$request->get("title_ru")],

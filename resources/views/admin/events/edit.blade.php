@@ -19,6 +19,19 @@
                     <div class="card-body">
                         <h6 class="card-title">
                             {{__("admin.change")}}
+                            @if($event->event_id)
+                                <br>
+                                <a class="search-button btn btn-success text-white" href="{{route("checkEvent",["eventId"=>$event->event_id])}}">
+                                    Проверить обновления
+                                </a>
+                                <br>
+                                Версия от {{$event->eventumEvent->current_updated}}
+                                @if($event->eventumEvent->status == 0)
+                                    <span class="badge badge-danger">Ждет обновления!</span>
+                                @elseif($event->eventumEvent->status == 1)
+                                    <span class="badge badge-success">Обновлен!</span>
+                                @endif
+                            @endif
                         </h6>
 
                         <form id="event-form" class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('events.update',$event->id)}}">
@@ -164,7 +177,7 @@
 
                             <div class="form-group">
                                 <label for="eventum">{{__('admin.eventum')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
-                                <input type="text" class="form-control  @error('eventum') is-invalid @enderror" id="eventum" name='eventum' autocomplete="off" placeholder="{{__('admin.eventum')}}" value="{{$event->eventum}}">
+                                <input type="text" class="form-control  @error('eventum') is-invalid @enderror" id="eventum" name='eventum' autocomplete="off" placeholder="{{__('admin.eventum')}}" value="{{$event->eventum != null ?$event->eventum : $event->event_id}}">
                                 @error('eventum')
                                 <div class="invalid-feedback">
                                     {{$message}}
