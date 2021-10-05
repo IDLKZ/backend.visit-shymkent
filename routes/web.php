@@ -52,7 +52,7 @@ use App\Http\Controllers\Admin\CronController;
 Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath',"optimizeImages" ]
     ], function(){
         Route::get('/', function (){
             return redirect('/login');

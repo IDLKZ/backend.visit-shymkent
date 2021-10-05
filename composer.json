@@ -10,13 +10,14 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "krlove/eloquent-model-generator": "^1.3",
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
         "mcamara/laravel-localization": "^1.6",
         "spatie/laravel-backup": "^6.16",
+        "spatie/laravel-image-optimizer": "^1.6",
         "tymon/jwt-auth": "^1.0",
-        "yoeunes/toastr": "^1.2",
-        "krlove/eloquent-model-generator": "^1.3"
+        "yoeunes/toastr": "^1.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

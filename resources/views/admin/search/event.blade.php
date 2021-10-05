@@ -38,6 +38,8 @@
                                         <th>{{__("admin.image")}}</th>
                                         <th>{{__("admin.title")}}</th>
                                         <th>{{__("admin.organizators")}}</th>
+                                        <th>{{__("admin.time")}}</th>
+                                        <th>{{__("admin.by_user")}}</th>
                                         <th>{{__("admin.places")}}</th>
                                         <th>{{__("admin.event_categories")}}</th>
                                         <th>{{__("admin.status")}}</th>
@@ -57,15 +59,31 @@
                                                 <td>{{$event->title}}
                                                     @if($event->event_id) <span class="badge badge-info">Eventum</span>
                                                     @if($event->eventumEvent->status == 0)
-                                                        <span class="badge badge-danger">Доступно обновление</span>
+                                                        <span class="badge badge-danger">На модерации</span>
                                                     @elseif($event->eventumEvent->status == 1)
-                                                        <span class="badge badge-success">Обновлен</span>
+                                                        <span class="badge badge-success">Активен</span>
                                                     @endif
+                                                    <small>
+                                                        {{\Carbon\Carbon::parse(($event->eventumEvent->current_updated))->format("d/m/Y H:i:s")}}
+                                                    </small>
                                                     @endif
-
 
                                                 </td>
                                                 <td>{{$event->organizator ? $event->organizator->title : "-"}}</td>
+                                                <td>
+                                                    @if($event->workdays)
+                                                        @foreach($event->workdays as $workday)
+                                                            <small>
+                                                                {{$workday->date_start}} -  {{$workday->date_end}}
+                                                                {{$workday->time_start}} -  {{$workday->time_end}}
+                                                                {{$workday->weekday->title}}
+                                                            </small>
+                                                            <br>
+                                                        @endforeach
+                                                    @endif
+
+                                                </td>
+                                                <td>{{$event->by_user ? $event->byUser->name : "-"}}</td>
                                                 <td>{{$event->place ? $event->place->title : "-"}}</td>
                                                 <td>
                                                     @if($event->category->isNotEmpty())

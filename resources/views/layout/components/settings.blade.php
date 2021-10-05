@@ -57,7 +57,7 @@
                     @endif
                     <div class="form-group">
                         <label for="pagination">{{__('admin.pagination')}}</label>
-                        <input type="number" min="1" max="100" class="form-control  @error('pagination') is-invalid @enderror" id="pagination" name='pagination' autocomplete="off" placeholder="{{__('admin.pagination')}}" value="{{$setting->pagination}}">
+                        <input type="number" min="1" max="10000" class="form-control  @error('pagination') is-invalid @enderror" id="pagination" name='pagination' autocomplete="off" placeholder="{{__('admin.pagination')}}" value="{{$setting->pagination}}">
                         @error('pagination')
                         <div class="invalid-feedback">
                             {{$message}}

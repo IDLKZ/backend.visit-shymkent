@@ -54,7 +54,7 @@ class Setting extends Model
      */
     public function getPaginationAttribute($value)
     {
-        if($value >0 && $value <= 100){
+        if($value >0 && $value <= 10000){
             return (int)$value;
         }
         return 15;

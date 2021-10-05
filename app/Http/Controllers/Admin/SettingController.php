@@ -70,7 +70,7 @@ class SettingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,["status"=>"required|integer","verified"=>"nullable|integer","pagination"=>"required|integer|min:1|max:100", "order"=>"required"]);
+        $this->validate($request,["status"=>"required|integer","verified"=>"nullable|integer","pagination"=>"required|integer|min:1|max:10000", "order"=>"required"]);
         if($setting = Setting::find($id)){
             $setting->edit($request->all());
         }
