@@ -82,6 +82,7 @@ class EventsController extends Controller
     {
         $event = Event::with(["organizator","eventType","categoriesEvents","galleries","ratings","reviews"])->find($id);
         if($event){
+            $organizators =
             $categories = CategoryEvents::whereNotIn("id",$event->categoryEvent->pluck("category_id")->toArray())->get();
             $types = EventType::all();
             $weekdays = Weekday::all();
@@ -144,7 +145,7 @@ class EventsController extends Controller
     public function destroy($id)
     {
         $event = Event::find($id);
-        $event->eventumEvent->delete();
+        $event->eventumEvent->destroy();
         Event::destroy($id);
         return redirect()->route("events.index");
     }
