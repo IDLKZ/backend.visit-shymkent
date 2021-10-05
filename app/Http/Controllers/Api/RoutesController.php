@@ -40,7 +40,7 @@ class RoutesController extends Controller
     public function guides()
     {
         $guides = Organizator::with('user')->withCount("reviews","routes")->withAvg("ratings","rating")
-            ->withAvg("review","rating")
+            ->withAvg("reviews","rating")
             ->where(['role_id' => 4, 'status' => 1])->paginate(12);
         return response()->json($guides);
     }
@@ -49,7 +49,7 @@ class RoutesController extends Controller
     {
         $agents = Organizator::with('routes')->withCount("reviews","routes")
             ->withAvg("ratings","rating")->where(['role_id' => 5, 'status' => 1])
-            ->withAvg("review","rating")
+            ->withAvg("reviews","rating")
             ->orderBy("created_at","desc")->paginate(10);
         return response()->json($agents);
     }
