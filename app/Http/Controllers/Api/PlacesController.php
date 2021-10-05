@@ -39,7 +39,10 @@ class PlacesController extends Controller
 
     public function getDefinePlace(Request $request){
         $count = $request->get("count") ? $request->get("count") : 4;
-        $places = Place::where('status',1)->with('category')->inRandomOrder()->take($count)->get();
+        $places = Place::where('status',1)->with('category')->inRandomOrder()->take($count)
+            ->withAvg("ratings","rating")
+            ->withAvg("reviews","rating")
+            ->get();
         return response()->json($places);
 
 
