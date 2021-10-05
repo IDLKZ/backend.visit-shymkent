@@ -25,16 +25,20 @@ class EventController extends Controller
         if($request->get("date_start"))
         {
                 $events = $events_id !== null ?
-                    Event::whereIn("id",$events_id)->where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%")->orWhere("weekday_id",1);})->orderBy("created_at","DESC")->paginate(12)
+                    Event::whereIn("id",$events_id)->where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%")->orWhere("weekday_id",1);})->orderBy("created_at","DESC")->withAvg("ratings","rating")
+                        ->withAvg("reviews","rating")->paginate(12)
                 :
-                    Event::where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%")->orWhere("weekday_id",1);})->orderBy("created_at","DESC")->paginate(12)
+                    Event::where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%")->orWhere("weekday_id",1);})->orderBy("created_at","DESC")->withAvg("ratings","rating")
+                        ->withAvg("reviews","rating")->paginate(12)
                 ;
         }
         else{
             $events = $events_id !== null ?
-                Event::whereIn("id",$events_id)->where("status",1)->orderBy("created_at","DESC")->paginate(12)
+                Event::whereIn("id",$events_id)->where("status",1)->orderBy("created_at","DESC")->withAvg("ratings","rating")
+                    ->withAvg("reviews","rating")->paginate(12)
                 :
-                Event::where("status",1)->orderBy("created_at","DESC")->paginate(12);
+                Event::where("status",1)->orderBy("created_at","DESC")->withAvg("ratings","rating")
+                    ->withAvg("reviews","rating")->paginate(12);
         }
 
 

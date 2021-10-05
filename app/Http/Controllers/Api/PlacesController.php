@@ -22,7 +22,11 @@ class PlacesController extends Controller
         $places = Place::with('category')->whereIn("id",$place_id)
             ->where("title_ru","like","%".$request->get("search") . "%")
             ->where("status",1)
+            ->withAvg("ratings","rating")
+            ->withAvg("reviews","rating")
             ->orderBy("created_at",$request->get("order"))->paginate(12);
+
+
         return response()->json($places);
     }
 
