@@ -47,7 +47,8 @@ class EventController extends Controller
     }
 
     public function event($alias){
-        $event = Event::where(['status' => 1, 'alias' => $alias])->with(['galleries',"workdays","workdays.weekday", 'savings'])->firstOrFail();
+        $event = Event::where(['status' => 1, 'alias' => $alias])->with(['galleries',"workdays","workdays.weekday", 'savings']) ->withAvg("ratings","rating")
+            ->withAvg("reviews","rating")->firstOrFail();
         $reviews = $event->reviews()->where("status",1)->orderBy("created_at","DESC")->with("user")->paginate(20);
         return response()->json([$event,$reviews]);
     }
