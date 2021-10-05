@@ -39,13 +39,18 @@ class RoutesController extends Controller
 
     public function guides()
     {
-        $guides = Organizator::with('user')->withCount("reviews","routes")->withAvg("ratings","rating")->where(['role_id' => 4, 'status' => 1])->paginate(12);
+        $guides = Organizator::with('user')->withCount("reviews","routes")->withAvg("ratings","rating")
+            ->withAvg("review","rating")
+            ->where(['role_id' => 4, 'status' => 1])->paginate(12);
         return response()->json($guides);
     }
 
     public function agencies()
     {
-        $agents = Organizator::with('routes')->withCount("reviews","routes")->withAvg("ratings","rating")->where(['role_id' => 5, 'status' => 1])->orderBy("created_at","desc")->paginate(10);
+        $agents = Organizator::with('routes')->withCount("reviews","routes")
+            ->withAvg("ratings","rating")->where(['role_id' => 5, 'status' => 1])
+            ->withAvg("review","rating")
+            ->orderBy("created_at","desc")->paginate(10);
         return response()->json($agents);
     }
 
