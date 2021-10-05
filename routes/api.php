@@ -28,7 +28,7 @@ use App\Http\Controllers\Api\TagController;
 |
 */
 
-Route::group(["middleware"=>"locale"],function (){
+Route::group(["middleware"=>["locale","optimizeImages"]],function (){
     Route::get("/sliders",[SliderController::class,"index"]);
     Route::get("/categoriesofthe-places",[CategoryOfThePlaceController::class,"index"]);
     Route::get("/categoriesofthe-places-all",[CategoryOfThePlaceController::class,"getCategories"]);

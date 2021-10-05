@@ -98,7 +98,9 @@
     })
 
 </script>
+<script src="https://api-maps.yandex.ru/2.1/?apikey=4ed97ace-10cc-4af1-885d-6a4e57caaa82&lang=ru_RU" type="text/javascript"></script>
 @stack("scripts")
+
 <!-- end custom js for this page -->
 </body>
 </html>

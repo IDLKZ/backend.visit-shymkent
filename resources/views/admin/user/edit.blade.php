@@ -37,15 +37,13 @@
                                 <select class="js-example-basic-single w-100 select-2" data-width="100%" data-select2-id="1" tabindex="-1" aria-hidden="true" name="role_id">
                                     @if($roles->isNotEmpty())
                                         @foreach($roles as $role)
-                                            @if($user->role_id == $role->id)
-                                                <option checked value="{{$user->role_id}}">
-                                                    {{$user->role->title}}
-                                                </option>
-                                            @else
-                                            <option value="{{$role->id}}">
+                                            <option
+                                                @if($role->id === $user->role_id)
+                                                selected
+                                                @endif
+                                                value="{{$role->id}}">
                                                 {{$role->title}}
                                             </option>
-                                            @endif
                                         @endforeach
                                     @endif
                                 </select>

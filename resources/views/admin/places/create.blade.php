@@ -231,16 +231,7 @@
                             </div>
 
 {{--End of the price--}}
-{{--                            Start Address--}}
-                            <div class="form-group">
-                                <label for="eventum">{{__('admin.address')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
-                                <input type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{old('address')}}">
-                                @error('address')
-                                <div class="invalid-feedback">
-                                    {{$message}}
-                                </div>
-                                @enderror
-                            </div>
+
 
                             <div class="form-group">
                                 <label for="exampleInputUsername{{__('admin.video_kz')}}">{{__('admin.video_kz')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
@@ -296,6 +287,16 @@
                                 </div>
                                 @enderror
                             </div>
+                            {{--                            Start Address--}}
+                            <div class="form-group">
+                                <label for="eventum">{{__('admin.address')}}  <small class="text-danger">{{__("admin.not_required")}}</small></label>
+                                <input type="text" id="address-map" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{old('address')}}">
+                                @error('address')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
                             <small class="text-danger">{{__("admin.not_required")}}</small>
                             <div id="map" style="height: 400px">
 
@@ -336,54 +337,78 @@
 
 @push("scripts")
     <script>
-        let classNames = ['description_ru','description_kz','description_en'];
-        let selectNames = [".phone",".social_networks",".sites"];
-        for (let i = 0; i<classNames.length;i++){
-            CKEDITOR.replace(classNames[i])
-        }
-        for (let i = 0; i<selectNames.length;i++){
-            $(selectNames[i]).select2({
-                multiple:true,
-                tags:true
-            });
-        }
-        $("#category_id").select2({
-            multiple:true
-        })
-        $("#event_id").select2({
-            multiple:true
-        })
+        $(document).ready(function () {
 
-        var map = L.map('map',{preferCanvas:true}).setView([42.30, 69.56], 12);
-        L.tileLayer('http://tile2.maps.2gis.com/tiles?x={x}&y={y}&z={z}').addTo(map);
-        map.pm.addControls({
-            position: 'topleft',
-            drawCircle: false,
-            drawCircleMarker:false,
-            tooltips:false,
-            drawPolyline:false,
-            dragMode:false,
-            cutPolygon:false,
-            drawPolygon:false,
-            editMode:false,
-            drawMarker:true,
-            rotateMode:false,
-            drawRectangle:false,
-        });
-        map.pm.setLang('ru');
 
-        let coordinates = [];
-        $("#save").on("click",function (e) {
-            e.preventDefault();
-            map.eachLayer((l) => {
-                if( l instanceof L.Marker){
-                    coordinates.push(l.getLatLng())
-                }
-            })
-            if(coordinates.length){
-                $("#address_link").attr("value",JSON.stringify(coordinates));
+
+            let classNames = ['description_ru','description_kz','description_en'];
+            let selectNames = [".phone",".social_networks",".sites"];
+            for (let i = 0; i<classNames.length;i++){
+                CKEDITOR.replace(classNames[i])
             }
-            $("#event-form").submit();
+            for (let i = 0; i<selectNames.length;i++){
+                $(selectNames[i]).select2({
+                    multiple:true,
+                    tags:true
+                });
+            }
+            $("#category_id").select2({
+                multiple:true
+            })
+            $("#event_id").select2({
+                multiple:true
+            })
+
+            var map = L.map('map',{preferCanvas:true}).setView([42.30, 69.56], 12);
+            L.tileLayer('http://tile2.maps.2gis.com/tiles?x={x}&y={y}&z={z}').addTo(map);
+            map.pm.addControls({
+                position: 'topleft',
+                drawCircle: false,
+                drawCircleMarker:false,
+                tooltips:false,
+                drawPolyline:false,
+                dragMode:false,
+                cutPolygon:false,
+                drawPolygon:false,
+                editMode:false,
+                drawMarker:true,
+                rotateMode:false,
+                drawRectangle:false,
+            });
+            map.pm.setLang('ru');
+
+            let coordinates = [];
+            $("#save").on("click",function (e) {
+                e.preventDefault();
+                map.eachLayer((l) => {
+                    if( l instanceof L.Marker){
+                        coordinates.push(l.getLatLng())
+                    }
+                })
+                if(coordinates.length){
+                    $("#address_link").attr("value",JSON.stringify(coordinates));
+                }
+                $("#event-form").submit();
+            });
+            ymaps.ready(init);
+            function init() {
+                var suggestView1 = new ymaps.SuggestView('address-map');
+                suggestView1.events.add('select', function (e) {
+                    let address = e.get('item').value;
+                    $.ajax({url: "https://geocode-maps.yandex.ru/1.x?geocode="+address +"&apikey=4ed97ace-10cc-4af1-885d-6a4e57caaa82"+"&format=json&result="+1,
+                        success: function(result) {
+                            let point = result.response.GeoObjectCollection.featureMember[0].GeoObject.Point;
+                            point = point.pos.split(" ");
+                            map.eachLayer((layer) => {
+                                if(layer['_latlng']!=undefined)
+                                    layer.remove();
+                            });
+                            map.setView(new L.LatLng(point[1], point[0]), 14);
+                            L.marker([point[1], point[0]]).addTo(map);
+                        }});
+                });
+            }
         })
+
     </script>
 @endpush
