@@ -36,7 +36,7 @@
 {{--                    Категория, Типы и Организаторы--}}
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.route_categories')}}</label>
-                                <select class="w-100" id="category_id" name="category_id">
+                                <select class="w-100 select-2" id="category_id" name="category_id">
                                     @if($categories->isNotEmpty())
                                         @foreach($categories as $category)
                                             <option value="{{$category->id}}">
@@ -54,7 +54,7 @@
 
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.route_types')}}</label>
-                                <select class="w-100" id="types" name="types[]">
+                                <select class="w-100 select-2" id="types" name="types[]">
                                     @if($types->isNotEmpty())
                                         @foreach($types as $type)
                                             <option value="{{$type->id}}">

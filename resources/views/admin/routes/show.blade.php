@@ -558,7 +558,7 @@
     </div>
 
 {{--    Route and Type--}}
-    <div class="modal fade" id="createRouteType" tabindex="-1" role="dialog" aria-labelledby="createRouteType" aria-hidden="true">
+    <div class="modal fade" id="createRouteType"  role="dialog" aria-labelledby="createRouteType" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -573,7 +573,7 @@
                         <input type="hidden" value="{{$route->id}}" name="route_id">
                         <div class="form-group">
                             <label for="route_type">{{__('admin.route_types')}}</label>
-                            <select class="w-100" id="type_id" name="type_id">
+                            <select class="w-100 select-2" id="type_id" name="type_id">
                                 @if($types->isNotEmpty())
                                     @foreach($types as $type)
                                         <option value="{{$type->id}}">
@@ -600,7 +600,7 @@
     </div>
 
 {{--    Organizator Modal--}}
-    <div class="modal fade" id="createRouteOrganizator" tabindex="-1" role="dialog" aria-labelledby="createRouteOrganizator" aria-hidden="true">
+    <div class="modal fade" id="createRouteOrganizator"  role="dialog" aria-labelledby="createRouteOrganizator" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -615,7 +615,7 @@
                         <input type="hidden" value="{{$route->id}}" name="route_id">
                         <div class="form-group">
                             <label for="route_type">{{__('admin.organizators')}}</label>
-                            <select class="w-100" id="organizator_id" name="organizator_id">
+                            <select class="w-100 select-2" id="organizator_id" name="organizator_id">
                                 @if($organizators->isNotEmpty())
                                     @foreach($organizators as $organizator)
                                         <option value="{{$organizator->id}}">
@@ -641,7 +641,7 @@
         </div>
     </div>
     {{--    Modal Gallery--}}
-    <div class="modal fade" id="changeGallery" tabindex="-1" role="dialog" aria-labelledby="changeGallery" aria-hidden="true">
+    <div class="modal fade" id="changeGallery"  role="dialog" aria-labelledby="changeGallery" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -677,7 +677,7 @@
     </div>
     {{--   --}}
     {{--    Create Modal Gallery--}}
-    <div class="modal fade" id="createGallery" tabindex="-1" role="dialog" aria-labelledby="createGallery" aria-hidden="true">
+    <div class="modal fade" id="createGallery"  role="dialog" aria-labelledby="createGallery" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -710,7 +710,7 @@
         </div>
     </div>
 {{--    Rating--}}
-    <div class="modal fade" id="createRating" tabindex="-1" role="dialog" aria-labelledby="createRating" aria-hidden="true">
+    <div class="modal fade" id="createRating"  role="dialog" aria-labelledby="createRating" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -752,7 +752,7 @@
         </div>
     </div>
     {{--    Route and Place--}}
-    <div class="modal fade" id="createRoutePlace" tabindex="-1" role="dialog" aria-labelledby="createRoutePlace" aria-hidden="true">
+    <div class="modal fade" id="createRoutePlace"  role="dialog" aria-labelledby="createRoutePlace" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -766,8 +766,8 @@
                     <div class="modal-body">
                         <input type="hidden" value="{{$route->id}}" name="route_id">
                         <div class="form-group">
-                            <label for="place_id">{{__('admin.points')}}/{{__("admin.places")}}</label>
-                            <select class="w-100 select-2" id="place_id" name="place_id" style="width: 100%">
+                            <label for="place_id1">{{__('admin.points')}}/{{__("admin.places")}}</label>
+                            <select class="w-100 select-2" id="place_id1" name="place_id" style="width: 100%">
                                 @if($places->isNotEmpty())
                                     @foreach($places as $place)
                                         <option value="{{$place->id}}">
@@ -802,7 +802,7 @@
         </div>
     </div>
     {{--    Change Route and Place--}}
-    <div class="modal fade" id="changeRoutePlace" tabindex="-1" role="dialog" aria-labelledby="changeRoutePlace" aria-hidden="true">
+    <div class="modal fade" id="changeRoutePlace"  role="dialog" aria-labelledby="changeRoutePlace" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

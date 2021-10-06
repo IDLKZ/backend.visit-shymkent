@@ -65,7 +65,9 @@
         try{
             // $("select").select2();
             // $(".select2").css("width","100%");
-            $(".select-2").select2();
+            $(".select-2").select2({
+                width: '100%',
+            });
             $('table').DataTable({
                 paging: false,
                 ordering: false
