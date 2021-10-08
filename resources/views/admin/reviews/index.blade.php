@@ -36,6 +36,7 @@
                                         <th>{{__("admin.user_id")}}</th>
                                         <th>{{__("admin.rating")}}</th>
                                         <th>{{__("admin.review")}}</th>
+                                        <th>{{__("admin.title")}}</th>
                                         <th>{{__("admin.status")}}</th>
                                         <th>{{__("admin.action")}}</th>
                                     </tr>
@@ -55,6 +56,32 @@
                                                     @endif
                                                 </td>
                                                 <td>{{$review->review}}</td>
+                                                <td>
+                                                    @if($review->place)
+                                                    {{$review->place->title}}(Место)
+                                                    @endif
+                                                    @if($review->event)
+                                                    {{$review->event->title}}(Событие)
+                                                    @endif
+                                                    @if($review->route)
+                                                    {{$review->route->title}}(Маршрут)
+                                                    @endif
+                                                    @if($review->blog)
+                                                    {{$review->blog->title}}(Блог)
+                                                    @endif
+                                                    @if($review->news)
+                                                    {{$review->news->title}}(Новость)
+                                                    @endif
+                                                    @if($review->shop)
+                                                    {{$review->shop->title}}(Магазин)
+                                                    @endif
+                                                    @if($review->souvenir)
+                                                    {{$review->souvenir->title}}(Сувенир)
+                                                    @endif
+                                                    @if($review->organizator_id)
+                                                    {{$review->organizator->title}}(Гид/Турагенство)
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     @if($review->status == 1)
                                                         <span class="badge bg-success text-white">
