@@ -39,11 +39,12 @@ class PlacesController extends Controller
     }
 
     public function getDefinePlace(Request $request){
+
         $place_id = $request->get("place_id") ? $request->get("place_id") : 0;
         $category = CategoriesPlace::where("place_id",$place_id)->pluck("category_id")->toArray();
-        $places = CategoriesPlace::whereIn("category_id",$category)->pluck("place_id")->toArray();
-        $count = $request->get("count") ? $request->get("count") : 4;
-        $places = Place::where('status',1)->where("id","!=",$place_id)->whereIn("id",$places)->with('category')->inRandomOrder()->take($count)
+        $placesID = CategoriesPlace::whereIn("category_id",$category)->pluck("place_id")->toArray();
+        $count = $request->get("count") ? $request->get("count") : 2;
+        $places = Place::where('status',1)->where("id","!=",$place_id)->whereIn("id",$placesID)->with('category')->inRandomOrder()->take($count)
             ->withAvg("ratings","rating")
             ->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")
             ->get();

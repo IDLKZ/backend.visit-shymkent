@@ -30,7 +30,8 @@ class SouvenirController extends Controller
     public function souvenir($alias)
     {
         $souvenir = Souvenir::with(['galleries', 'shop.user', 'savings'])->firstWhere('alias', $alias);
-        $souvenirs = Souvenir::with('shop')->where('alias', '!=', $alias)->where("status",1)->count() >= 4  ? Souvenir::where("status",1)->where('alias', '!=', $alias)->take(4)->get() : Souvenir::where("status",1)->where('alias', '!=', $alias)->get();
+        $souvenirId = $souvenir ? $souvenir->id : 0;
+        $souvenirs = Souvenir::with('shop')->where('id', '!=', $souvenirId)->where("status",1)->count() >= 4  ? Souvenir::where("status",1)->where('alias', '!=', $alias)->take(4)->get() : Souvenir::where("status",1)->where('alias', '!=', $alias)->get();
         $souvenirs->load(['galleries', 'shop.user', 'savings']);
         return response()->json([$souvenir,$souvenirs]);
     }
@@ -55,8 +56,9 @@ class SouvenirController extends Controller
     }
 
     public function getRandomCraftman(Request $request){
+        $craftId = $request->get("craft_id") ? $request->get("craft_id") : 0;
          $count = $request->get("count") ? $request->get("count") : 2;
-        $craftmans = Shop::where(['status' => 1])->
+        $craftmans = Shop::where(['status' => 1])->where("id","!=",$craftId)->
         inRandomOrder()->withCount("souvenirs")->limit($count)->get();
         return response()->json($craftmans);
     }
