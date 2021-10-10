@@ -27,7 +27,21 @@ class EventsController extends Controller
     public function index()
     {
         $setting = Setting::find(6);
-        $events = Event::with(["organizator","eventType","categoriesEvents","galleries","ratings","reviews"])->whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
+        $line ="!=";
+        $eventId=null;
+        if($setting->verified[0] == 3){
+            $line ="!=";
+            $eventId=-1;
+        }
+        if($setting->verified[0] == 0){
+            $line ="=";
+            $eventId=null;
+        }
+        if($setting->verified[0] == 1){
+            $line ="!=";
+            $eventId=null;
+        }
+        $events = Event::with(["organizator","eventType","categoriesEvents","galleries","ratings","reviews"])->where("event_id",$line,$eventId)->whereIn("status",$setting->status)->orderBy("created_at",$setting->order)->paginate($setting->pagination);
         return view("admin.events.index",compact("events","setting"));
     }
 

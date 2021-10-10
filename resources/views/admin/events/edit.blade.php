@@ -393,7 +393,22 @@
                         }});
                 });
             }
+            //    Yandex Map Points
+            let streetsName = "";
 
+            map.on('pm:create', ({shape,layer}) => {
+                let position = layer.getLatLng();
+                $.ajax({url: "https://geocode-maps.yandex.ru/1.x?geocode="+position.lng + " " + position.lat +"&apikey=4ed97ace-10cc-4af1-885d-6a4e57caaa82"+"&format=json&result="+1,
+                    success: function(result) {
+                        let positionName = result.response.GeoObjectCollection.featureMember[0].GeoObject.metaDataProperty.GeocoderMetaData.text;
+                        if(positionName !== undefined){
+                            $("#address-map").val(function(index, curValue){
+                                streetsName = curValue + " ";
+                            });
+                            $("#address-map").val(streetsName + positionName);
+                        }
+                    }});
+            });
         })
 
     </script>

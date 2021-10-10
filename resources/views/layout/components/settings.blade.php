@@ -55,6 +55,37 @@
                             @enderror
                         </div>
                     @endif
+
+                    @if($setting->id == 6)
+                            <div class="form-group">
+                                <label>Тип(Eventum/Visit-Shymkent)</label>
+                                <select class="form-select" name="verified">
+                                    <option value="3"
+                                            @if(count($setting->verified) == 3)
+                                            selected
+                                        @endif
+                                    >{{__("admin.all")}}
+                                    </option>
+                                    <option
+                                        @if(in_array(1,$setting->verified) && count($setting->verified) == 1)
+                                        selected
+                                        @endif
+                                        value="1">
+                                        Eventum
+                                    </option>
+                                    <option value="0"
+                                            @if(in_array(0,$setting->verified) && count($setting->verified) == 1)
+                                            selected
+                                        @endif
+                                    >Visit Shymkent</option>
+                                </select>
+                                @error('verified')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
+                    @endif
                     <div class="form-group">
                         <label for="pagination">{{__('admin.pagination')}}</label>
                         <input type="number" min="1" max="10000" class="form-control  @error('pagination') is-invalid @enderror" id="pagination" name='pagination' autocomplete="off" placeholder="{{__('admin.pagination')}}" value="{{$setting->pagination}}">

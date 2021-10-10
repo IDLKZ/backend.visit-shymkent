@@ -167,7 +167,7 @@
                             {{--                            Start Address--}}
                             <div class="form-group">
                                 <label for="eventum">{{__('admin.address')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
-                                <input type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{$route->address}}">
+                                <input id="address-map" type="text" class="form-control  @error('address') is-invalid @enderror" id="address" name='address' autocomplete="off" placeholder="{{__('admin.address')}}" value="{{$route->address}}">
                                 @error('address')
                                 <div class="invalid-feedback">
                                     {{$message}}
@@ -263,6 +263,44 @@
             }
             $("#event-form").submit();
         })
+
+
+        //Yandex
+        ymaps.ready(init);
+        function init() {
+            var suggestView1 = new ymaps.SuggestView('address-map');
+            suggestView1.events.add('select', function (e) {
+                let address = e.get('item').value;
+                $.ajax({url: "https://geocode-maps.yandex.ru/1.x?geocode="+address +"&apikey=4ed97ace-10cc-4af1-885d-6a4e57caaa82"+"&format=json&result="+1,
+                    success: function(result) {
+                        let point = result.response.GeoObjectCollection.featureMember[0].GeoObject.Point;
+                        point = point.pos.split(" ");
+                        map.eachLayer((layer) => {
+                            if(layer['_latlng']!=undefined)
+                                layer.remove();
+                        });
+                        map.setView(new L.LatLng(point[1], point[0]), 14);
+                        L.marker([point[1], point[0]]).addTo(map);
+                    }});
+            });
+
+            //    Yandex Map Points
+            let streetsName = "";
+
+            map.on('pm:create', ({shape,layer}) => {
+                let position = layer.getLatLng();
+                $.ajax({url: "https://geocode-maps.yandex.ru/1.x?geocode="+position.lng + " " + position.lat +"&apikey=4ed97ace-10cc-4af1-885d-6a4e57caaa82"+"&format=json&result="+1,
+                    success: function(result) {
+                        let positionName = result.response.GeoObjectCollection.featureMember[0].GeoObject.metaDataProperty.GeocoderMetaData.text;
+                        if(positionName !== undefined){
+                            $("#address-map").val(function(index, curValue){
+                                streetsName = curValue + " ";
+                            });
+                            $("#address-map").val(streetsName + positionName);
+                        }
+                    }});
+            });
+        }
 
 
 
