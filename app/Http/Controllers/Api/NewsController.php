@@ -41,7 +41,7 @@ class NewsController extends Controller
 
     public function moreNews(Request $request){
         $newsId = $request->get("news_id") ?  $request->get("news_id") : 0;
-        $news = News::where('status', 1)->where("id","!=",$newsId)->count() > 2 ? News::with('user', 'categorynews')->orderBy("created_at","DESC")->take(3)->get() : News::with('user', 'categorynews')->orderBy("created_at","DESC")->get();
+        $news =  News::where("id","!=",$newsId)->with('user', 'categorynews')->orderBy("created_at","DESC")->take(3)->get();
         return response()->json($news);
 
     }
