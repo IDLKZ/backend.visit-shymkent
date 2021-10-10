@@ -8,6 +8,7 @@ use App\Models\CategoryEvents;
 use App\Models\Event;
 use App\Models\Organizator;
 use App\Models\Place;
+use App\Models\Review;
 use App\Models\User;
 use App\Models\Workday;
 use Illuminate\Http\Request;
@@ -21,24 +22,24 @@ class EventController extends Controller
     }
 
     public function events(Request  $request){
+
         $events_id = $request->get("category_id") > 0 ? CategoryEvent::where("category_id",$request->get("category_id"))->pluck("event_id")->toArray() : null;
         if($request->get("date_start"))
         {
                 $events = $events_id !== null ?
-                    Event::whereIn("id",$events_id)->where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%")->orWhere("weekday_id",1);})->orderBy("created_at","DESC")->withAvg("ratings","rating")
-                        ->withAvg("reviews","rating")->paginate(12)
+                    Event::whereIn("id",$events_id)->where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%")->orWhere("weekday_id",1);})->orderBy("created_at","DESC")->withAvg("ratings","rating")->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")->paginate(12)
                 :
                     Event::where("status",1)->with("workdays")->whereHas('workdays', function($q) use ($request){$q->where('date_start','like','%' . $request->get("date_start") . "%")->orWhere("weekday_id",1);})->orderBy("created_at","DESC")->withAvg("ratings","rating")
-                        ->withAvg("reviews","rating")->paginate(12)
+                        ->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")->paginate(12)
                 ;
         }
         else{
             $events = $events_id !== null ?
                 Event::whereIn("id",$events_id)->where("status",1)->orderBy("created_at","DESC")->withAvg("ratings","rating")
-                    ->withAvg("reviews","rating")->paginate(12)
+                    ->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")->paginate(12)
                 :
                 Event::where("status",1)->orderBy("created_at","DESC")->withAvg("ratings","rating")
-                    ->withAvg("reviews","rating")->paginate(12);
+                    ->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")->paginate(12);
         }
 
 
@@ -48,7 +49,7 @@ class EventController extends Controller
 
     public function event($alias){
         $event = Event::where(['status' => 1, 'alias' => $alias])->with(['galleries',"workdays","workdays.weekday", 'savings']) ->withAvg("ratings","rating")
-            ->withAvg("reviews","rating")->firstOrFail();
+            ->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")->firstOrFail();
         $reviews = $event->reviews()->where("status",1)->orderBy("created_at","DESC")->with("user")->paginate(20);
         return response()->json([$event,$reviews]);
     }

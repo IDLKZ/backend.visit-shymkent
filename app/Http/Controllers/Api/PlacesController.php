@@ -23,7 +23,7 @@ class PlacesController extends Controller
             ->where("title_ru","like","%".$request->get("search") . "%")
             ->where("status",1)
             ->withAvg("ratings","rating")
-            ->withAvg("reviews","rating")
+            ->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")
             ->orderBy("created_at",$request->get("order"))->paginate(12);
 
 
@@ -33,7 +33,7 @@ class PlacesController extends Controller
     public function singlePlace($alias)
     {
         $place = Place::with('category', 'galleries', 'ratings', 'workdays', 'workdays.weekday', 'user', 'events', 'events.workdays', 'events.workdays.weekday', 'savings')->where('alias', $alias) ->withAvg("ratings","rating")
-            ->withAvg("reviews","rating")->first();
+            ->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")->first();
         $reviews = $place->reviews()->where("status",1)->orderBy("created_at","DESC")->with("user")->paginate(20);
         return response()->json([$place,$reviews]);
     }
@@ -42,7 +42,7 @@ class PlacesController extends Controller
         $count = $request->get("count") ? $request->get("count") : 4;
         $places = Place::where('status',1)->with('category')->inRandomOrder()->take($count)
             ->withAvg("ratings","rating")
-            ->withAvg("reviews","rating")
+            ->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")
             ->get();
         return response()->json($places);
 
