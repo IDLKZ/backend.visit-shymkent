@@ -81,7 +81,7 @@ class RoutesController extends Controller
     public function myRoutes()
     {
         $user = Organizator::where('user_id', auth('api')->id())->first();
-        $data = RouteAndOrganizator::with('route')->where(['organizator_id' => $user->id])->latest()->paginate(10);
+        $data = RouteAndOrganizator::with('route')->whereIn('organizator_id',$user->id)->latest()->paginate(10);
         $routes = [];
         $moderation = [];
         foreach ($data as $k => $item) {
