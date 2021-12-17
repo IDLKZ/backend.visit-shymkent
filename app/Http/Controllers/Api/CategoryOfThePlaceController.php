@@ -15,7 +15,7 @@ class CategoryOfThePlaceController extends Controller
 
     public function getCategories()
     {
-        $categories = CategoryPlace::where("status",1)->get();
+        $categories = CategoryPlace::getTree();
         return response()->json($categories);
     }
 }
