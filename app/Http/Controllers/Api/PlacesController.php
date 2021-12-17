@@ -24,7 +24,7 @@ class PlacesController extends Controller
             ->where("status",1)
             ->withAvg("ratings","rating")
             ->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")
-            ->orderBy("created_at",$request->get("order"))->paginate(12);
+            ->orderBy("created_at","DESC")->paginate(12);
 
 
         return response()->json($places);
