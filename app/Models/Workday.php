@@ -31,10 +31,7 @@ class Workday extends Model
      * @var string
      */
     protected $keyType = 'integer';
-    protected $casts = [
-      "date_start"=>"datetime:m/d/Y",
-      "date_end"=>"datetime:m/d/Y",
-    ];
+
 
     /**
      * @var array
