@@ -39,16 +39,16 @@ class Workday extends Model
 
 
 
-    public function getDateStartAttribute($value)
+    public function getDateStartFormatAttribute()
     {
-        try{$value = Carbon::createFromFormat("d/m/Y",$value);}
+        try{$value = Carbon::createFromFormat("d/m/Y",$this->date_start);}
         catch (\Exception $e){}
         return  $value;
     }
 
-    public function getDateEndAttribute($value)
+    public function getDateEndFormatAttribute($value)
     {
-        try{$value = Carbon::createFromFormat("d/m/Y",$value);}
+        try{$value = Carbon::createFromFormat("d/m/Y",$this->date_end);}
         catch (\Exception $e){}
         return  $value;
     }
