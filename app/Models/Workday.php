@@ -32,7 +32,6 @@ class Workday extends Model
      */
     protected $keyType = 'integer';
 
-
     /**
      * @var array
      */
@@ -42,7 +41,21 @@ class Workday extends Model
 
 
 
+    public function getDateStartFormatAttribute($value)
+    {
+        $value = null;
+        try{$value = Carbon::createFromFormat("d/m/Y",$this->date_start);}
+        catch (\Exception $e){}
+        return  $value;
+    }
 
+    public function getDateEndFormatAttribute($value)
+    {
+        $value = null;
+        try{$value = Carbon::createFromFormat("d/m/Y",$this->date_end);}
+        catch (\Exception $e){}
+        return  $value;
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
