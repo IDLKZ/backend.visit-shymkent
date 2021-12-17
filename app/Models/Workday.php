@@ -31,17 +31,23 @@ class Workday extends Model
      * @var string
      */
     protected $keyType = 'integer';
+    protected $casts = [
+      "date_start"=>"datetime:m/d/Y",
+      "date_end"=>"datetime:m/d/Y",
+    ];
 
     /**
      * @var array
      */
     protected $fillable = ['weekday_id', 'place_id', 'event_id','shop_id','point_id', 'date_start', 'date_end', 'time_start', 'time_end', 'created_at', 'updated_at'];
-    public $date_start_format;
-    public $date_end_format;
 
 
-    public function getDateStartFormatAttribute()
+
+
+
+    public function getDateStartFormatAttribute($value)
     {
+        $value = null;
         try{$value = Carbon::createFromFormat("d/m/Y",$this->date_start);}
         catch (\Exception $e){}
         return  $value;
@@ -49,6 +55,7 @@ class Workday extends Model
 
     public function getDateEndFormatAttribute($value)
     {
+        $value = null;
         try{$value = Carbon::createFromFormat("d/m/Y",$this->date_end);}
         catch (\Exception $e){}
         return  $value;
