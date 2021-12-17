@@ -13,7 +13,7 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = News::with('user', 'categorynews')->where("status",1)->take(4)->get();
+        $news = News::with('user', 'categorynews')->where("status",1)->orderBy("created_at","DESC")->take(4)->get();
         return response()->json($news);
     }
 
