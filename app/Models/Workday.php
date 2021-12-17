@@ -36,7 +36,7 @@ class Workday extends Model
      * @var array
      */
     protected $fillable = ['weekday_id', 'place_id', 'event_id','shop_id','point_id', 'date_start', 'date_end', 'time_start', 'time_end', 'created_at', 'updated_at'];
-
+    protected $appends = ["date_start_format","date_start_end"];
 
 
     public function getDateStartFormatAttribute()

@@ -65,9 +65,6 @@ class Event extends Model
      * @var string
      */
     protected $keyType = 'integer';
-
-   public $date_start_format;
-   public $date_end_format;
     /**
      * @var array
      */
