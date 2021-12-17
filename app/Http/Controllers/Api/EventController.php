@@ -44,7 +44,7 @@ class EventController extends Controller
                 Event::where("status",1)->orderBy("created_at","DESC")->withAvg("ratings","rating")
                     ->whereHas("workdays",function ($q) use ($request){
                         try {
-                            $q->where("date_start","<",Carbon::now())->get();
+                            $q->where("date_end",">",Carbon::now())->get();
                         }
                         catch (\Exception $exception){
 
