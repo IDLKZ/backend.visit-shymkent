@@ -44,7 +44,7 @@ class EventController extends Controller
                 Event::where("status",1)->orderBy("created_at","DESC")->withAvg("ratings","rating")
                     ->whereHas("workdays",function ($q) use ($request){
 
-                             $q->where("date_start","=",Carbon::now())->orWhere("date_end",">",Carbon::now());
+                             $q->where("date_start","==",Carbon::now())->orWhere("date_end",">",Carbon::now());
 
                     })
                     ->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")->paginate(12);
