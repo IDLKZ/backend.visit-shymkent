@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\FileUpload;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -36,6 +37,21 @@ class Workday extends Model
      */
     protected $fillable = ['weekday_id', 'place_id', 'event_id','shop_id','point_id', 'date_start', 'date_end', 'time_start', 'time_end', 'created_at', 'updated_at'];
 
+
+
+    public function getDateStartAttribute($value)
+    {
+        try{$value = Carbon::createFromFormat("d/m/Y",$value);}
+        catch (\Exception $e){}
+        return  $value;
+    }
+
+    public function getDateEndAttribute($value)
+    {
+        try{$value = Carbon::createFromFormat("d/m/Y",$value);}
+        catch (\Exception $e){}
+        return  $value;
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -11,7 +11,9 @@ use App\Models\Place;
 use App\Models\Review;
 use App\Models\User;
 use App\Models\Workday;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PHPUnit\Exception;
 
 class EventController extends Controller
 {
@@ -22,7 +24,6 @@ class EventController extends Controller
     }
 
     public function events(Request  $request){
-
         $events_id = $request->get("category_id") > 0 ? CategoryEvent::where("category_id",$request->get("category_id"))->pluck("event_id")->toArray() : null;
         if($request->get("date_start"))
         {
@@ -35,10 +36,20 @@ class EventController extends Controller
         }
         else{
             $events = $events_id !== null ?
-                Event::whereIn("id",$events_id)->where("status",1)->orderBy("created_at","DESC")->withAvg("ratings","rating")
+
+                Event::whereIn("id",$events_id)->where("status",1)->orderBy("created_at","DESC")
+                    ->withAvg("ratings","rating")
                     ->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")->paginate(12)
                 :
                 Event::where("status",1)->orderBy("created_at","DESC")->withAvg("ratings","rating")
+                    ->whereHas("workdays",function ($q) use ($request){
+                        try {
+                            $q->where("date_start","<",Carbon::now())->get();
+                        }
+                        catch (\Exception $exception){
+
+                        }
+                    })
                     ->withAvg(array('reviews' => function($query) {$query->where('status', '=', 1);}),"rating")->paginate(12);
         }
 
