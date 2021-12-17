@@ -66,7 +66,8 @@ class Event extends Model
      */
     protected $keyType = 'integer';
 
-    protected $appends = ["date_start_format","date_start_end"];
+   public $date_start_format;
+   public $date_end_format;
     /**
      * @var array
      */
