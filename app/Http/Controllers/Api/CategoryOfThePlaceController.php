@@ -9,13 +9,13 @@ use Illuminate\Http\Request;
 class CategoryOfThePlaceController extends Controller
 {
     public function index(){
-        $categoryoftheplace = CategoryPlace::where("parent_id",null)->get();
+        $categoryoftheplace = CategoryPlace::where("parent_id",null)->where("status",1)->get();
         return response()->json($categoryoftheplace);
     }
 
     public function getCategories()
     {
-        $categories = CategoryPlace::getTree();
+        $categories = CategoryPlace::where("status",1)->getTree();
         return response()->json($categories);
     }
 }

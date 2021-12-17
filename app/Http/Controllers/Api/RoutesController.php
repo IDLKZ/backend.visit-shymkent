@@ -27,7 +27,7 @@ class RoutesController extends Controller
         $category = $request->get("category_id") ? json_decode($request->get("category_id")) : CategoryOfRoute::pluck("id")->toArray();
         $types = $request->get("types") ? RoutesType::whereIn("type_id",json_decode($request->get("types")))->pluck("route_id")->toArray() : Route::pluck("id")->toArray();
         $time = $request->get("time") ? json_decode($request->get("time")) : [0,10000];
-        $routes = Route::whereIn("category_id",$category)
+        $routes = Route::where("status",1)->whereIn("category_id",$category)
             ->whereIn("category_id",$category)
             ->whereIn("id",$types)
             ->whereBetween('time',$time)
@@ -56,7 +56,7 @@ class RoutesController extends Controller
 
     public function route($alias)
     {
-        $route = Route::with(['galleries', 'places.galleries', 'routePlace.place', 'savings', 'organizators'])->firstWhere("alias",$alias);
+        $route = Route::where("status",1)->with(['galleries', 'places.galleries', 'routePlace.place', 'savings', 'organizators'])->firstWhere("alias",$alias);
         return response()->json($route);
     }
 
