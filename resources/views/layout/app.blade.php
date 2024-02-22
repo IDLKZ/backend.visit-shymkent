@@ -100,7 +100,7 @@
     })
 
 </script>
-<script src="https://api-maps.yandex.ru/2.1/?apikey=4ed97ace-10cc-4af1-885d-6a4e57caaa82&lang=ru_RU" type="text/javascript"></script>
+<script src="https://api-maps.yandex.ru/2.1/?apikey=3f84e70d-80a1-43fe-8c2c-a934378faac6&suggest_apikey=58954d33-f14f-465f-8556-46eec3c3b149&lang=ru_RU" type="text/javascript"></script>
 @stack("scripts")
 
 <!-- end custom js for this page -->

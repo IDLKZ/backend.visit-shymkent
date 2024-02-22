@@ -34,7 +34,27 @@
                         <form id="event-form" class="forms-sample" method="post" enctype="multipart/form-data" action="{{route('places.update',$place->id)}}">
                             @csrf
                             @method("PUT")
-
+                            <div class="form-group">
+                                <label for="event_type">{{__('admin.places_category')}}</label>
+                                <select class="w-100" id="category_id" name="category_id[]">
+                                    @if($categories->isNotEmpty())
+                                        @foreach($categories as $category)
+                                            <option
+                                                @if(in_array($category->id,$categories_ids))
+                                                    selected
+                                                @endif
+                                                value="{{$category->id}}">
+                                                {{$category->title}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                @error('category_id[]')
+                                <div class="invalid-feedback">
+                                    {{$message}}
+                                </div>
+                                @enderror
+                            </div>
                             <div class="form-group">
                                 <label for="event_type">{{__('admin.organizators')}}</label>
                                 <select class="w-100 select-2" id="organizator_id" name="organizator_id">
@@ -139,10 +159,15 @@
                                 <label for="{{__('admin.phone')}}">{{__('admin.phone')}}<small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select multiple class="phone" name="phone[]" style="font-size: 14px">
                                     @if($place->phone)
-                                        @foreach($place->phone as $phone)
-                                            <option selected="selected" value="{{$phone}}">{{$phone}}</option>
-                                        @endforeach
-                                    @endif
+                                        @if(gettype($place->phone) == "array" || gettype($place->phone) == "object")
+                                            @foreach($place->phone as $phone)
+                                                <option selected="selected" value="{{$phone}}">{{$phone}}</option>
+                                            @endforeach
+                                        @endif
+                                            @if(gettype($place->phone) == "string")
+                                                    <option selected="selected" value="{{$place->phone}}">{{$place->phone}}</option>
+                                            @endif
+                                        @endif
                                 </select>
                                 @error('phone')
                                 <div class="invalid-feedback">
@@ -155,9 +180,14 @@
                                 <label for="{{__('admin.social_networks')}}">{{__('admin.social_networks')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select multiple class="social_networks" name="social_networks[]" style="font-size: 14px">
                                     @if($place->social_networks)
-                                        @foreach($place->social_networks as $social_networks)
-                                            <option selected="selected" value="{{$social_networks}}">{{$social_networks}}</option>
-                                        @endforeach
+                                        @if(gettype($place->social_networks) == "array" || gettype($place->social_networks) == "object")
+                                            @foreach($place->social_networks as $social_networks)
+                                                <option selected="selected" value="{{$social_networks}}">{{$social_networks}}</option>
+                                            @endforeach
+                                        @endif
+                                        @if(gettype($place->social_networks) == "string")
+                                                <option selected="selected" value="{{$place->social_networks}}">{{$place->social_networks}}</option>
+                                        @endif
                                     @endif
                                 </select>
                                 @error('social_networks')
@@ -170,9 +200,14 @@
                                 <label for="{{__('admin.sites')}}">{{__('admin.sites')}} <small class="text-danger">{{__("admin.not_required")}}</small></label>
                                 <select multiple class="sites" name="sites[]" style="font-size: 14px">
                                     @if($place->sites)
+                                        @if(gettype($place->sites) == "array" || gettype($place->sites) == "object")
                                         @foreach($place->sites as $site)
                                                 <option selected="selected" value="{{$site}}">{{$site}}</option>
                                         @endforeach
+                                        @endif
+                                        @if(gettype($place->sites) == "string")
+                                                <option selected="selected" value="{{$place->sites}}">{{$place->sites}}</option>
+                                        @endif
                                     @endif
                                 </select>
                                 @error('sites')
@@ -388,7 +423,7 @@
                 var suggestView1 = new ymaps.SuggestView('address-map');
                 suggestView1.events.add('select', function (e) {
                     let address = e.get('item').value;
-                    $.ajax({url: "https://geocode-maps.yandex.ru/1.x?geocode="+address +"&apikey=4ed97ace-10cc-4af1-885d-6a4e57caaa82"+"&format=json&result="+1,
+                    $.ajax({url: "https://geocode-maps.yandex.ru/1.x?geocode="+address +"&apikey=3f84e70d-80a1-43fe-8c2c-a934378faac6"+"&format=json&result="+1,
                         success: function(result) {
                             let point = result.response.GeoObjectCollection.featureMember[0].GeoObject.Point;
                             point = point.pos.split(" ");
@@ -406,7 +441,7 @@
 
             map.on('pm:create', ({shape,layer}) => {
                 let position = layer.getLatLng();
-                $.ajax({url: "https://geocode-maps.yandex.ru/1.x?geocode="+position.lng + " " + position.lat +"&apikey=4ed97ace-10cc-4af1-885d-6a4e57caaa82"+"&format=json&result="+1,
+                $.ajax({url: "https://geocode-maps.yandex.ru/1.x?geocode="+position.lng + " " + position.lat +"&apikey=3f84e70d-80a1-43fe-8c2c-a934378faac6"+"&format=json&result="+1,
                     success: function(result) {
                         let positionName = result.response.GeoObjectCollection.featureMember[0].GeoObject.metaDataProperty.GeocoderMetaData.text;
                         if(positionName !== undefined){

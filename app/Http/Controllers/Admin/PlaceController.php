@@ -100,11 +100,12 @@ class PlaceController extends Controller
      */
     public function edit($id)
     {
-        $place = Place::firstWhere(["id"=>$id,"type_id"=>1]);
+        $place = Place::with("categoriesPlaces")->firstWhere(["id"=>$id,"type_id"=>1]);
         if($place){
             $categories = CategoryPlaces::all();
+            $categories_ids = $place->categoriesPlaces->pluck("category_id")->toArray();
             $organizators = Organizator::where("status","=","1")->with("role")->get();
-            return view('admin.places.edit', compact('place', 'organizators', 'categories'));
+            return view('admin.places.edit', compact('place', 'organizators', 'categories',"categories_ids"));
         }
         return redirect(route('places.index'));
 
@@ -123,6 +124,12 @@ class PlaceController extends Controller
         if($place){
             $place->edit($request->all(),'image');
             $place->uploadFile($request['image'], 'image');
+            if($request->get("category_id")){
+                CategoriesPlaces::where(["place_id" => $id])->delete();
+                foreach ($request->category_id as $key => $category){
+                    $category = CategoriesPlaces::add(["category_id"=>$category,"place_id"=>$place->id]);
+                }
+            }
             return redirect(route('places.index'));
         }
         return redirect(route('places.index'));

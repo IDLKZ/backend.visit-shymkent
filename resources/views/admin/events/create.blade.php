@@ -352,7 +352,7 @@
                 var suggestView1 = new ymaps.SuggestView('address-map');
                 suggestView1.events.add('select', function (e) {
                     let address = e.get('item').value;
-                    $.ajax({url: "https://geocode-maps.yandex.ru/1.x?geocode="+address +"&apikey=4ed97ace-10cc-4af1-885d-6a4e57caaa82"+"&format=json&result="+1,
+                    $.ajax({url: "https://geocode-maps.yandex.ru/1.x?geocode="+address +"&apikey=3f84e70d-80a1-43fe-8c2c-a934378faac6"+"&format=json&result="+1,
                         success: function(result) {
                             let point = result.response.GeoObjectCollection.featureMember[0].GeoObject.Point;
                             point = point.pos.split(" ");
@@ -370,7 +370,7 @@
 
             map.on('pm:create', ({shape,layer}) => {
                 let position = layer.getLatLng();
-                $.ajax({url: "https://geocode-maps.yandex.ru/1.x?geocode="+position.lng + " " + position.lat +"&apikey=4ed97ace-10cc-4af1-885d-6a4e57caaa82"+"&format=json&result="+1,
+                $.ajax({url: "https://geocode-maps.yandex.ru/1.x?geocode="+position.lng + " " + position.lat +"&apikey=3f84e70d-80a1-43fe-8c2c-a934378faac6"+"&format=json&result="+1,
                     success: function(result) {
                         let positionName = result.response.GeoObjectCollection.featureMember[0].GeoObject.metaDataProperty.GeocoderMetaData.text;
                         if(positionName !== undefined){

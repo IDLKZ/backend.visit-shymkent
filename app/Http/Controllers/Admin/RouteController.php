@@ -111,7 +111,9 @@ class RouteController extends Controller
     {
         if($route = Route::find($id)){
             $categories = CategoryOfRoute::all();
-            return view("admin.routes.edit",compact("route","categories"));
+            $types = TypeOfRoute::all();
+            $type_ids = RouteAndType::where(["route_id" => $id])->pluck("type_id")->toArray();
+            return view("admin.routes.edit",compact("route","categories","types","type_ids"));
         }
         else{
             return redirect()->back();
@@ -132,6 +134,12 @@ class RouteController extends Controller
         if($route){
             $route->edit($request->all(),'image');
             $route->uploadFile($request['image'], 'image');
+            if($request->types){
+                RouteAndType::where(["route_id"=>$id])->delete();
+                foreach ($request->types as $type){
+                    RouteAndType::add(["type_id"=>$type,"route_id"=>$route->id]);
+                }
+            }
         }
 
         return redirect(route('routes.index'));
